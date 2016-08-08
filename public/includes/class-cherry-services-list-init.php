@@ -150,4 +150,13 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 	}
 }
 
-Cherry_Services_List_Init::get_instance();
+/**
+ * Returns Cherry_Services_List_Init instance.
+ *
+ * @return object
+ */
+function cherry_services_list_init() {
+	Cherry_Services_List_Init::get_instance();
+}
+
+cherry_services_list_init();

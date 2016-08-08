@@ -164,6 +164,9 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 					'cherry-utility' => array(
 						'autoload' => true,
 					),
+					'cherry-post-meta' => array(
+						'autoload' => false,
+					),
 				),
 			) );
 
@@ -176,9 +179,16 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function load_files() {
+			$this->setup();
+		}
 
+		/**
+		 * Load base files.
+		 *
+		 * @return void
+		 */
+		public function setup() {
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-init.php' );
-
 		}
 
 		/**
@@ -218,7 +228,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function admin() {
-
+			require $this->plugin_path( 'admin/includes/class-cherry-services-meta.php' );
 		}
 		/**
 		 * Loads the translation files.
@@ -282,13 +292,17 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 */
 		public function activation() {
 
+			$this->setup();
+
+			$init = Cherry_Services_List_Init::get_instance();
+
 			/**
 			 * Call CPT registration function.
 			 *
 			 * @link https://codex.wordpress.org/Function_Reference/flush_rewrite_rules#Examples
 			 */
-			//TM_Testimonials_Registration::register_post_type();
-			//TM_Testimonials_Registration::register_taxonomy();
+			$init->register_post();
+			$init->register_tax();
 
 			flush_rewrite_rules();
 
