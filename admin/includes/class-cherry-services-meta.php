@@ -47,13 +47,18 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 	 */
 	public function enqueue_admin_styles( $hook_suffix ) {
 
-		$allowed_pages = array( 'post-new.php', 'post.php' );
+		$allowed_pages = array( 'post-new.php', 'post.php', 'edit.php' );
 
 		if ( ! in_array( $hook_suffix, $allowed_pages ) || $this->post_type() !== get_post_type() ) {
 			return;
 		}
 
-		wp_enqueue_style( 'cherry-services-admin-style' );
+		wp_enqueue_style(
+			'cherry-services-admin',
+			$this->plugin_url( 'admin/assets/css/cherry-services.css' ),
+			false,
+			$this->get_version()
+		);
 	}
 
 	/**
@@ -84,6 +89,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 							'icon_prefix' => 'fa-',
 							'icons'       => $this->get_icons_set(),
 						),
+						'sanitize_callback' => 'esc_attr'
 					),
 					'cherry-services-slogan' => array(
 						'type'        => 'text',
@@ -91,9 +97,10 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'label'       => esc_html__( 'Slogan', 'cherry-services' ),
 					),
 					'cherry-services-descr' => array(
-						'type'        => 'textarea',
-						'placeholder' => esc_html__( 'Short Description', 'cherry-services' ),
-						'label'       => esc_html__( 'Short Description', 'cherry-services' ),
+						'type'              => 'textarea',
+						'placeholder'       => esc_html__( 'Short Description', 'cherry-services' ),
+						'label'             => esc_html__( 'Short Description', 'cherry-services' ),
+						'sanitize_callback' => 'wp_kses_post',
 					),
 					'cherry-services-features' => array(
 						'type'        => 'repeater',
@@ -102,20 +109,23 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'title_field' => 'label',
 						'fields'      => array(
 							'label' => array(
-								'type'        => 'text',
-								'id'          => 'label',
-								'name'        => 'label',
-								'placeholder' => esc_html__( 'Feature Label', 'cherry-services' ),
-								'label'       => esc_html__( 'Feature Label', 'cherry-services'  ),
+								'type'             => 'text',
+								'id'               => 'label',
+								'name'             => 'label',
+								'placeholder'      => esc_html__( 'Feature Label', 'cherry-services' ),
+								'label'            => esc_html__( 'Feature Label', 'cherry-services' ),
+								'sanitize_callback' => 'sanitize_text_field',
 							),
 							'value' => array(
-								'type'        => 'text',
-								'id'          => 'value',
-								'name'        => 'value',
-								'placeholder' => esc_html__( 'Feature Value', 'cherry-services' ),
-								'label'       => esc_html__( 'Feature Value', 'cherry-services'  ),
+								'type'             => 'text',
+								'id'               => 'value',
+								'name'             => 'value',
+								'placeholder'      => esc_html__( 'Feature Value', 'cherry-services' ),
+								'label'            => esc_html__( 'Feature Value', 'cherry-services' ),
+								'sanitize_callback' => 'sanitize_text_field',
 							),
 						),
+						'sanitize_callback' => array( $this, 'sanitize_repeater' ),
 					),
 				),
 				'admin_columns' => array(
@@ -152,11 +162,17 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'label'       => esc_html__( 'Description', 'cherry-services' ),
 					),
 					'cherry-services-cta-type' => array(
-						'type'        => 'select',
+						'type'        => 'radio',
 						'label'       => esc_html__( 'Call to Action Type', 'cherry-services' ),
 						'options'     => array(
-							'form' => __( 'Contact Form', 'cherry-sevices' ),
-							'link' => __( 'Text With Button', 'cherry-services' ),
+							'form' => array(
+								'label' => esc_html__( 'Call to Action Type', 'cherry-services' ),
+								'slave' => 'cherry-services-cta-type-form',
+							),
+							'button' => array(
+								'label' => esc_html__( 'Call to Action Type', 'cherry-services' ),
+								'slave' => 'cherry-services-cta-type-button',
+							),
 						),
 					),
 					'cherry-services-cta-form' => array(
@@ -164,6 +180,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'label'       => esc_html__( 'Form Fields', 'cherry-services' ),
 						'add_label'   => esc_html__( 'Add New Field', 'cherry-services' ),
 						'title_field' => 'label',
+						'master'      => 'cherry-services-cta-type-form',
 						'fields'      => array(
 							'type'  => array(
 								'type'        => 'select',
@@ -174,42 +191,106 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 									'text'     => __( 'Text', 'cherry-sevices' ),
 									'textarea' => __( 'Textarea', 'cherry-services' ),
 								),
+								'sanitize_callback' => 'esc_attr',
 							),
 							'label' => array(
-								'type'        => 'text',
-								'id'          => 'label',
-								'name'        => 'label',
-								'placeholder' => esc_html__( 'Field Label', 'cherry-services' ),
-								'label'       => esc_html__( 'Field Label', 'cherry-services'  ),
+								'type'             => 'text',
+								'id'               => 'label',
+								'name'             => 'label',
+								'placeholder'      => esc_html__( 'Field Label', 'cherry-services' ),
+								'label'            => esc_html__( 'Field Label', 'cherry-services' ),
+								'sanitize_callback' => 'sanitize_text_field',
 							),
 							'name' => array(
-								'type'        => 'text',
-								'id'          => 'value',
-								'name'        => 'value',
-								'placeholder' => esc_html__( 'Field Name', 'cherry-services' ),
-								'label'       => esc_html__( 'Field Name(Should be unique)', 'cherry-services'  ),
+								'type'             => 'text',
+								'id'               => 'value',
+								'name'             => 'value',
+								'placeholder'      => esc_html__( 'Field Name', 'cherry-services' ),
+								'label'            => esc_html__( 'Field Name(Should be unique)', 'cherry-services' ),
+								'sanitize_callback' => 'esc_attr',
 							),
 						),
-						'cherry-services-cta-submit' => array(
-							'type'        => 'text',
-							'placeholder' => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
-							'label'       => esc_html__( 'Form Submit Button Text', 'cherry-services'  ),
-						),
-						'cherry-services-cta-link-text' => array(
-							'type'        => 'text',
-							'placeholder' => esc_html__( 'Button Text', 'cherry-services' ),
-							'label'       => esc_html__( 'CTA Button Text', 'cherry-services'  ),
-						),
-						'cherry-services-cta-link-url' => array(
-							'type'        => 'text',
-							'placeholder' => esc_html__( 'Button URL', 'cherry-services' ),
-							'label'       => esc_html__( 'CTA Button URL', 'cherry-services'  ),
-						),
+						'sanitize_callback' => array( $this, 'sanitize_repeater' ),
+					),
+					'cherry-services-cta-submit' => array(
+						'type'             => 'text',
+						'master'           => 'cherry-services-cta-type-form',
+						'placeholder'      => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
+						'label'            => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+					'cherry-services-cta-link-text' => array(
+						'type'             => 'text',
+						'master'           => 'cherry-services-cta-type-button',
+						'placeholder'      => esc_html__( 'Button Text', 'cherry-services' ),
+						'label'            => esc_html__( 'CTA Button Text', 'cherry-services' ),
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+					'cherry-services-cta-link-url' => array(
+						'type'             => 'text',
+						'master'           => 'cherry-services-cta-type-button',
+						'placeholder'      => esc_html__( 'Button URL', 'cherry-services' ),
+						'label'            => esc_html__( 'CTA Button URL', 'cherry-services' ),
+						'sanitize_callback' => 'esc_url',
+
 					),
 				),
 			)
 		) );
 
+	}
+
+	/**
+	 * Sanitize features repeater field
+	 *
+	 * @param  string $value Field value.
+	 * @param  string $key   Key value.
+	 * @param  array  $field Field data array.
+	 * @return string
+	 */
+	public function sanitize_repeater( $value, $key, $field ) {
+
+		if ( ! is_array( $value ) ) {
+			return $value;
+		}
+
+		$new_value = array();
+		$fields    = $field['fields'];
+
+		foreach ( $value as $index => $row ) {
+			$new_value[ $index ] = $this->sanitize_repeater_row( $row, $fields );
+		}
+
+	}
+
+	/**
+	 * Sanitize single repeater row
+	 *
+	 * @param  array $row   Single repeater row.
+	 * @param  array $field Field data array.
+	 * @return array
+	 */
+	public function sanitize_repeater_row( $row, $field ) {
+
+		$sanitized_row = array();
+
+		foreach ( $row as $col_key => $col_val ) {
+
+			if ( empty( $fields[ $col_key ] ) ) {
+				$sanitized_row[ $col_key ] = $col_val;
+				continue;
+			}
+
+			$column = $fields[ $col_key ];
+
+			if ( isset( $column['sanitize_callback'] ) && is_callable( $column['sanitize_callback'] ) ) {
+				$sanitized_row[ $col_key ] = call_user_func( $column['sanitize_callback'] );
+			} else {
+				$sanitized_row[ $col_key ] = $col_val;
+			}
+		}
+
+		return $sanitized_row;
 	}
 
 	/**

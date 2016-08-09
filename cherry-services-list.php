@@ -174,6 +174,15 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		}
 
 		/**
+		 * Returns plugin version
+		 *
+		 * @return string
+		 */
+		public function get_version() {
+			return $this->version;
+		}
+
+		/**
 		 * Load all globally available files.
 		 *
 		 * @return void
