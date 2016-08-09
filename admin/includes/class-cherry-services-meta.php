@@ -66,7 +66,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 
 		cherry_services_list()->get_core()->init_module(
 			'cherry-post-meta',
-			apply_filters( 'cherry_services_list_meta_args', array(
+			apply_filters( 'cherry_services_list_meta_options_args', array(
 				'id'            => 'service-options',
 				'title'         => esc_html__( 'Service Options', 'cherry-services' ),
 				'page'          => array( $this->post_type() ),
@@ -74,6 +74,17 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 				'priority'      => 'high',
 				'callback_args' => false,
 				'fields'        => array(
+					'cherry-services-icon' => array(
+						'type'        => 'iconpicker',
+						'label'       => esc_html__( 'Service Icon', 'cherry-services' ),
+						'icon_data'       => array(
+							'icon_set'    => 'cherryServicesIcons',
+							'icon_css'    => $this->plugin_url( 'public/assets/css/font-awesome.min.css' ),
+							'icon_base'   => 'fa',
+							'icon_prefix' => 'fa-',
+							'icons'       => $this->get_icons_set(),
+						),
+					),
 					'cherry-services-slogan' => array(
 						'type'        => 'text',
 						'placeholder' => esc_html__( 'Slogan', 'cherry-services' ),
@@ -83,10 +94,6 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'type'        => 'textarea',
 						'placeholder' => esc_html__( 'Short Description', 'cherry-services' ),
 						'label'       => esc_html__( 'Short Description', 'cherry-services' ),
-					),
-					'cherry-services-gallery' => array(
-						'type'        => 'media',
-						'label'       => esc_html__( 'Media gallery', 'cherry-services' ),
 					),
 					'cherry-services-features' => array(
 						'type'        => 'repeater',
@@ -123,6 +130,107 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 				),
 			)
 		) );
+
+		cherry_services_list()->get_core()->init_module(
+			'cherry-post-meta',
+			apply_filters( 'cherry_services_list_meta_cta_args', array(
+				'id'            => 'service-cta',
+				'title'         => esc_html__( 'Call To Action Section', 'cherry-services' ),
+				'page'          => array( $this->post_type() ),
+				'context'       => 'normal',
+				'priority'      => 'high',
+				'callback_args' => false,
+				'fields'        => array(
+					'cherry-services-cta-title' => array(
+						'type'        => 'text',
+						'placeholder' => esc_html__( 'Title', 'cherry-services' ),
+						'label'       => esc_html__( 'Title', 'cherry-services' ),
+					),
+					'cherry-services-cta-descr' => array(
+						'type'        => 'textarea',
+						'placeholder' => esc_html__( 'Description', 'cherry-services' ),
+						'label'       => esc_html__( 'Description', 'cherry-services' ),
+					),
+					'cherry-services-cta-type' => array(
+						'type'        => 'select',
+						'label'       => esc_html__( 'Call to Action Type', 'cherry-services' ),
+						'options'     => array(
+							'form' => __( 'Contact Form', 'cherry-sevices' ),
+							'link' => __( 'Text With Button', 'cherry-services' ),
+						),
+					),
+					'cherry-services-cta-form' => array(
+						'type'        => 'repeater',
+						'label'       => esc_html__( 'Form Fields', 'cherry-services' ),
+						'add_label'   => esc_html__( 'Add New Field', 'cherry-services' ),
+						'title_field' => 'label',
+						'fields'      => array(
+							'type'  => array(
+								'type'        => 'select',
+								'id'          => 'type',
+								'name'        => 'type',
+								'label'       => esc_html__( 'Field Type', 'cherry-services' ),
+								'options'     => array(
+									'text'     => __( 'Text', 'cherry-sevices' ),
+									'textarea' => __( 'Textarea', 'cherry-services' ),
+								),
+							),
+							'label' => array(
+								'type'        => 'text',
+								'id'          => 'label',
+								'name'        => 'label',
+								'placeholder' => esc_html__( 'Field Label', 'cherry-services' ),
+								'label'       => esc_html__( 'Field Label', 'cherry-services'  ),
+							),
+							'name' => array(
+								'type'        => 'text',
+								'id'          => 'value',
+								'name'        => 'value',
+								'placeholder' => esc_html__( 'Field Name', 'cherry-services' ),
+								'label'       => esc_html__( 'Field Name(Should be unique)', 'cherry-services'  ),
+							),
+						),
+						'cherry-services-cta-submit' => array(
+							'type'        => 'text',
+							'placeholder' => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
+							'label'       => esc_html__( 'Form Submit Button Text', 'cherry-services'  ),
+						),
+						'cherry-services-cta-link-text' => array(
+							'type'        => 'text',
+							'placeholder' => esc_html__( 'Button Text', 'cherry-services' ),
+							'label'       => esc_html__( 'CTA Button Text', 'cherry-services'  ),
+						),
+						'cherry-services-cta-link-url' => array(
+							'type'        => 'text',
+							'placeholder' => esc_html__( 'Button URL', 'cherry-services' ),
+							'label'       => esc_html__( 'CTA Button URL', 'cherry-services'  ),
+						),
+					),
+				),
+			)
+		) );
+
+	}
+
+	/**
+	 * Return FontAwesome icons set for iconpicker
+	 *
+	 * @return array
+	 */
+	public function get_icons_set() {
+
+		ob_start();
+		include $this->plugin_path( 'admin/assets/js/icons.json' );
+		$json = ob_get_clean();
+
+		$result = array();
+		$icons  = json_decode( $json, true );
+
+		foreach ( $icons['icons'] as $icon ) {
+			$result[] = $icon['id'];
+		}
+
+		return $result;
 	}
 
 	/**
