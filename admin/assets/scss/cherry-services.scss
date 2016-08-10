@@ -4,3 +4,230 @@
 td.column-thumbnail {
 	text-align: center;
 }
+
+#cherry-services-options-form {
+	margin: 30px 20px  0 0;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	background-color: #fff;
+	border-radius: 8px;
+	padding: 30px;
+	.cherry-services-options-page-wrapper{
+		background-color: #efefef;
+		border-radius: 6px;
+		padding: 30px;
+		box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	}
+	.cherry-services-options-list-wrapper{
+		max-height: 575px;
+		overflow-y: scroll;
+
+		&::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+		}
+		&::-webkit-scrollbar-button {
+			width: 0px;
+			height: 0px;
+		}
+		&::-webkit-scrollbar-thumb {
+			background: #495159;
+			border: 0px none #ffffff;
+			border-radius: 4px;
+		}
+		&::-webkit-scrollbar-thumb:hover {
+			background: #48c569;
+		}
+		&::-webkit-scrollbar-thumb:active {
+			background: #48c569;
+		}
+		&::-webkit-scrollbar-track {
+			background-color: rgba(0, 0, 0, 0.1);
+			border: 0px none #495159;
+			border-radius: 4px;
+		}
+		&::-webkit-scrollbar-track:hover {
+			background: rgba(0, 0, 0, 0.2);
+		}
+		&::-webkit-scrollbar-track:active {
+			background: rgba(0, 0, 0, 0.2);
+		}
+		&::-webkit-scrollbar-corner {
+			background: transparent;
+		}
+	}
+
+	.cherry-services-options-control-wrapper{
+		position: relative;
+		margin-top: 30px;
+		padding: 30px;
+		background-color: #fff;
+		border-radius: 4px;
+		box-shadow: 0px 5px 21px rgba(0, 0, 0, 0.1);
+			.custom-button{
+				padding: 16px 30px;
+				display: inline-block;
+				background-color: #C5C5C5;
+				font-weight: 900;
+				text-transform: uppercase;
+				color: #fff;
+				box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.2);
+				cursor: pointer;
+				border-radius: 4px;
+				margin-right: 20px;
+				&.save-button{
+					background-color: #48c569;
+						&:hover{
+							background-color: #3ba956;
+						}
+				}
+				&.define-as-default-button{
+					background-color: #495159;
+						&:hover{
+							background-color: #282D31;
+						}
+				}
+				&.restore-button{
+					background-color: #495159;
+						&:hover{
+							background-color: #282D31;
+						}
+				}
+				&:last-child{
+					margin-right: 0;
+				}
+				&:hover{
+					background-color: #3ba956;
+				}
+			}
+	}
+}
+.option-section{
+	display: flex;
+	flex-flow: row nowrap;
+	box-shadow: 0px 5px 21px rgba(0, 0, 0, 0.1);
+	padding: 20px 30px;
+	background-color: #fff;
+	border-bottom: 1px solid #e5e5e5;
+	&:first-child{
+		border-radius: 4px 4px 0 0;
+	}
+	&:last-child{
+		border-radius: 0 0 4px 4px;
+	}
+	.option-info-wrapper{
+		flex: 0 1 30%;
+		.option-title{
+
+		}
+		.option-description{
+			font-style: italic;
+		}
+	}
+	.option-ui-element-wrapper{
+		flex: 0 1 70%;
+		.cherry-ui-container{
+
+		}
+	}
+}
+
+.notice-box{
+	background: #23282d;
+	position: fixed;
+	margin: 5px 0;
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+	padding: 8px 15px 8px 8px;
+	min-width: 200px;
+	overflow: hidden;
+	color: #fff;
+	z-index: 999;
+	border-radius: 2px;
+	-webkit-transition: all 250ms cubic-bezier(0.85, 0.04, 1, 1);
+			transition: all 250ms cubic-bezier(0.85, 0.04, 1, 1);
+		span.dashicons{
+			position: relative;
+			margin-right: 10px;
+			&:before{
+				position: absolute;
+				font-size: 30px;
+				left: -6px;
+				top: -4px;
+			}
+		}
+		&.success-notice{
+			span.dashicons{
+				color: #48c569;
+				&:before{
+					content: "\f147";
+				}
+			}
+			.inner{
+				b{
+					color: #48c569;
+				}
+			}
+		}
+		&.info-notice{
+			span.dashicons{
+				color: #faa730;
+				&:before{
+					content: "\f534";
+				}
+			}
+			.inner{
+				b{
+					color: #faa730;
+				}
+			}
+		}
+		&.error-notice{
+			span.dashicons{
+				color: #e54343;
+				&:before{
+					content: "\f158";
+				}
+			}
+		}
+		&.show-state{
+			-webkit-transition: all 500ms cubic-bezier(0.1, 0.67, 0.26, 1);
+					transition: all 500ms cubic-bezier(0.1, 0.67, 0.26, 1);
+		}
+		.inner{
+			display: inline-block;
+		}
+}
+
+.cherry-spinner-wordpress {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	display: none;
+}
+
+.double-bounce-1, .double-bounce-2 {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: #48c569;
+	opacity: 0.6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	animation: tm-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce-2 {
+	animation-delay: -1.0s;
+}
+
+@keyframes tm-bounce {
+	0%, 100% {
+		transform: scale(0.0);
+	} 50% {
+		transform: scale(1.0);
+	}
+}

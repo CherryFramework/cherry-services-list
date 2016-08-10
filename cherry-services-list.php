@@ -85,6 +85,37 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		private $post_type = 'cherry-services';
 
 		/**
+		 * Option to store all services data in
+		 *
+		 * @since  1.0.0
+		 * @access private
+		 * @var    string
+		 */
+		private $option_key = 'cherry-services';
+
+		/**
+		 * Default options list
+		 *
+		 * @var array
+		 */
+		public $default_options = array(
+			'archive-page'       => '',
+			'posts-per-page'     => 9,
+			'archive-columns'    => 3,
+			'single-template'    => 'single',
+			'single-image-size'  => 'thumbnail',
+			'listing-template'   => 'default',
+			'listing-image-size' => 'thumbnail',
+		);
+
+		/**
+		 * Options storage
+		 *
+		 * @var array
+		 */
+		private $options_val = null;
+
+		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
 		 *
 		 * @since 1.0.0
@@ -188,7 +219,12 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function load_files() {
+
 			$this->setup();
+
+			require $this->plugin_path( 'public/includes/class-cherry-services-list-templater.php' );
+			require $this->plugin_path( 'public/includes/class-cherry-services-list-tools.php' );
+
 		}
 
 		/**
@@ -237,7 +273,9 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function admin() {
+			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 0 );
 			require $this->plugin_path( 'admin/includes/class-cherry-services-meta.php' );
+			require $this->plugin_path( 'admin/includes/class-cherry-services-options-page.php' );
 		}
 		/**
 		 * Loads the translation files.
@@ -269,6 +307,76 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 */
 		public function tax( $type = 'category' ) {
 			return $this->post_type() . esc_attr( $type );
+		}
+
+		/**
+		 * Get the template path.
+		 *
+		 * @return string
+		 */
+		public function template_path() {
+			return apply_filters( 'cherry_services_template_path', 'cherry-services/' );
+		}
+
+		/**
+		 * Returns key to store options in
+		 *
+		 * @since  1.0.0
+		 * @return string
+		 */
+		public function option_key() {
+			return $this->option_key;
+		}
+
+		/**
+		 * Get option value
+		 *
+		 * @param  string  $option  Option name
+		 * @param  boolean $default Default value
+		 * @return mixed
+		 */
+		public function get_option( $option, $default = false ) {
+
+			if ( null === $this->options_val ) {
+				$this->options_val = get_option( $this->option_key() );
+			}
+
+			if ( isset( $this->options_val[ $option ] ) ) {
+				return $this->options_val[ $option ];
+			} else {
+				return $default;
+			}
+		}
+
+		/**
+		 * Register admin-related scripts and style.
+		 *
+		 * @return void
+		 */
+		public function register_admin_assets() {
+
+			wp_register_style(
+				'cherry-services-admin',
+				$this->plugin_url( 'admin/assets/css/cherry-services.css' ),
+				false,
+				$this->get_version()
+			);
+
+			wp_register_script(
+				'serialize-object',
+				$this->plugin_url( 'admin/assets/js/serialize-object.js' ),
+				array(),
+				$this->get_version(),
+				true
+			);
+
+			wp_register_script(
+				'cherry-services-admin',
+				$this->plugin_url( 'admin/assets/js/cherry-services-admin.js' ),
+				array( 'serialize-object' ),
+				$this->get_version(),
+				true
+			);
 		}
 
 		/**
@@ -314,6 +422,17 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			$init->register_tax();
 
 			flush_rewrite_rules();
+
+			$options = array(
+				$this->option_key()              => get_option( $this->option_key() ),
+				$this->option_key() . '_default' => get_option( $this->option_key() . '_default' ),
+			);
+
+			foreach ( $options as $key => $value ) {
+				if ( empty( $value ) ) {
+					add_option( $key, $this->default_options, '', false );
+				}
+			}
 
 		}
 

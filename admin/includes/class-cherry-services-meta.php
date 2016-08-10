@@ -53,12 +53,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 			return;
 		}
 
-		wp_enqueue_style(
-			'cherry-services-admin',
-			$this->plugin_url( 'admin/assets/css/cherry-services.css' ),
-			false,
-			$this->get_version()
-		);
+		wp_enqueue_style( 'cherry-services-admin' );
 	}
 
 	/**
