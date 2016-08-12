@@ -37,6 +37,121 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 		// Enqueue assets
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 
+		add_filter( 'post_row_actions', array( $this, 'duplicate_link' ), 10, 2 );
+		add_action( 'admin_action_cherry_services_clone_post', array( $this, 'duplicate_post_as_draft' ) );
+
+	}
+
+	/**
+	 * Add 'Clone' link into posts actions list
+	 *
+	 * @param  array  $actions Available actions.
+	 * @param  object $post    Current post.
+	 * @return [type]          [description]
+	 */
+	public function duplicate_link( $actions, $post ) {
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return $actions;
+		}
+
+		if ( $this->post_type() !== $post->post_type ) {
+			return $actions;
+		}
+
+		$url = add_query_arg(
+			array(
+				'action' => 'cherry_services_clone_post',
+				'post'   => $post->ID,
+			),
+			admin_url( 'admin.php' )
+		);
+
+		$actions['clone'] = sprintf(
+			'<a href="%1$s" title="%3$s" rel="permalink">%2$s</a>',
+			$url,
+			__( 'Clone', 'cherry-services' ),
+			__( 'Clone this post', 'cherry-services' )
+		);
+
+		return $actions;
+	}
+
+	/**
+	 * Process post cloning
+	 */
+	function duplicate_post_as_draft() {
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( __( 'You don\'t have permissions to do this', 'cherry-services' ) );
+		}
+
+		if ( empty( $_REQUEST['action'] ) || 'cherry_services_clone_post' !== $_REQUEST['action'] ) {
+			wp_die( __( 'Not allowed function call!', 'cherry-services' ) );
+		}
+
+		if ( empty( $_REQUEST['post'] ) ) {
+			wp_die( __( 'No post to duplicate has been supplied!', 'cherry-services' ) );
+		}
+
+		global $wpdb;
+
+		$post_id         = absint( $_REQUEST['post'] );
+		$post            = get_post( $post_id );
+		$current_user    = wp_get_current_user();
+		$new_post_author = $current_user->ID;
+
+		if ( ! $post ) {
+			wp_die(
+				sprintf( __( 'Post creation failed, could not find original post: %s', 'cherry-services' ) ),
+				$post_id
+			);
+		}
+
+		$args = array(
+			'comment_status' => $post->comment_status,
+			'ping_status'    => $post->ping_status,
+			'post_author'    => $new_post_author,
+			'post_content'   => $post->post_content,
+			'post_excerpt'   => $post->post_excerpt,
+			'post_name'      => $post->post_name,
+			'post_parent'    => $post->post_parent,
+			'post_password'  => $post->post_password,
+			'post_status'    => 'draft',
+			'post_title'     => $post->post_title,
+			'post_type'      => $post->post_type,
+			'to_ping'        => $post->to_ping,
+			'menu_order'     => $post->menu_order
+		);
+
+		$new_post_id = wp_insert_post( $args );
+
+		$post_terms = wp_get_object_terms( $post_id, 'group', array( 'fields' => 'slugs' ) );
+		wp_set_object_terms( $new_post_id, $post_terms, 'group', false );
+
+		$post_meta_infos = $wpdb->get_results(
+			"SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id = $post_id"
+		);
+
+		if ( 0 !== count( $post_meta_infos ) ) {
+
+			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+
+			foreach ( $post_meta_infos as $meta_info ) {
+
+				$meta_key        = $meta_info->meta_key;
+				$meta_value      = addslashes( $meta_info->meta_value );
+				$sql_query_sel[] = "SELECT $new_post_id, '$meta_key', '$meta_value'";
+
+			}
+
+			$sql_query.= implode( " UNION ALL ", $sql_query_sel );
+			$wpdb->query( $sql_query );
+		}
+
+		wp_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
+
+		exit;
 	}
 
 	/**
@@ -146,6 +261,12 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 				'priority'      => 'high',
 				'callback_args' => false,
 				'fields'        => array(
+					'cherry-services-show-cta' => array(
+						'type'    => 'checkbox',
+						'options' => array(
+							'enable' => esc_html__( 'Enable CTA block', 'cherry-services' ),
+						),
+					),
 					'cherry-services-cta-title' => array(
 						'type'        => 'text',
 						'placeholder' => esc_html__( 'Title', 'cherry-services' ),
@@ -161,11 +282,11 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'label'       => esc_html__( 'Call to Action Type', 'cherry-services' ),
 						'options'     => array(
 							'form' => array(
-								'label' => esc_html__( 'Call to Action Type', 'cherry-services' ),
+								'label' => esc_html__( 'Contact Form', 'cherry-services' ),
 								'slave' => 'cherry-services-cta-type-form',
 							),
 							'button' => array(
-								'label' => esc_html__( 'Call to Action Type', 'cherry-services' ),
+								'label' => esc_html__( 'Link', 'cherry-services' ),
 								'slave' => 'cherry-services-cta-type-button',
 							),
 						),
@@ -198,10 +319,23 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 							),
 							'name' => array(
 								'type'             => 'text',
-								'id'               => 'value',
-								'name'             => 'value',
+								'id'               => 'name',
+								'name'             => 'name',
 								'placeholder'      => esc_html__( 'Field Name', 'cherry-services' ),
 								'label'            => esc_html__( 'Field Name(Should be unique)', 'cherry-services' ),
+								'sanitize_callback' => 'esc_attr',
+							),
+							'width'  => array(
+								'type'        => 'select',
+								'id'          => 'width',
+								'name'        => 'width',
+								'label'       => esc_html__( 'Field Width', 'cherry-services' ),
+								'options'     => array(
+									'1'   => __( 'Fullwidth', 'cherry-sevices' ),
+									'1/3' => __( '1/3', 'cherry-services' ),
+									'1/2' => __( '1/2', 'cherry-services' ),
+									'2/3' => __( '2/3', 'cherry-services' ),
+								),
 								'sanitize_callback' => 'esc_attr',
 							),
 						),
@@ -256,6 +390,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 			$new_value[ $index ] = $this->sanitize_repeater_row( $row, $fields );
 		}
 
+		return $new_value;
 	}
 
 	/**

@@ -14,7 +14,7 @@
  *
  * @since 1.0.0
  */
-class Cherry_Services_List_Templater {
+class Cherry_Services_List_Templater extends Cherry_Services_List {
 
 	/**
 	 * Templater macros regular expression
@@ -135,6 +135,7 @@ class Cherry_Services_List_Templater {
 			'cta'      => array( $callbacks, 'get_cta' ),
 			'content'  => array( $callbacks, 'get_content' ),
 			'testi'    => array( $callbacks, 'get_testi' ),
+			'icon'     => array( $callbacks, 'get_icon' ),
 		);
 
 		/**
@@ -185,10 +186,9 @@ class Cherry_Services_List_Templater {
 	 *
 	 * @since  1.0.0
 	 * @param  string $template  File name.
-	 * @param  string $shortcode Shortcode name.
 	 * @return string
 	 */
-	public function get_template_by_name( $template, $shortcode ) {
+	public function get_template_by_name( $template ) {
 
 		$file       = '';
 		$default    = $this->plugin_path( 'templates/tmpl/default.tmpl' );

@@ -224,6 +224,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-templater.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-tools.php' );
+			require $this->plugin_path( 'public/includes/class-cherry-services-list-data.php' );
 
 		}
 
@@ -306,7 +307,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return string
 		 */
 		public function tax( $type = 'category' ) {
-			return $this->post_type() . esc_attr( $type );
+			return $this->post_type() . '_' . esc_attr( $type );
 		}
 
 		/**

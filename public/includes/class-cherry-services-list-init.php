@@ -62,7 +62,6 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 			'title',
 			'editor',
 			'thumbnail',
-			'excerpt',
 		);
 
 		global $wp_version;

@@ -5,6 +5,52 @@ td.column-thumbnail {
 	text-align: center;
 }
 
+#cherry-services-features {
+	.cheryr-ui-repeater-content-box {
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-direction: row;
+		flex-direction: row;
+	}
+	.label-wrap,
+	.value-wrap {
+		-webkit-flex: 1 0 0;
+		flex: 1 0 0;
+		width: 50%;
+		box-sizing: border-box;
+	}
+	.label-wrap {
+		padding: 0 5px 0 0;
+	}
+	.value-wrap {
+		padding: 0 0 0 5px;
+	}
+}
+
+#cherry-services-cta-form {
+	.cheryr-ui-repeater-content-box {
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-direction: row;
+		flex-direction: row;
+	}
+	.label-wrap,
+	.name-wrap,
+	.type-wrap,
+	.width-wrap {
+		-webkit-flex: 1 0 0;
+		flex: 1 0 0;
+		width: 25%;
+		box-sizing: border-box;
+	}
+	.label-wrap {
+		padding: 0 5px;
+	}
+	.name-wrap {
+		padding: 0 5px 0 0;
+	}
+}
+
 #cherry-services-options-form {
 	margin: 30px 20px  0 0;
 	border: 1px solid #e5e5e5;
