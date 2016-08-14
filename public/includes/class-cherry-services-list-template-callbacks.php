@@ -134,7 +134,8 @@ class Cherry_Services_List_Template_Callbacks {
 			return;
 		}
 
-		$cta_type = get_post_meta( $post->ID, 'cherry-services-cta-type', true );
+		$cta_type   = get_post_meta( $post->ID, 'cherry-services-cta-type', true );
+		$type_class = 'service-cta cta-type-' . $cta_type;
 
 		$title = get_post_meta( $post->ID, 'cherry-services-cta-title', true );
 		$descr = get_post_meta( $post->ID, 'cherry-services-cta-descr', true );
@@ -143,6 +144,12 @@ class Cherry_Services_List_Template_Callbacks {
 			$action = $this->get_cta_form();
 		} else {
 			$action = $this->get_cta_link();
+		}
+
+		if ( ! empty( $args['class'] ) ) {
+			$args['class'] .= ' ' . $type_class;
+		} else {
+			$args['class'] = $type_class;
 		}
 
 		/**
@@ -170,11 +177,20 @@ class Cherry_Services_List_Template_Callbacks {
 	public function get_cta_form() {
 
 		global $post;
+
+		$custom_form = apply_filters( 'cherry_services_custom_cta_form', false );
+
+		if ( false !== $custom_form ) {
+			return $custom_form;
+		}
+
 		$form = get_post_meta( $post->ID, 'cherry-services-cta-form', true );
 
 		if ( empty( $form ) ) {
 			return;
 		}
+
+		$sumbit_text = get_post_meta( $post->ID, 'cherry-services-cta-submit', true );
 
 		$defaults = array(
 			'type'  => 'text',
@@ -186,21 +202,59 @@ class Cherry_Services_List_Template_Callbacks {
 		$fields_format = apply_filters(
 			'cherry_services_cta_fields_formats',
 			array(
-				'text'     => '<input type="text" name="%1$s" value="" placeholder="%2$s">',
-				'textarea' => '<textarea name="%1$s" placeholder="%2$s"></textarea>',
+				'text'     => '<input type="text" name="%1$s" class="cta-form_control" value="" placeholder="%2$s">',
+				'textarea' => '<textarea name="%1$s" class="cta-form_control" placeholder="%2$s"></textarea>',
 			)
 		);
+
+		$submit_format = apply_filters(
+			'cherry_services_cta_submit_format',
+			'<button class="cta-form_submit btn">%s</button>'
+		);
+
+		$form_before = apply_filters( 'cherry_services_cta_form_before', '<div class="cta-form">' );
+		$form_after  = apply_filters( 'cherry_services_cta_form_after', '</div>' );
 
 		$result = '';
 
 		foreach ( $form as $field ) {
 
-			$field = wp_parse_args( $field, $defaults );
-			$result .= sprintf( $fields_format[ $field['type'] ], $field['name'], $field['label'] );
+			$field   = wp_parse_args( $field, $defaults );
+			$control = sprintf( $fields_format[ $field['type'] ], $field['name'], $field['label'] );
+			$result .= $this->wrap_form_control( $control, $field['width'] );
 
 		}
 
-		return $result;
+		$controls = sprintf( '<div class="cherry-services-row">%s</div>', $result );
+		$submit   = sprintf( $submit_format, esc_html( $sumbit_text ) );
+
+		return $form_before . $controls . $submit . $form_after;
+	}
+
+	/**
+	 * Wrap form control into div with column class
+	 *
+	 * @param  string $control Control HTML.
+	 * @param  string $width   Width value.
+	 * @return string
+	 */
+	public function wrap_form_control( $control, $width = '1' ) {
+
+		switch ( $width ) {
+			case '1/2':
+				$column_classes = 'col_md_2 col_sm_2 col_xs_1';
+				break;
+
+			case '1/3':
+				$column_classes = 'col_md_3 col_sm_3 col_xs_1';
+				break;
+
+			default:
+				$column_classes = 'col_md_1 col_sm_1 col_xs_1';
+				break;
+		}
+
+		return sprintf( '<div class="%s">%s</div>', $column_classes, $control );
 
 	}
 
@@ -210,6 +264,22 @@ class Cherry_Services_List_Template_Callbacks {
 	 * @return string
 	 */
 	public function get_cta_link() {
+
+		global $post;
+
+		$link_text = get_post_meta( $post->ID, 'cherry-services-cta-link-text', true );
+		$link_url  = get_post_meta( $post->ID, 'cherry-services-cta-link-url', true );
+
+		if ( empty( $link_text ) || empty( $link_url ) ) {
+			return;
+		}
+
+		$link_format = apply_filters(
+			'cherry_services_cta_link_format',
+			'<div class="cta-button-wrap"><a href="%s" div class="cta-button btn">%s</a></div>'
+		);
+
+		return sprintf( $link_format, esc_url( $link_url ), esc_html( $link_text ) );
 
 	}
 
@@ -295,7 +365,7 @@ class Cherry_Services_List_Template_Callbacks {
 			'format' => apply_filters( 'cherry_services_default_icon_format', '<i class="fa %s"></i>' ),
 		) );
 
-		$result = '<div class="service-icon">' . sprintf( $args['format'], $icon ) . '</div>';
+		$result = '<div class="service-icon">' . sprintf( $args['format'], esc_attr( $icon ) ) . '</div>';
 
 		return $this->macros_wrap( $args, $result );
 	}
@@ -328,7 +398,7 @@ class Cherry_Services_List_Template_Callbacks {
 		);
 
 		foreach ( $features as $feature ) {
-			$result .= sprintf( $feature_format, $feature['label'], $feature['value'] );
+			$result .= sprintf( $feature_format, esc_html( $feature['label'] ), esc_html( $feature['value'] ) );
 		}
 
 		return $this->macros_wrap( $args, sprintf( '<div class="service-features">%s</div>', $result ) );

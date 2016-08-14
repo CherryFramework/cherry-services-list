@@ -389,6 +389,34 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 */
 		public function enqueue_styles() {
 
+			$styles = apply_filters(
+				'cherry_services_styles',
+				array(
+					'cherry-services' => array(
+						'src'   => $this->plugin_url( 'public/assets/css/cherry-services.css' ),
+						'deps'  => array(),
+						'ver'   => $this->get_version(),
+						'media' => 'all',
+					),
+					'cherry-services-grid' => array(
+						'src'   => $this->plugin_url( 'public/assets/css/cherry-services-grid.css' ),
+						'deps'  => array(),
+						'ver'   => $this->get_version(),
+						'media' => 'all',
+					),
+					'font-awesome' => array(
+						'src'   => $this->plugin_url( 'public/assets/css/font-awesome.min.css' ),
+						'deps'  => array(),
+						'ver'   => '4.6.3',
+						'media' => 'all',
+					),
+				)
+			);
+
+			foreach ( $styles as $handle => $style ) {
+				wp_enqueue_style( $handle, $style['src'], $style['deps'], $style['ver'], $style['media'] );
+			}
+
 		}
 
 		/**

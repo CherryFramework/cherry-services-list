@@ -1,0 +1,209 @@
+// Grid breakpoints
+$grid-breakpoints: (
+	// Extra small screen / phone
+	xs: 0,
+	// Small screen / phone
+	sm: 544px,
+	// Medium screen / tablet
+	md: 768px,
+	// Large screen / desktop
+	lg: 992px,
+	// Extra large screen / wide desktop
+	xl: 1200px
+) !default;
+
+// Grid containers
+$container-max-widths: (
+	sm: 576px,
+	md: 720px,
+	lg: 940px,
+	xl: 1140px
+) !default;
+
+// Grid columns
+$grid-columns:      6 !default;
+$grid-gutter-width: 1.875rem !default; // 30px
+
+// Some configuration
+$need-pull:   false !default;
+$need-push:   false !default;
+$need-offset: false !default;
+
+// Grid system
+@mixin make-row($gutter: $grid-gutter-width) {
+	display: flex;
+	flex-wrap: wrap;
+	margin-left:  ($gutter / -2);
+	margin-right: ($gutter / -2);
+}
+
+@mixin make-col($gutter: $grid-gutter-width) {
+	position: relative;
+	min-height: 1px;
+	padding-left:  ($gutter / 2);
+	padding-right: ($gutter / 2);
+}
+
+@mixin make-col-span($size, $columns: $grid-columns) {
+	flex: 0 0 percentage(1/$size);
+	max-width: percentage(1/$size);
+}
+
+@mixin make-col-offset($size, $columns: $grid-columns) {
+	@if $need-offset {
+		margin-left: percentage($size / $columns);
+	}
+}
+
+@mixin make-col-push($size, $columns: $grid-columns) {
+	@if $need-push {
+		left: if($size > 0, percentage($size / $columns), auto);
+	}
+}
+
+@mixin make-col-pull($size, $columns: $grid-columns) {
+	@if $need-pull {
+		right: if($size > 0, percentage($size / $columns), auto);
+	}
+}
+
+@mixin make-col-modifier($type, $size, $columns) {
+	// Work around the lack of dynamic mixin @include support (https://github.com/sass/sass/issues/626)
+	@if $type == push {
+		@include make-col-push($size, $columns);
+	} @else if $type == pull {
+		@include make-col-pull($size, $columns);
+	} @else if $type == offset {
+		@include make-col-offset($size, $columns);
+	}
+}
+
+@mixin make-grid-columns($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
+	// Common properties for all breakpoints
+	%grid-column {
+		position: relative;
+		// Prevent columns from collapsing when empty
+		min-height: 1px;
+		// Inner gutter via padding
+		padding-left: ($gutter / 2);
+		padding-right: ($gutter / 2);
+	}
+	@each $breakpoint in map-keys($breakpoints) {
+		@for $i from 1 through $columns {
+			.col_#{$breakpoint}_#{$i} {
+				@extend %grid-column;
+			}
+		}
+
+		@include media-breakpoint-up($breakpoint) {
+
+			@for $i from 1 through $columns {
+				.col_#{$breakpoint}_#{$i} {
+					@include make-col-span($i, $columns);
+				}
+			}
+			@each $modifier in (pull, push, offset) {
+				@for $i from 0 through $columns {
+					.col_#{$breakpoint}_#{$modifier}_#{$i} {
+						@include make-col-modifier($modifier, $i, $columns)
+					}
+				}
+			}
+		}
+	}
+}
+
+// Breakpoint viewport sizes and media queries.
+//
+// Breakpoints are defined as a map of (name: minimum width), order from small to large:
+//
+//    (xs: 0, sm: 544px, md: 768px)
+//
+// The map defined in the `$grid-breakpoints` global variable is used as the `$breakpoints` argument by default.
+
+// Name of the next breakpoint, or null for the last breakpoint.
+//
+//    >> breakpoint-next(sm)
+//    md
+//    >> breakpoint-next(sm, (xs: 0, sm: 544px, md: 768px))
+//    md
+//    >> breakpoint-next(sm, $breakpoint-names: (xs sm md))
+//    md
+@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+  $n: index($breakpoint-names, $name);
+  @return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+//
+//    >> breakpoint-min(sm, (xs: 0, sm: 544px, md: 768px))
+//    544px
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+// Maximum breakpoint width. Null for the largest (last) breakpoint.
+// The maximum value is calculated as the minimum of the next one less 0.1.
+//
+//    >> breakpoint-max(sm, (xs: 0, sm: 544px, md: 768px))
+//    767px
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+  $next: breakpoint-next($name, $breakpoints);
+  @return if($next, breakpoint-min($next, $breakpoints) - 1px, null);
+}
+
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+// Media of at most the maximum breakpoint width. No query for the largest breakpoint.
+// Makes the @content apply to the given breakpoint and narrower.
+@mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+// Media between the breakpoint's minimum and maximum widths.
+// No minimum for the smallest breakpoint, and no maximum for the largest one.
+// Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
+@mixin media-breakpoint-only($name, $breakpoints: $grid-breakpoints) {
+  @include media-breakpoint-up($name, $breakpoints) {
+    @include media-breakpoint-down($name, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+// Media that spans multiple breakpoint widths.
+// Makes the @content apply between the min and max breakpoints
+@mixin media-breakpoint-between($lower, $upper, $breakpoints: $grid-breakpoints) {
+  @include media-breakpoint-up($lower, $breakpoints) {
+    @include media-breakpoint-down($upper, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+// Row
+.cherry-services-row {
+	@include make-row();
+}
+
+// Columns
+@include make-grid-columns();
