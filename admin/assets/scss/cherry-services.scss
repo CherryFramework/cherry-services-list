@@ -5,6 +5,10 @@ td.column-thumbnail {
 	text-align: center;
 }
 
+.cherry-ui-kit .cherry-ui-repeater-min > .cheryr-ui-repeater-content-box {
+	display: none !important;
+}
+
 #cherry-services-features {
 	.cheryr-ui-repeater-content-box {
 		display: -webkit-flex;
@@ -37,17 +41,16 @@ td.column-thumbnail {
 	.label-wrap,
 	.name-wrap,
 	.type-wrap,
-	.width-wrap {
+	.width-wrap,
+	.required-wrap {
 		-webkit-flex: 1 0 0;
 		flex: 1 0 0;
-		width: 25%;
+		width: 20%;
 		box-sizing: border-box;
 	}
+	.width-wrap,
 	.label-wrap {
 		padding: 0 5px;
-	}
-	.name-wrap {
-		padding: 0 5px 0 0;
 	}
 }
 

@@ -87,7 +87,7 @@ class Cherry_Services_List_Data {
 			'limit'          => 3,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
-			'group'          => '',
+			'category'       => '',
 			'id'             => 0,
 			'more'           => true,
 			'more_text'      => __( 'More', 'cherry-services' ),
@@ -200,9 +200,9 @@ class Cherry_Services_List_Data {
 		$paged = $query->get( 'paged' );
 
 		$pager_atts_array = array(
-			'data-pages'  => $query->max_num_pages,
-			'data-page'   => ! empty( $paged ) ? $paged : 1,
-			'data-groups' => $args['group'],
+			'data-pages' => $query->max_num_pages,
+			'data-page'  => ! empty( $paged ) ? $paged : 1,
+			'data-cat'   => $args['category'],
 		);
 
 		$pager_atts = $this->parse_atts( $pager_atts_array );
@@ -357,6 +357,7 @@ class Cherry_Services_List_Data {
 	 * @return void
 	 */
 	public function add_post_params() {
+
 		$ids = explode( ',', $this->args['id'] );
 
 		if ( empty( $ids ) ) {
@@ -524,6 +525,49 @@ class Cherry_Services_List_Data {
 	}
 
 	/**
+	 * Check if we need CTA form to process - do it and redirect.
+	 *
+	 * @return void
+	 */
+	public function maybe_process_cta_form() {
+
+		if ( empty( $_POST['cherry-services-form'] ) ) {
+			return;
+		}
+
+		$post_id = (int) $_POST['cherry-services-form'];
+
+		if ( cherry_services_list()->post_type() !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['service-cta'] ) || ! is_array( $_POST['service-cta'] ) ) {
+			return;
+		}
+
+		$to = get_post_meta( $post_id, 'cherry-services-form-mail', true );
+
+		if ( ! $to ) {
+			$to = get_bloginfo( 'admin_email' );
+		}
+
+		$subject = sprintf( esc_html__( 'Request on %s', 'cherry-services' ), get_the_title( $post_id ) );
+		$message = $subject . "\r\n\r\n";
+
+		foreach ( $_POST['service-cta'] as $field => $value ) {
+			$message .= esc_attr( $field ) . ": " . esc_attr( $value ) . "\r\n";
+		}
+
+		wp_mail( $to, $subject, $message );
+
+		if ( ! empty( $_POST['cherry-services-ref'] ) && false !== strpos( $_POST['cherry-services-ref'], home_url() ) ) {
+			wp_safe_redirect( esc_url( $_POST['cherry-services-ref'] ) );
+			die();
+		}
+
+	}
+
+	/**
 	 * Get services items.
 	 *
 	 * @since  1.0.0
@@ -532,6 +576,8 @@ class Cherry_Services_List_Data {
 	 * @return string
 	 */
 	public function get_services_loop( $query, $args ) {
+
+		$this->maybe_process_cta_form();
 
 		global $post, $more;
 
@@ -567,6 +613,7 @@ class Cherry_Services_List_Data {
 
 			$this->replace_args['link'] = $link;
 
+			cherry_services_templater()->set_parent_query( $this->temp_query );
 			$tpl = cherry_services_templater()->parse_template( $tpl );
 
 			$item_classes   = array( $args['item_class'], 'item-' . $count, 'clearfix' );
@@ -632,19 +679,19 @@ class Cherry_Services_List_Data {
 			return;
 		}
 
-		$groups = array();
+		$cats = array();
 		if ( ! empty( $atts['category'] ) ) {
-			$groups = explode( ',', $atts['category'] );
+			$cats = explode( ',', $atts['category'] );
 		}
 
 		$item_format = '<li class="cherry-services-filter_item%3$s"><a href="#!%1$s" class="cherry-services-filter_link" data-term="%1$s">%2$s</a></li>';
 		$terms       = get_terms( cherry_services_list()->tax( 'category' ) );
-		$result      = sprintf( $item_format, 'all-groups', __( 'All', 'cherry-services' ), ' active' );
+		$result      = sprintf( $item_format, 'all-cats', __( 'All', 'cherry-services' ), ' active' );
 
 		if ( ! empty( $terms ) ) {
 			foreach ( $terms as $term ) {
 
-				if ( ! empty( $groups ) && ! in_array( $term->slug, $groups ) ) {
+				if ( ! empty( $cats ) && ! in_array( $term->slug, $cats ) ) {
 					continue;
 				}
 

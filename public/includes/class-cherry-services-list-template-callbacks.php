@@ -34,6 +34,21 @@ class Cherry_Services_List_Template_Callbacks {
 	public $post_data = array();
 
 	/**
+	 * Parent WP_Query.
+	 *
+	 * @var object
+	 */
+	private $parent_query = null;
+
+	/**
+	 * Testimonial data array.
+	 *
+	 * @since 1.0.0
+	 * @var   array
+	 */
+	public $testi_data = null;
+
+	/**
 	 * Constructor for the class
 	 *
 	 * @since 1.0.0
@@ -41,6 +56,17 @@ class Cherry_Services_List_Template_Callbacks {
 	 */
 	function __construct( $atts ) {
 		$this->atts = $atts;
+		add_filter( 'tm_testimonials_item_classes', array( $this, 'pass_column_classes' ), 10, 2 );
+	}
+
+	/**
+	 * Set up parent query for current page.
+	 *
+	 * @param  object $query WP_Query object.
+	 * @return void
+	 */
+	public function set_parent_query( $query ) {
+		$this->parent_query = $query;
 	}
 
 	/**
@@ -193,42 +219,49 @@ class Cherry_Services_List_Template_Callbacks {
 		$sumbit_text = get_post_meta( $post->ID, 'cherry-services-cta-submit', true );
 
 		$defaults = array(
-			'type'  => 'text',
-			'width' => '1',
-			'name'  => 'name',
-			'label' => __( 'Label', 'cherry-services' ),
+			'type'     => 'text',
+			'width'    => '1',
+			'name'     => 'name',
+			'label'    => __( 'Label', 'cherry-services' ),
+			'required' => 'yes',
 		);
 
 		$fields_format = apply_filters(
 			'cherry_services_cta_fields_formats',
 			array(
-				'text'     => '<input type="text" name="%1$s" class="cta-form_control" value="" placeholder="%2$s">',
-				'textarea' => '<textarea name="%1$s" class="cta-form_control" placeholder="%2$s"></textarea>',
+				'text'     => '<input type="text" name="%1$s" class="cta-form_control" value="" placeholder="%2$s" %3$s>',
+				'email'    => '<input type="email" name="%1$s" class="cta-form_control" value="" placeholder="%2$s" %3$s>',
+				'textarea' => '<textarea name="%1$s" class="cta-form_control" placeholder="%2$s" %3$s></textarea>',
 			)
 		);
 
 		$submit_format = apply_filters(
 			'cherry_services_cta_submit_format',
-			'<button class="cta-form_submit btn">%s</button>'
+			'<button type="submit" class="cta-form_submit btn">%s</button>'
 		);
 
-		$form_before = apply_filters( 'cherry_services_cta_form_before', '<div class="cta-form">' );
-		$form_after  = apply_filters( 'cherry_services_cta_form_after', '</div>' );
+		$form_before = apply_filters( 'cherry_services_cta_form_before', '<form class="cta-form" method="post">' );
+		$form_after  = apply_filters( 'cherry_services_cta_form_after', '</form>' );
 
 		$result = '';
 
 		foreach ( $form as $field ) {
 
-			$field   = wp_parse_args( $field, $defaults );
-			$control = sprintf( $fields_format[ $field['type'] ], $field['name'], $field['label'] );
-			$result .= $this->wrap_form_control( $control, $field['width'] );
+			$field    = wp_parse_args( $field, $defaults );
+			$name     = 'service-cta[' . $field['name'] . ']';
+			$required = ( isset( $field['required'] ) && 'no' !== $field['required'] ) ? 'required' : '';
+			$control  = sprintf( $fields_format[ $field['type'] ], $name, $field['label'], $required );
+			$result  .= $this->wrap_form_control( $control, $field['width'] );
 
 		}
 
+		$ref      = isset( $this->parent_query->post->ID ) ? get_permalink( $this->parent_query->post->ID ) : false;
+		$hidden   = '<input type="hidden" name="cherry-services-form" value="' . $post->ID . '">';
+		$hidden  .= '<input type="hidden" name="cherry-services-ref" value="' . esc_url( $ref ) . '">';
 		$controls = sprintf( '<div class="cherry-services-row">%s</div>', $result );
 		$submit   = sprintf( $submit_format, esc_html( $sumbit_text ) );
 
-		return $form_before . $controls . $submit . $form_after;
+		return $form_before . $hidden . $controls . $submit . $form_after;
 	}
 
 	/**
@@ -311,7 +344,8 @@ class Cherry_Services_List_Template_Callbacks {
 			return;
 		}
 
-		$args['link'] = filter_var( $args['link'], FILTER_VALIDATE_BOOLEAN );
+		$args['link']             = filter_var( $args['link'], FILTER_VALIDATE_BOOLEAN );
+		$this->atts['show_image'] = filter_var( $this->atts['show_image'], FILTER_VALIDATE_BOOLEAN );
 
 		if ( true === $args['link'] ) {
 			$format = '<a href="%2$s">%1$s</a>';
@@ -321,7 +355,7 @@ class Cherry_Services_List_Template_Callbacks {
 			$link   = false;
 		}
 
-		if ( true === $this->atts['show_image'] || 'yes' === $this->atts['show_image'] ) {
+		if ( true === $this->atts['show_image'] ) {
 			return $this->macros_wrap( $args, sprintf( $format, $photo, $link ) );
 		}
 
@@ -384,18 +418,20 @@ class Cherry_Services_List_Template_Callbacks {
 			return;
 		}
 
-		$args = wp_parse_args( $args, array(
-			'wrap'  => 'div',
-			'class' => '',
-		) );
-
-		$result = '';
 		$feature_format = apply_filters(
 			'cherry_services_feature_format',
 			'<div class="service-features_row">
 				<span class="service-features_label">%1$s</span><span class="service-features_value">%2$s</span>
 			</div>'
 		);
+
+		$args = wp_parse_args( $args, array(
+			'wrap'   => 'div',
+			'format' => $feature_format,
+			'class'  => '',
+		) );
+
+		$result = '';
 
 		foreach ( $features as $feature ) {
 			$result .= sprintf( $feature_format, esc_html( $feature['label'] ), esc_html( $feature['value'] ) );
@@ -437,6 +473,104 @@ class Cherry_Services_List_Template_Callbacks {
 	}
 
 	/**
+	 * Get read more button
+	 *
+	 * @since  1.0.0
+	 * @param  array $args Arguments array.
+	 * @return string
+	 */
+	public function get_button( $args = array() ) {
+
+		$args = wp_parse_args( $args, array(
+			'class' => 'btn btn-primary',
+			'label' => __( 'Read more', 'cherry-services' ),
+		) );
+
+		$format = apply_filters(
+			'cherry_services_button_format',
+			'<a href="%1$s" class="%2$s">%3$s</a>'
+		);
+
+		return sprintf( $format, get_permalink(), $args['class'], $args['label'] );
+	}
+
+	/**
+	 * Geet service testimonials
+	 *
+	 * @param  array  $args Arguments array.
+	 * @return string
+	 */
+	public function get_testi( $args = array() ) {
+
+		global $post;
+
+		$this->testi_data = $data = get_post_meta( $post->ID, 'cherry-services-testi', true );
+
+		if ( empty( $data['show']['enable'] ) || 'true' !== $data['show']['enable'] ) {
+			return;
+		}
+
+		$args = wp_parse_args( $args, array(
+			'wrap'  => 'div',
+			'class' => '',
+		) );
+
+		if ( ! class_exists( 'TM_Testimonials_Data' ) ) {
+			return;
+		}
+
+		$atts = array(
+			'category'        => esc_attr( Cherry_Toolkit::get_arg( $data, 'cat', '' ) ),
+			'title'           => wp_kses_post( Cherry_Toolkit::get_arg( $data, 'title', '' ) ),
+			'type'            => esc_attr( Cherry_Toolkit::get_arg( $data, 'type', 'list' ) ),
+			'limit'           => esc_attr( Cherry_Toolkit::get_arg( $data, 'limit', 3 ) ),
+			'show_avatar'     => esc_attr( Cherry_Toolkit::get_arg( $data, 'show-avatar', 'on' ) ),
+			'size'            => esc_attr( Cherry_Toolkit::get_arg( $data, 'size', 100 ) ),
+			'content_length'  => esc_attr( Cherry_Toolkit::get_arg( $data, 'content-length', 55 ) ),
+			'show_email'      => esc_attr( Cherry_Toolkit::get_arg( $data, 'show-email', 'on' ) ),
+			'show_position'   => esc_attr( Cherry_Toolkit::get_arg( $data, 'show-position', 'on' ) ),
+			'show_company'    => esc_attr( Cherry_Toolkit::get_arg( $data, 'show-company', 'on' ) ),
+			'loop'            => esc_attr( Cherry_Toolkit::get_arg( $data, 'loop', 'on' ) ),
+			'pagination'      => esc_attr( Cherry_Toolkit::get_arg( $data, 'pagination', 'on' ) ),
+			'navigation'      => esc_attr( Cherry_Toolkit::get_arg( $data, 'navigation', 'on' ) ),
+			'slides_per_view' => esc_attr( Cherry_Toolkit::get_arg( $data, 'slides-per-view', 1 ) ),
+			'space_between'   => esc_attr( Cherry_Toolkit::get_arg( $data, 'space-between', 15 ) ),
+			'template'        => esc_attr( Cherry_Toolkit::get_arg( $data, 'template', 'default.tmpl' ) ),
+			'is_service'      => true,
+			'container'       => '<div class="tm-testi__list cherry-services-row">%s</div>',
+			'custom_class'    => 'services-testi',
+		);
+
+		/**
+		 * Never pass empty template.
+		 */
+		if ( empty( $atts['template'] ) ) {
+			$atts['template'] = 'default.tmpl';
+		}
+
+		$data = new TM_Testimonials_Data;
+		ob_start();
+		$data->the_testimonials( $atts );
+		return $this->macros_wrap( $args, ob_get_clean() );
+	}
+
+	/**
+	 * Checks if is testimonials
+	 *
+	 * @return array
+	 */
+	public function pass_column_classes( $classes = array(), $args ) {
+
+		if ( empty( $args['is_service'] ) ) {
+			return $classes;
+		}
+
+		$columns = $this->testi_data['cols'];
+		$classes[] = 'col_md_' . $columns;
+		return $classes;
+	}
+
+	/**
 	 * Gets metadata by name and return HTML markup
 	 *
 	 * @param  string $meta Meta name to get
@@ -464,17 +598,34 @@ class Cherry_Services_List_Template_Callbacks {
 	 * @since  1.0.0
 	 * @return string
 	 */
-	public function get_content() {
+	public function get_content( $args = array() ) {
 
-		$content = apply_filters( 'the_content', get_the_content() );
+		global $post;
 
-		if ( ! $content ) {
+		$_content       = apply_filters( 'tm_testimonials_content', get_the_content( '' ), $post );
+		$content_length = intval( $this->atts['excerpt_length'] );
+
+		$args = wp_parse_args( $args, array(
+			'wrap'  => 'div',
+			'class' => '',
+		) );
+
+		if ( ! $_content || 0 == $content_length ) {
 			return;
 		}
 
-		$format = '<div class="post-content">%s</div>';
+		if ( -1 == $content_length || post_password_required() ) {
+			$content = apply_filters( 'the_content', $_content );
+		} else {
+			/* wp_trim_excerpt analog */
+			$content = strip_shortcodes( $_content );
+			$content = apply_filters( 'the_content', $content );
+			$content = str_replace( ']]>', ']]&gt;', $content );
+			$content = wp_trim_words( $content, $content_length, '' );
+			$content = '<p>' . $content . '</p>';
+		}
 
-		return sprintf( $format, $content );
+		return $this->macros_wrap( $args, $content );
 	}
 
 	/**

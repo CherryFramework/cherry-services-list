@@ -31,6 +31,20 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	private $replace_data = array();
 
 	/**
+	 * Parent WP_Query.
+	 *
+	 * @var object
+	 */
+	private $parent_query = null;
+
+	/**
+	 * Template callbacks object.
+	 *
+	 * @var object
+	 */
+	public $callbacks = null;
+
+	/**
 	 * A reference to an instance of this class.
 	 *
 	 * @since 1.0.0
@@ -124,18 +138,19 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 
 		require_once $this->plugin_path( 'public/includes/class-cherry-services-list-template-callbacks.php' );
 
-		$callbacks = new Cherry_Services_List_Template_Callbacks( $atts );
+		$this->callbacks = new Cherry_Services_List_Template_Callbacks( $atts );
 
 		$data = array(
-			'image'    => array( $callbacks, 'get_image' ),
-			'title'    => array( $callbacks, 'get_title' ),
-			'slogan'   => array( $callbacks, 'get_slogan' ),
-			'desc'     => array( $callbacks, 'get_desc' ),
-			'features' => array( $callbacks, 'get_features' ),
-			'cta'      => array( $callbacks, 'get_cta' ),
-			'content'  => array( $callbacks, 'get_content' ),
-			'testi'    => array( $callbacks, 'get_testi' ),
-			'icon'     => array( $callbacks, 'get_icon' ),
+			'image'    => array( $this->callbacks, 'get_image' ),
+			'title'    => array( $this->callbacks, 'get_title' ),
+			'slogan'   => array( $this->callbacks, 'get_slogan' ),
+			'desc'     => array( $this->callbacks, 'get_desc' ),
+			'features' => array( $this->callbacks, 'get_features' ),
+			'cta'      => array( $this->callbacks, 'get_cta' ),
+			'content'  => array( $this->callbacks, 'get_content' ),
+			'testi'    => array( $this->callbacks, 'get_testi' ),
+			'icon'     => array( $this->callbacks, 'get_icon' ),
+			'button'   => array( $this->callbacks, 'get_button' ),
 		);
 
 		/**
@@ -147,7 +162,7 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 		 */
 		$this->replace_data = apply_filters( 'cherry_services_data_callbacks', $data, $atts );
 
-		return $callbacks;
+		return $this->callbacks;
 	}
 
 	/**
@@ -231,6 +246,7 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	 * @return string
 	 */
 	public function parse_template( $content ) {
+		$this->callbacks->set_parent_query( $this->parent_query );
 		return preg_replace_callback( $this->macros_regex(), array( $this, 'replace_callback' ), $content );
 	}
 
@@ -275,15 +291,24 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	}
 
 	/**
+	 * Set up parent query for current page.
+	 *
+	 * @param  object $query WP_Query object.
+	 * @return void
+	 */
+	public function set_parent_query( $query ) {
+		$this->parent_query = $query;
+	}
+
+	/**
 	 * Returns available templates list
 	 *
 	 * @return array
 	 */
 	public function get_templates_list() {
 		return apply_filters( 'cherry_team_templates_list', array(
-			'default'    => 'default.tmpl',
-			'single'     => 'single.tmpl',
-			'grid-boxes' => 'grid-boxes.tmpl',
+			'default' => 'default.tmpl',
+			'single'  => 'single.tmpl',
 		) );
 	}
 

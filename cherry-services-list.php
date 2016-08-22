@@ -225,6 +225,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-templater.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-tools.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-data.php' );
+			require $this->plugin_path( 'public/includes/class-cherry-services-list-shortcode.php' );
 
 		}
 
@@ -274,9 +275,16 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function admin() {
+
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 0 );
+
 			require $this->plugin_path( 'admin/includes/class-cherry-services-meta.php' );
 			require $this->plugin_path( 'admin/includes/class-cherry-services-options-page.php' );
+
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				require $this->plugin_path( 'admin/includes/class-cherry-services-ajax.php' );
+			}
+
 		}
 		/**
 		 * Loads the translation files.
@@ -428,6 +436,25 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 */
 		public function enqueue_scripts() {
 
+			wp_register_script(
+				'cherry-services',
+				$this->plugin_url( 'public/assets/js/cherry-services.js' ),
+				array( 'jquery' ),
+				'1.0.0',
+				true
+			);
+
+			wp_localize_script(
+				'cherry-services',
+				'cherryServices',
+				array(
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'loader'  => apply_filters(
+						'cherry_services_loader_html',
+						'<div class="cherry-spinner cherry-spinner-double-bounce"><div class="cherry-double-bounce1"></div><div class="cherry-double-bounce2"></div></div>'
+					)
+				)
+			);
 		}
 
 		/**

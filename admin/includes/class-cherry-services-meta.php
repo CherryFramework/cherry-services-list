@@ -40,6 +40,8 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 		add_filter( 'post_row_actions', array( $this, 'duplicate_link' ), 10, 2 );
 		add_action( 'admin_action_cherry_services_clone_post', array( $this, 'duplicate_post_as_draft' ) );
 
+		add_filter( 'cherry_post_meta_custom_box', array( $this, 'check_testi' ), 10, 3 );
+
 	}
 
 	/**
@@ -169,6 +171,28 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 		}
 
 		wp_enqueue_style( 'cherry-services-admin' );
+	}
+
+	/**
+	 * Check - if testimonials plugin is not active - return notice.
+	 *
+	 * @param  bool   $box_content Current box content (bool false by default).
+	 * @param  object $post        Post object.
+	 * @param  array  $box_data    Current metabox data.
+	 * @return bool|string
+	 */
+	public function check_testi( $box_content, $post, $box_data ) {
+
+		if ( empty( $box_data['id'] ) || 'service-testi' !== $box_data['id'] ) {
+			return $box_content;
+		}
+
+		if ( class_exists( 'TM_Testimonials_Plugin' ) ) {
+			return $box_content;
+		}
+
+		return esc_html__( 'Testimonials management are not available. Please, install Cherry Testi plugin' );
+
 	}
 
 	/**
@@ -305,6 +329,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'label'       => esc_html__( 'Field Type', 'cherry-services' ),
 								'options'     => array(
 									'text'     => __( 'Text', 'cherry-sevices' ),
+									'email'    => __( 'Email', 'cherry-services' ),
 									'textarea' => __( 'Textarea', 'cherry-services' ),
 								),
 								'sanitize_callback' => 'esc_attr',
@@ -338,6 +363,17 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								),
 								'sanitize_callback' => 'esc_attr',
 							),
+							'required'  => array(
+								'type'        => 'select',
+								'id'          => 'required',
+								'name'        => 'required',
+								'label'       => esc_html__( 'Is Required Field?', 'cherry-services' ),
+								'options'     => array(
+									'yes' => __( 'Yes', 'cherry-sevices' ),
+									'no'  => __( 'No', 'cherry-services' ),
+								),
+								'sanitize_callback' => 'esc_attr',
+							),
 						),
 						'sanitize_callback' => array( $this, 'sanitize_repeater' ),
 					),
@@ -367,6 +403,198 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 			)
 		) );
 
+		cherry_services_list()->get_core()->init_module(
+			'cherry-post-meta',
+			apply_filters( 'cherry_services_list_meta_testi_args', array(
+				'id'            => 'service-testi',
+				'single'        => array( 'key' => 'cherry-services-testi' ),
+				'title'         => esc_html__( 'Testimonials', 'cherry-services' ),
+				'page'          => array( $this->post_type() ),
+				'context'       => 'normal',
+				'priority'      => 'low',
+				'callback_args' => false,
+				'fields'        => array(
+					'show' => array(
+						'type'    => 'checkbox',
+						'id'      => $this->get_field_id( 'cherry-services-testi', 'show' ),
+						'name'    => $this->get_field_name( 'cherry-services-testi', 'show' ),
+						'options' => array(
+							'enable' => esc_html__( 'Enable testimonials block', 'cherry-services' ),
+						),
+					),
+					'title' => array(
+						'type'              => 'text',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'title' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'title' ),
+						'placeholder'       => esc_html__( 'Testimonials block title', 'cherry-services' ),
+						'label'             => esc_html__( 'Title', 'cherry-services' ),
+						'sanitize_callback' => 'wp_kses_post',
+					),
+					'cat'  => array(
+						'type'              => 'select',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'cat' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'cat' ),
+						'label'             => esc_html__( 'Get testimonials from category:', 'cherry-services' ),
+						'options'           => false,
+						'options_callback'  => array( $this, 'get_testi_cat' ),
+						'sanitize_callback' => 'esc_attr',
+					),
+					'cols'  => array(
+						'type'              => 'select',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'cols' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'cols' ),
+						'label'             => esc_html__( 'Columns number:', 'cherry-services' ),
+						'options'           => array(
+							1 => 1,
+							2 => 2,
+							3 => 3,
+							4 => 4,
+							6 => 6,
+						),
+						'sanitize_callback' => 'esc_attr',
+					),
+					'limit' => array(
+						'type'              => 'slider',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'limit' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'limit' ),
+						'max_value'         => 30,
+						'min_value'         => -1,
+						'value'             => 3,
+						'step_value'        => 1,
+						'label'             => esc_html__( 'Testimonials limit' ),
+						'sanitize_callback' => array( $this, 'sanitize_num' ),
+					),
+					'show-avatar' => array(
+						'type'              => 'select',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'show-avatar' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-avatar' ),
+						'label'             => esc_html__( 'Show avatar?', 'cherry-services' ),
+						'options'           => array(
+							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'off' => __( 'No', 'cherry-services' ),
+						),
+						'sanitize_callback' => 'esc_attr',
+					),
+					'size' => array(
+						'type'              => 'slider',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'size' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'size' ),
+						'max_value'         => 512,
+						'min_value'         => 1,
+						'value'             => 100,
+						'step_value'        => 1,
+						'label'             => esc_html__( 'Testimonial avatar size' ),
+						'sanitize_callback' => array( $this, 'sanitize_num' ),
+					),
+					'content-length'  => array(
+						'type'              => 'slider',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'content-length' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'content-length' ),
+						'max_value'         => 100,
+						'min_value'         => -1,
+						'value'             => 55,
+						'step_value'        => 1,
+						'label'             => esc_html__( 'Content Length' ),
+						'sanitize_callback' => array( $this, 'sanitize_num' ),
+					),
+					'show-email'    => array(
+						'type'        => 'select',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'show-email' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-email' ),
+						'label'       => esc_html__( 'Show email?', 'cherry-services' ),
+						'options'     => array(
+							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'off' => __( 'No', 'cherry-services' ),
+						),
+						'sanitize_callback' => 'esc_attr',
+					),
+					'show-position' => array(
+						'type'        => 'select',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'show-position' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-position' ),
+						'label'       => esc_html__( 'Show position?', 'cherry-services' ),
+						'options'     => array(
+							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'off' => __( 'No', 'cherry-services' ),
+						),
+						'sanitize_callback' => 'esc_attr',
+					),
+					'show-company'  => array(
+						'type'        => 'select',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'show-company' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-company' ),
+						'label'       => esc_html__( 'Show company?', 'cherry-services' ),
+						'options'     => array(
+							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'off' => __( 'No', 'cherry-services' ),
+						),
+						'sanitize_callback' => 'esc_attr',
+					),
+					'template' => array(
+						'type'              => 'text',
+						'id'                => $this->get_field_id( 'cherry-services-testi', 'template' ),
+						'name'              => $this->get_field_name( 'cherry-services-testi', 'template' ),
+						'value'             => 'default.tmpl',
+						'placeholder'       => esc_html__( 'Template name', 'cherry-services' ),
+						'label'             => esc_html__( 'Custom template', 'cherry-services' ),
+						'sanitize_callback' => 'esc_attr',
+					),
+				),
+			)
+		) );
+
+	}
+
+	/**
+	 * Sanitize numeric values.
+	 *
+	 * @param  string $value Value to sanitize.
+	 * @return int
+	 */
+	public function sanitize_num( $value ) {
+		return intval( $value );
+	}
+
+	/**
+	 * Returns field name
+	 *
+	 * @param  string $base Base key.
+	 * @param  string $key  Nested key.
+	 * @return string
+	 */
+	public function get_field_name( $base = 'cherry-services', $key = '' ) {
+		return sprintf( '%s[%s]', $base, $key );
+	}
+
+	/**
+	 * Returns field ID
+	 *
+	 * @param  string $base Base key.
+	 * @param  string $key  Nested key.
+	 * @return string
+	 */
+	public function get_field_id( $base = 'cherry-services', $key = '' ) {
+		return sprintf( '%s-%s', $base, $key );
+	}
+
+	/**
+	 * Get testimonials categories for service
+	 *
+	 * @return array
+	 */
+	public function get_testi_cat() {
+
+		$terms  = get_terms( array( 'taxonomy' => 'tm-testimonials_category', 'hide_empty' => false ) );
+		$result = array();
+
+		if ( ! empty( $terms ) ) {
+			$result = wp_list_pluck( $terms, 'name', 'term_id' );
+		}
+
+		$result[0] = esc_html__( 'Select category...', 'cherry-services' );
+		ksort( $result );
+
+		return $result;
 	}
 
 	/**

@@ -91,9 +91,9 @@
 					return;
 				}
 
-				data.group  = $this.data( 'term' );
+				data.cat    = $this.data( 'term' );
 				data.atts   = $container.data( 'atts' );
-				data.groups = $container.data( 'groups' );
+				data.cats   = $container.data( 'cats' );
 				data.action = self.settings.actions.filter;
 
 				$parent.addClass( 'active' ).siblings().removeClass( 'active' );

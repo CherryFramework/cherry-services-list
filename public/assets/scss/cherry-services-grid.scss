@@ -35,6 +35,7 @@ $need-offset: false !default;
 	flex-wrap: wrap;
 	margin-left:  ($gutter / -2);
 	margin-right: ($gutter / -2);
+	box-sizing: border-box;
 }
 
 @mixin make-col($gutter: $grid-gutter-width) {
@@ -87,6 +88,7 @@ $need-offset: false !default;
 		// Inner gutter via padding
 		padding-left: ($gutter / 2);
 		padding-right: ($gutter / 2);
+		box-sizing: border-box;
 	}
 	@each $breakpoint in map-keys($breakpoints) {
 		@for $i from 1 through $columns {
@@ -158,11 +160,11 @@ $need-offset: false !default;
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
   $min: breakpoint-min($name, $breakpoints);
   @if $min {
-    @media (min-width: $min) {
-      @content;
-    }
+	@media (min-width: $min) {
+	  @content;
+	}
   } @else {
-    @content;
+	@content;
   }
 }
 
@@ -171,11 +173,11 @@ $need-offset: false !default;
 @mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
   $max: breakpoint-max($name, $breakpoints);
   @if $max {
-    @media (max-width: $max) {
-      @content;
-    }
+	@media (max-width: $max) {
+	  @content;
+	}
   } @else {
-    @content;
+	@content;
   }
 }
 
@@ -184,9 +186,9 @@ $need-offset: false !default;
 // Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
 @mixin media-breakpoint-only($name, $breakpoints: $grid-breakpoints) {
   @include media-breakpoint-up($name, $breakpoints) {
-    @include media-breakpoint-down($name, $breakpoints) {
-      @content;
-    }
+	@include media-breakpoint-down($name, $breakpoints) {
+	  @content;
+	}
   }
 }
 
@@ -194,9 +196,9 @@ $need-offset: false !default;
 // Makes the @content apply between the min and max breakpoints
 @mixin media-breakpoint-between($lower, $upper, $breakpoints: $grid-breakpoints) {
   @include media-breakpoint-up($lower, $breakpoints) {
-    @include media-breakpoint-down($upper, $breakpoints) {
-      @content;
-    }
+	@include media-breakpoint-down($upper, $breakpoints) {
+	  @content;
+	}
   }
 }
 
