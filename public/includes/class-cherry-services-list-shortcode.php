@@ -136,12 +136,12 @@ class Cherry_Services_List_Shortcode {
 					'name'    => __( 'Order by', 'cherry-services' ),
 					'desc'    => __( 'Order posts by', 'cherry-services' ),
 				),
-				'group' => array(
+				'category' => array(
 					'type'     => 'select',
 					'multiple' => true,
 					'values'   => $terms_list,
 					'default'  => '',
-					'name'     => __( 'Groups', 'cherry-services' ),
+					'name'     => __( 'Category', 'cherry-services' ),
 					'desc'     => __( 'Select groups to show services members from', 'cherry-services' ),
 				),
 				'id' => array(
@@ -149,13 +149,13 @@ class Cherry_Services_List_Shortcode {
 					'name'    => __( 'Post ID\'s', 'cherry-services' ),
 					'desc'    => __( 'Enter comma separated ID\'s of the posts that you want to show', 'cherry-services' ),
 				),
-				'show_name' => array(
+				'show_title' => array(
 					'type'    => 'bool',
 					'default' => 'yes',
 					'name' => __( 'Show name?', 'cherry-services' ),
 					'desc'    => __( 'Show name?', 'cherry-services' ),
 				),
-				'show_image' => array(
+				'show_media' => array(
 					'type'    => 'bool',
 					'default' => 'yes',
 					'name' => __( 'Show photo?', 'cherry-services' ),
@@ -238,9 +238,9 @@ class Cherry_Services_List_Shortcode {
 			'more_url'       => '#',
 			'ajax_more'      => true,
 			'pagination'     => false,
-			'show_name'      => true,
-			'show_image'     => true,
-			'show_desc'      => true,
+			'show_title'     => true,
+			'show_media'     => true,
+			'show_content'   => true,
 			'show_position'  => true,
 			'show_social'    => true,
 			'show_filters'   => false,
@@ -279,9 +279,9 @@ class Cherry_Services_List_Shortcode {
 		$atts['template'] = isset( $templates[ $atts['template'] ] ) ? $templates[ $atts['template'] ] : 'default.tmpl';
 
 		$bool_to_fix = array(
-			'show_name',
-			'show_image',
-			'show_desc',
+			'show_title',
+			'show_media',
+			'show_content',
 			'show_position',
 			'show_social',
 			'show_filters',
@@ -304,15 +304,15 @@ class Cherry_Services_List_Shortcode {
 		$relations = array(
 			'limit'          => 'posts_per_page',
 			'id'             => 'id',
-			'group'          => 'group',
+			'category'       => 'category',
 			'size'           => 'image_size',
 			'excerpt_length' => 'excerpt_length',
 			'col_xs'         => 'columns_phone',
 			'col_sm'         => 'columns_tablet',
 			'col_md'         => 'columns',
-			'show_name'      => 'show_name',
-			'show_image'     => 'show_image',
-			'show_desc'      => 'show_desc',
+			'show_title'     => 'show_title',
+			'show_media'     => 'show_media',
+			'show_content'   => 'show_content',
 			'show_position'  => 'show_position',
 			'show_social'    => 'show_social',
 			'show_filters'   => 'show_filters',
@@ -355,7 +355,16 @@ class Cherry_Services_List_Shortcode {
 			)
 		);
 
-		$before  = '<div class="services-container">';
+		ob_start();
+
+		echo '<div class="services-container">';
+
+		/**
+		 * Hook fires before titles output in services list shortcode started
+		 *
+		 * @param array $atts Shortcode attributes.
+		 */
+		do_action( 'cherry_services_before_headings', $atts );
 
 		foreach ( $heading as $item => $format ) {
 
@@ -363,8 +372,17 @@ class Cherry_Services_List_Shortcode {
 				continue;
 			}
 
-			$before .= sprintf( $format, $atts[ $item ] );
+			printf( $format, $atts[ $item ] );
 		}
+
+		/**
+		 * Hook fires after titles output in services list shortcode started
+		 *
+		 * @param array $atts Shortcode attributes.
+		 */
+		do_action( 'cherry_services_after_headings' );
+
+		$before = ob_get_clean();
 
 		$after = '</div>';
 

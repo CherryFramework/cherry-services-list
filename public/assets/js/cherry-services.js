@@ -93,7 +93,7 @@
 
 				data.cat    = $this.data( 'term' );
 				data.atts   = $container.data( 'atts' );
-				data.cats   = $container.data( 'cats' );
+				data.cats   = $container.data( 'cat' );
 				data.action = self.settings.actions.filter;
 
 				$parent.addClass( 'active' ).siblings().removeClass( 'active' );

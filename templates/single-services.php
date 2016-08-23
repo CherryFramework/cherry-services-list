@@ -28,11 +28,7 @@ get_header( 'services' );
 
 			the_post(); ?>
 
-			<article <?php
-				if ( function_exists( 'cherry_attr' ) ) {
-					cherry_attr( 'post' );
-				}
-			?> >
+			<article <?php post_class(); ?>>
 			<?php
 
 				do_action( 'cherry_post_before' );

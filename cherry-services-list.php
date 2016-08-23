@@ -94,6 +94,15 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		private $option_key = 'cherry-services';
 
 		/**
+		 * Theme supports array
+		 *
+		 * @since  1.0.0
+		 * @access public
+		 * @var    array
+		 */
+		public $theme_supports = null;
+
+		/**
 		 * Default options list
 		 *
 		 * @var array
@@ -202,6 +211,32 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			) );
 
 			return $this->core;
+		}
+
+		/**
+		 * Check if passed capability disabled in theme.
+		 *
+		 * @since  1.0.0
+		 * @param  string $cap Capability name.
+		 * @return boolean
+		 */
+		public function check_theme_supports( $cap ) {
+
+			if ( null === $this->theme_supports ) {
+				$this->theme_supports = apply_filters(
+					'cherry_services_theme_supports',
+					array(
+						'blank_theme'        => true,
+						'customizer_options' => true,
+					)
+				);
+			}
+
+			if ( ! isset( $this->theme_supports[ $cap ] ) ) {
+				return false;
+			}
+
+			return $this->theme_supports[ $cap ];
 		}
 
 		/**

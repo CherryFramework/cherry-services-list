@@ -64,7 +64,7 @@ if ( ! class_exists( 'Cherry_Services_Ajax' ) ) {
 			$bool_keys = array(
 				'show_name',
 				'show_photo',
-				'show_desc',
+				'show_content',
 				'show_position',
 				'show_social',
 				'show_filters',

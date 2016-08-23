@@ -236,6 +236,11 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'label'             => esc_html__( 'Short Description', 'cherry-services' ),
 						'sanitize_callback' => 'wp_kses_post',
 					),
+					'cherry-services-features-title' => array(
+						'type'        => 'text',
+						'placeholder' => esc_html__( 'Features Title', 'cherry-services' ),
+						'label'       => esc_html__( 'Features Title', 'cherry-services' ),
+					),
 					'cherry-services-features' => array(
 						'type'        => 'repeater',
 						'label'       => esc_html__( 'Features', 'cherry-services' ),

@@ -307,8 +307,9 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	 */
 	public function get_templates_list() {
 		return apply_filters( 'cherry_team_templates_list', array(
-			'default' => 'default.tmpl',
-			'single'  => 'single.tmpl',
+			'default'    => 'default.tmpl',
+			'media-icon' => 'media-icon.tmpl',
+			'single'     => 'single.tmpl',
 		) );
 	}
 

@@ -325,7 +325,7 @@ class Cherry_Services_List_Template_Callbacks {
 	 */
 	public function get_image( $args = array() ) {
 
-		if ( isset( $this->atts['show_image'] ) && false === $this->atts['show_image'] ) {
+		if ( isset( $this->atts['show_media'] ) && false === $this->atts['show_media'] ) {
 			return;
 		}
 
@@ -345,7 +345,7 @@ class Cherry_Services_List_Template_Callbacks {
 		}
 
 		$args['link']             = filter_var( $args['link'], FILTER_VALIDATE_BOOLEAN );
-		$this->atts['show_image'] = filter_var( $this->atts['show_image'], FILTER_VALIDATE_BOOLEAN );
+		$this->atts['show_media'] = filter_var( $this->atts['show_media'], FILTER_VALIDATE_BOOLEAN );
 
 		if ( true === $args['link'] ) {
 			$format = '<a href="%2$s">%1$s</a>';
@@ -355,7 +355,7 @@ class Cherry_Services_List_Template_Callbacks {
 			$link   = false;
 		}
 
-		if ( true === $this->atts['show_image'] ) {
+		if ( true === $this->atts['show_media'] ) {
 			return $this->macros_wrap( $args, sprintf( $format, $photo, $link ) );
 		}
 
@@ -386,6 +386,16 @@ class Cherry_Services_List_Template_Callbacks {
 	 */
 	public function get_icon( $args = array() ) {
 
+		if ( ! isset( $this->atts['show_media'] ) ) {
+			return;
+		}
+
+		$this->atts['show_media'] = filter_var( $this->atts['show_media'], FILTER_VALIDATE_BOOLEAN );
+
+		if ( true !== $this->atts['show_media'] ) {
+			return;
+		}
+
 		global $post;
 		$icon = get_post_meta( $post->ID, 'cherry-services-icon', true );
 
@@ -412,17 +422,33 @@ class Cherry_Services_List_Template_Callbacks {
 	public function get_features( $args = array() ) {
 
 		global $post;
+
 		$features = get_post_meta( $post->ID, 'cherry-services-features', true );
 
 		if ( empty( $features ) ) {
 			return;
 		}
 
+		/**
+		 * Filter features row format
+		 *
+		 * @var string Features row HTML format.
+		 */
 		$feature_format = apply_filters(
 			'cherry_services_feature_format',
 			'<div class="service-features_row">
 				<span class="service-features_label">%1$s</span><span class="service-features_value">%2$s</span>
 			</div>'
+		);
+
+		/**
+		 * Filter features block title format
+		 *
+		 * @var string Features block title HTML format.
+		 */
+		$features_title_format = apply_filters(
+			'cherry_services_features_title_format',
+			'<h3 class="service-features_title">%s</h3>'
 		);
 
 		$args = wp_parse_args( $args, array(
@@ -432,6 +458,12 @@ class Cherry_Services_List_Template_Callbacks {
 		) );
 
 		$result = '';
+
+		$features_title = get_post_meta( $post->ID, 'cherry-services-features-title', true);
+
+		if ( $features_title ) {
+			$result .= sprintf( $features_title_format, $features_title );
+		}
 
 		foreach ( $features as $feature ) {
 			$result .= sprintf( $feature_format, esc_html( $feature['label'] ), esc_html( $feature['value'] ) );
@@ -452,7 +484,7 @@ class Cherry_Services_List_Template_Callbacks {
 
 		global $post;
 
-		if ( isset( $this->atts['show_name'] ) && false === $this->atts['show_name'] ) {
+		if ( isset( $this->atts['show_title'] ) && false === $this->atts['show_title'] ) {
 			return;
 		}
 
@@ -583,7 +615,7 @@ class Cherry_Services_List_Template_Callbacks {
 		$value = get_post_meta( $post->ID, 'cherry-services-' . $meta, true );
 		$class = 'service-' . $meta;
 
-		if ( empty( $args ) ) {
+		if ( empty( $args['class'] ) ) {
 			$args['class'] = $class;
 		} else {
 			$args['class'] .= ' ' . $class;
@@ -599,6 +631,16 @@ class Cherry_Services_List_Template_Callbacks {
 	 * @return string
 	 */
 	public function get_content( $args = array() ) {
+
+		if ( ! isset( $this->atts['show_content'] ) ) {
+			return;
+		}
+
+		$this->atts['show_content'] = filter_var( $this->atts['show_content'], FILTER_VALIDATE_BOOLEAN );
+
+		if ( ! $this->atts['show_content'] ) {
+			return;
+		}
 
 		global $post;
 
