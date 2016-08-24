@@ -441,6 +441,12 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 						'ver'   => $this->get_version(),
 						'media' => 'all',
 					),
+					'cherry-services-theme' => array(
+						'src'   => $this->plugin_url( 'public/assets/css/cherry-services-theme.css' ),
+						'deps'  => array(),
+						'ver'   => $this->get_version(),
+						'media' => 'all',
+					),
 					'cherry-services-grid' => array(
 						'src'   => $this->plugin_url( 'public/assets/css/cherry-services-grid.css' ),
 						'deps'  => array(),

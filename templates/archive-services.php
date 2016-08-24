@@ -36,7 +36,7 @@ get_header( 'services' );
 			'template'   => cherry_services_tools()->get_template( 'listing' ),
 			'wrap_class' => 'services-wrap cherry-services-container',
 			'container'  => '<div class="services-listing cherry-services-row">%s</div>',
-			'item_class' => 'services-listing_item',
+			'item_class' => 'services-item',
 			'col_xs'     => $cols['xs'],
 			'col_sm'     => $cols['sm'],
 			'col_md'     => $cols['md'],
