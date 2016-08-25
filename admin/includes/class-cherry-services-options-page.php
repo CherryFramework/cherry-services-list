@@ -111,7 +111,7 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 			),
 			'single-image-size' => array(
 				'type'             => 'select',
-				'title'            => esc_html__( 'Select image size for single Services member page', 'cherry-services' ),
+				'title'            => esc_html__( 'Select image size for single service page', 'cherry-services' ),
 				'label'            => '',
 				'description'      => '',
 				'value'            => $this->default_options['single-image-size'],
@@ -129,7 +129,7 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 			),
 			'listing-image-size' => array(
 				'type'             => 'select',
-				'title'            => esc_html__( 'Select image size for listing Services member page', 'cherry-services' ),
+				'title'            => esc_html__( 'Select image size for Services listing page', 'cherry-services' ),
 				'label'            => '',
 				'description'      => '',
 				'value'            => $this->default_options['listing-image-size'],

@@ -462,6 +462,10 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 				)
 			);
 
+			if ( ! $this->check_theme_supports( 'blank_theme' ) && isset( $styles['cherry-services-theme'] ) ) {
+				unset( $styles['cherry-services-theme'] );
+			}
+
 			foreach ( $styles as $handle => $style ) {
 				wp_enqueue_style( $handle, $style['src'], $style['deps'], $style['ver'], $style['media'] );
 			}
