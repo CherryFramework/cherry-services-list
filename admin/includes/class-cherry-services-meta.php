@@ -309,6 +309,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 					'cherry-services-cta-type' => array(
 						'type'        => 'radio',
 						'label'       => esc_html__( 'Call to Action Type', 'cherry-services' ),
+						'value'       => 'form',
 						'options'     => array(
 							'form' => array(
 								'label' => esc_html__( 'Contact Form', 'cherry-services' ),

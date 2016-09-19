@@ -173,7 +173,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'blank_plugin_core_before' );
+			do_action( 'cherry_services_list_core_before' );
 
 			global $chery_core_version;
 
@@ -192,6 +192,9 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 				'base_dir' => $this->plugin_path( 'cherry-framework' ),
 				'base_url' => $this->plugin_url( 'cherry-framework' ),
 				'modules'  => array(
+					'cherry-interface-builder' => array(
+						'autoload' => false,
+					),
 					'cherry-toolkit' => array(
 						'autoload' => false,
 					),
