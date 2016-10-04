@@ -501,7 +501,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'min_value'         => -1,
 						'value'             => 3,
 						'step_value'        => 1,
-						'label'             => esc_html__( 'Testimonials limit' ),
+						'label'             => esc_html__( 'Testimonials limit (set -1 to show all)' ),
 						'sanitize_callback' => array( $this, 'sanitize_num' ),
 					),
 					'show-avatar' => array(
@@ -534,7 +534,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'min_value'         => -1,
 						'value'             => 55,
 						'step_value'        => 1,
-						'label'             => esc_html__( 'Content Length' ),
+						'label'             => esc_html__( 'Content Length (set -1 to show full content)' ),
 						'sanitize_callback' => array( $this, 'sanitize_num' ),
 					),
 					'show-email'    => array(

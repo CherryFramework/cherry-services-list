@@ -114,16 +114,16 @@
 					$container.data( 'page', 1 );
 					$container.data( 'pages', response.data.pages );
 
-					if ( 1 < response.data.pages && $( self.settings.selectors.loadMore ).length ) {
+					if ( 1 < response.data.pages && $( self.settings.selectors.loadMore, $item ).length ) {
 						$( self.settings.selectors.loadMore ).removeClass( 'btn-hidden' );
 					}
 
-					if ( 1 == response.data.pages && $( self.settings.selectors.loadMore ).length ) {
-						$( self.settings.selectors.loadMore ).addClass( 'btn-hidden' );
+					if ( 1 == response.data.pages && $( self.settings.selectors.loadMore, $item ).length ) {
+						$( self.settings.selectors.loadMore, $item ).addClass( 'btn-hidden' );
 					}
 
-					if ( $( self.settings.selectors.pager ).length ) {
-						$( self.settings.selectors.pager ).remove();
+					if ( $( self.settings.selectors.pager, $item ).length ) {
+						$( self.settings.selectors.pager, $item ).remove();
 					}
 
 					$container.append( response.data.pager );

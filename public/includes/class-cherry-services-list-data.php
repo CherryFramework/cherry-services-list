@@ -632,10 +632,10 @@ class Cherry_Services_List_Data {
 				}
 
 				if ( 0 === $cols ) {
-					$cols = 1;
+					continue;
 				}
 
-				$item_classes[] = $col . '_' . absint( $args[ $col ] );
+				$item_classes[] = str_replace( '_', '-', $col ) . '-' . ( 12 / $cols );
 
 			}
 
