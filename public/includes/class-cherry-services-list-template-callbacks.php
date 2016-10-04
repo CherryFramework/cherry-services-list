@@ -243,6 +243,13 @@ class Cherry_Services_List_Template_Callbacks {
 		$form_before = apply_filters( 'cherry_services_cta_form_before', '<form class="cta-form" method="post">' );
 		$form_after  = apply_filters( 'cherry_services_cta_form_after', '</form>' );
 
+		$message = cherry_services_list_form()->get_message( $post->ID );
+
+		if ( ! empty( $message ) ) {
+			$form_before .= sprintf( '<div class="cta-form_success">%s</div>', esc_html( $message ) );
+			wp_cache_delete( $post->ID, 'cherry-services' );
+		}
+
 		$result = '';
 
 		foreach ( $form as $field ) {

@@ -411,6 +411,15 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'label'             => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
 						'sanitize_callback' => 'sanitize_text_field',
 					),
+					'cherry-services-form-message' => array(
+						'type'              => 'text',
+						'element'           => 'control',
+						'parent'            => 'cta',
+						'value'             => esc_html__( 'Thanks for your request', 'cherry-services' ),
+						'master'            => 'cherry-services-cta-type-form',
+						'label'             => esc_html__( 'Success Message', 'cherry-services' ),
+						'sanitize_callback' => 'sanitize_text_field',
+					),
 					'cherry-services-cta-link-text' => array(
 						'type'              => 'text',
 						'element'           => 'control',

@@ -265,6 +265,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-tools.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-data.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-shortcode.php' );
+			require $this->plugin_path( 'public/includes/class-cherry-services-list-form.php' );
 
 		}
 
