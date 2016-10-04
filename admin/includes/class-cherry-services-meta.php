@@ -213,8 +213,32 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 				'priority'      => 'high',
 				'callback_args' => false,
 				'fields'        => array(
+					'tabs' => array(
+						'element'     => 'component',
+						'type'        => 'component-tab-horizontal',
+					),
+					'general' => array(
+						'type'    => 'settings',
+						'element' => 'settings',
+						'parent'  => 'tabs',
+						'title'   => esc_html__( 'General', 'cherry-services' ),
+					),
+					'features' => array(
+						'type'    => 'settings',
+						'element' => 'settings',
+						'parent'  => 'tabs',
+						'title'   => esc_html__( 'Features', 'cherry-services' ),
+					),
+					'cta' => array(
+						'type'    => 'settings',
+						'element' => 'settings',
+						'parent'  => 'tabs',
+						'title'   => esc_html__( 'Call To Action', 'cherry-services' ),
+					),
 					'cherry-services-icon' => array(
 						'type'        => 'iconpicker',
+						'element'     => 'control',
+						'parent'      => 'general',
 						'label'       => esc_html__( 'Service Icon', 'cherry-services' ),
 						'icon_data'       => array(
 							'icon_set'    => 'cherryServicesIcons',
@@ -227,22 +251,30 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 					),
 					'cherry-services-slogan' => array(
 						'type'        => 'text',
+						'element'     => 'control',
+						'parent'      => 'general',
 						'placeholder' => esc_html__( 'Slogan', 'cherry-services' ),
 						'label'       => esc_html__( 'Slogan', 'cherry-services' ),
 					),
 					'cherry-services-descr' => array(
 						'type'              => 'textarea',
+						'element'           => 'control',
+						'parent'            => 'general',
 						'placeholder'       => esc_html__( 'Short Description', 'cherry-services' ),
 						'label'             => esc_html__( 'Short Description', 'cherry-services' ),
 						'sanitize_callback' => 'wp_kses_post',
 					),
 					'cherry-services-features-title' => array(
 						'type'        => 'text',
+						'element'     => 'control',
+						'parent'      => 'features',
 						'placeholder' => esc_html__( 'Features Title', 'cherry-services' ),
 						'label'       => esc_html__( 'Features Title', 'cherry-services' ),
 					),
 					'cherry-services-features' => array(
 						'type'        => 'repeater',
+						'element'     => 'control',
+						'parent'      => 'features',
 						'label'       => esc_html__( 'Features', 'cherry-services' ),
 						'add_label'   => esc_html__( 'Add New Feature', 'cherry-services' ),
 						'title_field' => 'label',
@@ -266,51 +298,35 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						),
 						'sanitize_callback' => array( $this, 'sanitize_repeater' ),
 					),
-				),
-				'admin_columns' => array(
-					'thumbnail' => array(
-						'label'    => __( 'Thumbnail', 'cherry-services' ),
-						'callback' => array( $this, 'show_thumb' ),
-						'position' => 1,
-					),
-					'cherry-services-slogan' => array(
-						'label' => __( 'Slogan', 'cherry-services' ),
-					),
-				),
-			)
-		) );
-
-		cherry_services_list()->get_core()->init_module(
-			'cherry-post-meta',
-			apply_filters( 'cherry_services_list_meta_cta_args', array(
-				'id'            => 'service-cta',
-				'title'         => esc_html__( 'Call To Action Section', 'cherry-services' ),
-				'page'          => array( $this->post_type() ),
-				'context'       => 'normal',
-				'priority'      => 'high',
-				'callback_args' => false,
-				'fields'        => array(
 					'cherry-services-show-cta' => array(
 						'type'    => 'checkbox',
+						'element' => 'control',
+						'parent'  => 'cta',
 						'options' => array(
 							'enable' => esc_html__( 'Enable CTA block', 'cherry-services' ),
 						),
 					),
 					'cherry-services-cta-title' => array(
 						'type'        => 'text',
+						'element'     => 'control',
+						'parent'      => 'cta',
 						'placeholder' => esc_html__( 'Title', 'cherry-services' ),
 						'label'       => esc_html__( 'Title', 'cherry-services' ),
 					),
 					'cherry-services-cta-descr' => array(
 						'type'        => 'textarea',
+						'element'     => 'control',
+						'parent'      => 'cta',
 						'placeholder' => esc_html__( 'Description', 'cherry-services' ),
 						'label'       => esc_html__( 'Description', 'cherry-services' ),
 					),
 					'cherry-services-cta-type' => array(
-						'type'        => 'radio',
-						'label'       => esc_html__( 'Call to Action Type', 'cherry-services' ),
-						'value'       => 'form',
-						'options'     => array(
+						'type'    => 'radio',
+						'element' => 'control',
+						'parent'  => 'cta',
+						'label'   => esc_html__( 'Call to Action Type', 'cherry-services' ),
+						'value'   => 'form',
+						'options' => array(
 							'form' => array(
 								'label' => esc_html__( 'Contact Form', 'cherry-services' ),
 								'slave' => 'cherry-services-cta-type-form',
@@ -323,6 +339,8 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 					),
 					'cherry-services-cta-form' => array(
 						'type'        => 'repeater',
+						'element'     => 'control',
+						'parent'      => 'cta',
 						'label'       => esc_html__( 'Form Fields', 'cherry-services' ),
 						'add_label'   => esc_html__( 'Add New Field', 'cherry-services' ),
 						'title_field' => 'label',
@@ -332,7 +350,8 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'type'        => 'select',
 								'id'          => 'type',
 								'name'        => 'type',
-								'label'       => esc_html__( 'Field Type', 'cherry-services' ),
+								'placeholder' => esc_html__( 'Field Type', 'cherry-services' ),
+								'label'       => esc_html__( 'Type', 'cherry-services' ),
 								'options'     => array(
 									'text'     => __( 'Text', 'cherry-sevices' ),
 									'email'    => __( 'Email', 'cherry-services' ),
@@ -345,7 +364,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'id'               => 'label',
 								'name'             => 'label',
 								'placeholder'      => esc_html__( 'Field Label', 'cherry-services' ),
-								'label'            => esc_html__( 'Field Label', 'cherry-services' ),
+								'label'            => esc_html__( 'Label', 'cherry-services' ),
 								'sanitize_callback' => 'sanitize_text_field',
 							),
 							'name' => array(
@@ -353,7 +372,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'id'               => 'name',
 								'name'             => 'name',
 								'placeholder'      => esc_html__( 'Field Name', 'cherry-services' ),
-								'label'            => esc_html__( 'Field Name(Should be unique)', 'cherry-services' ),
+								'label'            => esc_html__( 'Name(Should be unique)', 'cherry-services' ),
 								'sanitize_callback' => 'esc_attr',
 							),
 							'width'  => array(
@@ -384,26 +403,42 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'sanitize_callback' => array( $this, 'sanitize_repeater' ),
 					),
 					'cherry-services-cta-submit' => array(
-						'type'             => 'text',
-						'master'           => 'cherry-services-cta-type-form',
-						'placeholder'      => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
-						'label'            => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
+						'type'              => 'text',
+						'element'           => 'control',
+						'parent'            => 'cta',
+						'master'            => 'cherry-services-cta-type-form',
+						'placeholder'       => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
+						'label'             => esc_html__( 'Form Submit Button Text', 'cherry-services' ),
 						'sanitize_callback' => 'sanitize_text_field',
 					),
 					'cherry-services-cta-link-text' => array(
-						'type'             => 'text',
-						'master'           => 'cherry-services-cta-type-button',
-						'placeholder'      => esc_html__( 'Button Text', 'cherry-services' ),
-						'label'            => esc_html__( 'CTA Button Text', 'cherry-services' ),
+						'type'              => 'text',
+						'element'           => 'control',
+						'parent'            => 'cta',
+						'master'            => 'cherry-services-cta-type-button',
+						'placeholder'       => esc_html__( 'Button Text', 'cherry-services' ),
+						'label'             => esc_html__( 'CTA Button Text', 'cherry-services' ),
 						'sanitize_callback' => 'sanitize_text_field',
 					),
 					'cherry-services-cta-link-url' => array(
-						'type'             => 'text',
-						'master'           => 'cherry-services-cta-type-button',
-						'placeholder'      => esc_html__( 'Button URL', 'cherry-services' ),
-						'label'            => esc_html__( 'CTA Button URL', 'cherry-services' ),
+						'type'              => 'text',
+						'element'           => 'control',
+						'parent'            => 'cta',
+						'master'            => 'cherry-services-cta-type-button',
+						'placeholder'       => esc_html__( 'Button URL', 'cherry-services' ),
+						'label'             => esc_html__( 'CTA Button URL', 'cherry-services' ),
 						'sanitize_callback' => 'esc_url',
 
+					),
+				),
+				'admin_columns' => array(
+					'thumbnail' => array(
+						'label'    => __( 'Thumbnail', 'cherry-services' ),
+						'callback' => array( $this, 'show_thumb' ),
+						'position' => 1,
+					),
+					'cherry-services-slogan' => array(
+						'label' => __( 'Slogan', 'cherry-services' ),
 					),
 				),
 			)
@@ -455,7 +490,6 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 							2 => 2,
 							3 => 3,
 							4 => 4,
-							6 => 6,
 						),
 						'sanitize_callback' => 'esc_attr',
 					),

@@ -37,8 +37,10 @@ class Cherry_Services_List_Tools extends Cherry_Services_List {
 			'single'  => 'single.tmpl',
 		);
 
-		$template  = $this->get_option( $page . '-template' );
-		$templates = cherry_services_templater()->get_templates_list();
+		$template         = $this->get_option( $page . '-template' );
+		$list_templates   = cherry_services_templater()->get_listing_templates_list();
+		$single_templates = cherry_services_templater()->get_single_templates_list();
+		$templates        = array_merge( $list_templates, $single_templates );
 
 		if ( ! $template || ! isset( $templates[ $template ] ) ) {
 			return $default[ $page ];
@@ -79,11 +81,16 @@ class Cherry_Services_List_Tools extends Cherry_Services_List {
 	/**
 	 * Get templates list
 	 *
+	 * @param  string $context What templates we get - single or listing
 	 * @return array
 	 */
-	public function get_templates() {
+	public function get_templates( $context = 'listing' ) {
 
-		$templates = cherry_services_templater()->get_templates_list();
+		if ( 'listing' === $context ) {
+			$templates = cherry_services_templater()->get_listing_templates_list();
+		} else {
+			$templates = cherry_services_templater()->get_single_templates_list();
+		}
 
 		if ( ! is_array( $templates ) ) {
 			return array();
@@ -92,6 +99,24 @@ class Cherry_Services_List_Tools extends Cherry_Services_List {
 		$options = array_keys( $templates );
 
 		return array_combine( $options, array_map( 'ucwords', $options ) );
+	}
+
+	/**
+	 * Return listing templates array
+	 *
+	 * @return array
+	 */
+	public function get_listing_templates() {
+		return $this->get_templates( 'listing' );
+	}
+
+	/**
+	 * Return single templates array
+	 *
+	 * @return array
+	 */
+	public function get_single_templates() {
+		return $this->get_templates( 'single' );
 	}
 
 	/**

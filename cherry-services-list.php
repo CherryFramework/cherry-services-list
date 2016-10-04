@@ -5,6 +5,7 @@
  * Description: Services management.
  * Version:     1.0.0
  * Author:      TemplateMonster
+ * Author URI:  TemplateMonster
  * Text Domain: cherry-services
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -538,6 +539,16 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 				}
 			}
 
+		}
+
+		/**
+		 * Do some stuff on plugin activation
+		 *
+		 * @since  1.0.0
+		 * @return void
+		 */
+		public function deactivation() {
+			flush_rewrite_rules();
 		}
 
 		/**

@@ -275,7 +275,7 @@ class Cherry_Services_List_Shortcode {
 			$atts[ $col ] = ( 0 !== intval( $atts[ $col ] ) ) ? intval( $atts[ $col ] ) : 3;
 		}
 
-		$templates        = cherry_services_templater()->get_templates_list();
+		$templates        = cherry_services_templater()->get_listing_templates_list();
 		$atts['template'] = isset( $templates[ $atts['template'] ] ) ? $templates[ $atts['template'] ] : 'default.tmpl';
 
 		$bool_to_fix = array(

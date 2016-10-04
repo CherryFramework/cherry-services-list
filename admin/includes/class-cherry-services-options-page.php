@@ -107,7 +107,7 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 				'description'      => '',
 				'value'            => $this->default_options['single-template'],
 				'options'          => false,
-				'options_callback' => array( cherry_services_tools(), 'get_templates' ),
+				'options_callback' => array( cherry_services_tools(), 'get_single_templates' ),
 			),
 			'single-image-size' => array(
 				'type'             => 'select',
@@ -125,7 +125,7 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 				'description'      => '',
 				'value'            => $this->default_options['listing-template'],
 				'options'          => false,
-				'options_callback' => array( cherry_services_tools(), 'get_templates' ),
+				'options_callback' => array( cherry_services_tools(), 'get_listing_templates' ),
 			),
 			'listing-image-size' => array(
 				'type'             => 'select',
@@ -423,7 +423,7 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 			'redirect_url'           => menu_page_url( 'cherry-services-options', false ),
 		);
 
-		wp_localize_script( 'cherry-services-admin-scripts', 'cherryServicesSettings', $options_page_settings );
+		wp_localize_script( 'cherry-services-admin', 'cherryServicesSettings', $options_page_settings );
 	}
 
 

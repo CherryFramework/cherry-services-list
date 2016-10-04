@@ -21,7 +21,7 @@ $container-max-widths: (
 ) !default;
 
 // Grid columns
-$grid-columns:      6 !default;
+$grid-columns:      12 !default;
 $grid-gutter-width: 1.875rem !default; // 30px
 
 // Some configuration
@@ -30,12 +30,28 @@ $need-push:   false !default;
 $need-offset: false !default;
 
 // Grid system
+@mixin make-container($gutter: $grid-gutter-width) {
+	margin-left: auto;
+	margin-right: auto;
+	padding-left:  ($gutter / 2);
+	padding-right: ($gutter / 2);
+}
+
+
+// For each breakpoint, define the maximum width of the container in a media query
+@mixin make-container-max-widths($max-widths: $container-max-widths) {
+	@each $breakpoint, $container-max-width in $max-widths {
+		@include media-breakpoint-up($breakpoint) {
+			max-width: $container-max-width;
+		}
+	}
+}
+
 @mixin make-row($gutter: $grid-gutter-width) {
 	display: flex;
 	flex-wrap: wrap;
 	margin-left:  ($gutter / -2);
 	margin-right: ($gutter / -2);
-	box-sizing: border-box;
 }
 
 @mixin make-col($gutter: $grid-gutter-width) {
@@ -46,8 +62,8 @@ $need-offset: false !default;
 }
 
 @mixin make-col-span($size, $columns: $grid-columns) {
-	flex: 0 0 percentage(1/$size);
-	max-width: percentage(1/$size);
+	flex: 0 0 percentage($size / $columns);
+	max-width: percentage($size / $columns);
 }
 
 @mixin make-col-offset($size, $columns: $grid-columns) {
@@ -88,11 +104,10 @@ $need-offset: false !default;
 		// Inner gutter via padding
 		padding-left: ($gutter / 2);
 		padding-right: ($gutter / 2);
-		box-sizing: border-box;
 	}
 	@each $breakpoint in map-keys($breakpoints) {
 		@for $i from 1 through $columns {
-			.col_#{$breakpoint}_#{$i} {
+			.col-#{$breakpoint}-#{$i} {
 				@extend %grid-column;
 			}
 		}
@@ -100,13 +115,13 @@ $need-offset: false !default;
 		@include media-breakpoint-up($breakpoint) {
 
 			@for $i from 1 through $columns {
-				.col_#{$breakpoint}_#{$i} {
+				.col-#{$breakpoint}-#{$i} {
 					@include make-col-span($i, $columns);
 				}
 			}
 			@each $modifier in (pull, push, offset) {
 				@for $i from 0 through $columns {
-					.col_#{$breakpoint}_#{$modifier}_#{$i} {
+					.col-#{$breakpoint}-#{$modifier}-#{$i} {
 						@include make-col-modifier($modifier, $i, $columns)
 					}
 				}
@@ -202,10 +217,49 @@ $need-offset: false !default;
   }
 }
 
+// Container widths
+.container {
+	@include make-container();
+	@include make-container-max-widths();
+}
+
+
+// Fluid container
+.container-fluid {
+	@include make-container();
+}
+
 // Row
+.row,
 .cherry-services-row {
 	@include make-row();
 }
 
 // Columns
 @include make-grid-columns();
+
+// Flex column reordering
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		.col-#{$breakpoint}-first { order: -1; }
+		.col-#{$breakpoint}-last  { order: 1; }
+	}
+}
+
+// Alignment for every column in row
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		.row-#{$breakpoint}-top    { align-items: flex-start; }
+		.row-#{$breakpoint}-center { align-items: center; }
+		.row-#{$breakpoint}-bottom { align-items: flex-end; }
+	}
+}
+
+// Alignment per column
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-up($breakpoint) {
+		.col-#{$breakpoint}-top    { align-self: flex-start; }
+		.col-#{$breakpoint}-center { align-self: center; }
+		.col-#{$breakpoint}-bottom { align-self: flex-end; }
+	}
+}

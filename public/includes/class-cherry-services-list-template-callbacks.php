@@ -274,16 +274,21 @@ class Cherry_Services_List_Template_Callbacks {
 	public function wrap_form_control( $control, $width = '1' ) {
 
 		switch ( $width ) {
-			case '1/2':
-				$column_classes = 'col_md_2 col_sm_2 col_xs_1';
-				break;
 
 			case '1/3':
-				$column_classes = 'col_md_3 col_sm_3 col_xs_1';
+				$column_classes = 'col-md-4 col-sm-4 col-xs-12';
+				break;
+
+			case '1/2':
+				$column_classes = 'col-md-6 col-sm-6 col-xs-12';
+				break;
+
+			case '2/3':
+				$column_classes = 'col-md-8 col-sm-8 col-xs-12';
 				break;
 
 			default:
-				$column_classes = 'col_md_1 col_sm_1 col_xs_1';
+				$column_classes = 'col-md-12';
 				break;
 		}
 
@@ -573,6 +578,23 @@ class Cherry_Services_List_Template_Callbacks {
 			'custom_class'    => 'services-testi',
 		);
 
+		// Fix bool
+		$bool = array(
+			'show_avatar',
+			'show_email',
+			'show_position',
+			'show_company',
+			'pagination',
+			'navigation',
+		);
+		foreach ( $bool as $att ) {
+			if ( 'on' === $atts[ $att ] ) {
+				$atts[ $att ] = true;
+			} else {
+				$atts[ $att ] = false;
+			}
+		}
+
 		/**
 		 * Never pass empty template.
 		 */
@@ -597,8 +619,15 @@ class Cherry_Services_List_Template_Callbacks {
 			return $classes;
 		}
 
-		$columns = $this->testi_data['cols'];
-		$classes[] = 'col_md_' . $columns;
+		if ( empty( $this->testi_data['cols'] ) ) {
+			$cols = 1;
+		} else {
+			$cols = $this->testi_data['cols'];
+		}
+
+		$columns   = 12 / $cols;
+		$classes[] = 'col-md-' . $columns;
+
 		return $classes;
 	}
 

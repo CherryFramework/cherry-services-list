@@ -301,14 +301,24 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	}
 
 	/**
-	 * Returns available templates list
+	 * Returns available listing templates list
 	 *
 	 * @return array
 	 */
-	public function get_templates_list() {
-		return apply_filters( 'cherry_team_templates_list', array(
+	public function get_listing_templates_list() {
+		return apply_filters( 'cherry_services_listing_templates_list', array(
 			'default'    => 'default.tmpl',
 			'media-icon' => 'media-icon.tmpl',
+		) );
+	}
+
+	/**
+	 * Returns available single templates list
+	 *
+	 * @return array
+	 */
+	public function get_single_templates_list() {
+		return apply_filters( 'cherry_services_single_templates_list', array(
 			'single'     => 'single.tmpl',
 		) );
 	}
