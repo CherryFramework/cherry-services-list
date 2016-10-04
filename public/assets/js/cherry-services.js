@@ -115,7 +115,7 @@
 					$container.data( 'pages', response.data.pages );
 
 					if ( 1 < response.data.pages && $( self.settings.selectors.loadMore, $item ).length ) {
-						$( self.settings.selectors.loadMore ).removeClass( 'btn-hidden' );
+						$( self.settings.selectors.loadMore, $item ).removeClass( 'btn-hidden' );
 					}
 
 					if ( 1 == response.data.pages && $( self.settings.selectors.loadMore, $item ).length ) {
