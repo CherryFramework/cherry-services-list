@@ -42,6 +42,13 @@
 
 .services-item {
 	padding-bottom: 30px;
+	@media ( max-width: 544px ) {
+		text-align: center;
+	}
+}
+
+.services-more-btn {
+	text-align: center;
 }
 
 .services-collapse-cols {
