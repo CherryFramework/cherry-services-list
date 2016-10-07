@@ -72,8 +72,10 @@ if ( ! class_exists( 'Cherry_Services_List_Form' ) ) {
 			$success_message = get_post_meta(
 				$post_id,
 				'cherry-services-form-message',
-				esc_html__( 'Thanks for your request', 'cherry-services' )
+				true
 			);
+
+			$fields = get_post_meta( $post_id, 'cherry-services-cta-form', true );
 
 			if ( ! $to ) {
 				$to = get_bloginfo( 'admin_email' );
@@ -82,8 +84,13 @@ if ( ! class_exists( 'Cherry_Services_List_Form' ) ) {
 			$subject = sprintf( esc_html__( 'Request on %s', 'cherry-services' ), get_the_title( $post_id ) );
 			$message = $subject . "\r\n\r\n";
 
+			$index = 0;
 			foreach ( $_POST['service-cta'] as $field => $value ) {
-				$message .= esc_attr( $field ) . ": " . esc_attr( $value ) . "\r\n";
+
+				$label = $this->get_field_name( $fields, $index );
+
+				$message .= $label . ": " . esc_attr( $value ) . "\r\n";
+				$index++;
 			}
 
 			wp_mail( $to, $subject, $message );
@@ -96,6 +103,36 @@ if ( ! class_exists( 'Cherry_Services_List_Form' ) ) {
 			}
 
 		}
+
+		/**
+		 * Get field name for email message.
+		 *
+		 * @param  array $fields Fields array.
+		 * @param  int   $index  Index.
+		 * @return string
+		 */
+		public function get_field_name( $fields, $index ) {
+
+			if ( empty( $fields[ 'item-' . $index ] ) ) {
+				return;
+			}
+
+			$row = $fields[ 'item-' . $index ];
+
+			if ( ! is_array( $row ) ) {
+				return;
+			}
+
+			if ( ! empty( $row['label'] ) ) {
+				return esc_attr( $row['label'] );
+			}
+
+			if ( ! empty( $row['name'] ) ) {
+				return esc_attr( $row['name'] );
+			}
+
+		}
+
 
 		/**
 		 * Get form message and clear after
