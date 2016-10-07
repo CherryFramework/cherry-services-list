@@ -34,14 +34,15 @@ get_header( 'services' );
 				do_action( 'cherry_post_before' );
 
 				$args = array(
-					'id'           => get_the_ID(),
-					'template'     => cherry_services_tools()->get_template( 'single' ),
-					'custom_class' => 'services-page-single',
-					'size'         => cherry_services_list()->get_option( 'single-image-size', 'thumbnail' ),
-					'container'    => false,
-					'item_class'   => 'services-single-item',
-					'pager'        => false,
-					'more'         => false,
+					'id'             => get_the_ID(),
+					'template'       => cherry_services_tools()->get_template( 'single' ),
+					'custom_class'   => 'services-page-single',
+					'size'           => cherry_services_list()->get_option( 'single-image-size', 'thumbnail' ),
+					'container'      => false,
+					'item_class'     => 'services-single-item',
+					'pager'          => false,
+					'more'           => false,
+					'excerpt_length' => -1,
 				);
 
 				$data = new Cherry_Services_List_Data( $args );

@@ -680,7 +680,7 @@ class Cherry_Services_List_Template_Callbacks {
 
 		global $post;
 
-		$_content       = apply_filters( 'tm_testimonials_content', get_the_content( '' ), $post );
+		$_content       = apply_filters( 'cherry_services_content', get_the_content( '' ), $post );
 		$content_length = intval( $this->atts['excerpt_length'] );
 
 		$args = wp_parse_args( $args, array(
