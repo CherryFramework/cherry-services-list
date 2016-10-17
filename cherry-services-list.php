@@ -50,6 +50,15 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		private $core = null;
 
 		/**
+		 * Holder for dynamic CSS instance
+		 *
+		 * @since  1.0.0
+		 * @access public
+		 * @var    object
+		 */
+		public $dynamic_css = null;
+
+		/**
 		 * Holder for base plugin URL
 		 *
 		 * @since  1.0.0
@@ -148,6 +157,8 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			add_action( 'init', array( $this, 'lang' ), 1 );
 			// Load the admin files.
 			add_action( 'init', array( $this, 'admin' ), 2 );
+			// Load the admin files.
+			add_action( 'init', array( $this, 'init_modules' ), 2 );
 
 			// Load public-facing stylesheets.
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -211,6 +222,9 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 					'cherry-post-meta' => array(
 						'autoload' => false,
 					),
+					'cherry-dynamic-css' => array(
+						'autoload' => false,
+					),
 				),
 			) );
 
@@ -266,6 +280,20 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-data.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-shortcode.php' );
 			require $this->plugin_path( 'public/includes/class-cherry-services-list-form.php' );
+
+		}
+
+		/**
+		 * Manually init required modules.
+		 *
+		 * @return void
+		 */
+		public function init_modules() {
+
+			$this->dynamic_css = $this->get_core()->init_module(
+				'cherry_dynamic_css',
+				array()
+			);
 
 		}
 

@@ -178,6 +178,12 @@ class Cherry_Services_List_Template_Callbacks {
 			$args['class'] = $type_class;
 		}
 
+		$cta_class      = 'cta-' . $post->ID . '_wrap';
+		$args['class'] .= sprintf( ' %s', $cta_class );
+		$args['base']   = $cta_class;
+
+		$this->add_cta_styling( $cta_class );
+
 		/**
 		 * Filter CTA block HTML format
 		 *
@@ -193,6 +199,76 @@ class Cherry_Services_List_Template_Callbacks {
 		);
 
 		return $this->macros_wrap( $args, sprintf( $cta_format, $title, $descr, $action ) );
+	}
+
+	/**
+	 * Add CTA styles
+	 *
+	 *@param  string $class CTA CSS class.
+	 */
+	public function add_cta_styling( $class ) {
+
+		global $post;
+
+		$selectros = apply_filters( 'cherry_services_cta_selectors', array(
+			'title' => '.service-cta_title',
+			'text'  => '.service-cta_desc',
+		) );
+
+		$base = '.' . $class;
+
+		$bg = array(
+			'background-image'    => 'cherry-services-cta-bg-image',
+			'background-color'    => 'cherry-services-cta-bg-color',
+			'background-position' => 'cherry-services-cta-bg-position',
+			'background-repeat'   => 'cherry-services-cta-bg-repeat',
+			'background-size'     => 'cherry-services-cta-bg-size',
+		);
+
+		$bg_result = array();
+
+		foreach ( $bg as $property => $meta ) {
+
+			$value = get_post_meta( $post->ID, $meta, true );
+
+			if ( ! $value ) {
+				continue;
+			}
+
+			if ( 'background-image' !== $property ) {
+				$bg_result[ $property ] = esc_attr( $value );
+				continue;
+			}
+
+			$url = wp_get_attachment_url( $value );
+
+			if ( ! empty( $url ) ) {
+				$bg_result[ $property ] = sprintf( 'url("%s")', esc_url( $url ) );
+			}
+
+		}
+
+		if ( ! empty( $bg_result ) ) {
+			cherry_services_list()->dynamic_css->add_style( $base, $bg_result );
+		}
+
+		$colors = array(
+			'text'  => 'cherry-services-cta-text-color',
+			'title' => 'cherry-services-cta-title-color',
+		);
+
+		foreach ( $colors as $selector => $meta ) {
+			$color = get_post_meta( $post->ID, $meta, true );
+			if ( ! empty( $color ) ) {
+				cherry_services_list()->dynamic_css->add_style(
+					sprintf( '%s %s', $base, $selectros[ $selector ] ),
+					array(
+						'color' => esc_attr( $color ),
+					)
+				);
+			}
+		}
+
 	}
 
 	/**
@@ -346,6 +422,7 @@ class Cherry_Services_List_Template_Callbacks {
 		$args = wp_parse_args( $args, array(
 			'wrap'  => 'div',
 			'class' => '',
+			'base'  => 'image_wrap',
 			'size'  => ! empty( $this->atts['size'] ) ? esc_attr( $this->atts['size'] ) : 'thumbnail',
 			'link'  => true,
 		) );
@@ -418,6 +495,7 @@ class Cherry_Services_List_Template_Callbacks {
 		$args = wp_parse_args( $args, array(
 			'wrap'   => 'div',
 			'class'  => '',
+			'base'   => 'icon_wrap',
 			'format' => apply_filters( 'cherry_services_default_icon_format', '<i class="fa %s"></i>' ),
 		) );
 
@@ -467,6 +545,7 @@ class Cherry_Services_List_Template_Callbacks {
 			'wrap'   => 'div',
 			'format' => $feature_format,
 			'class'  => '',
+			'base'   => 'features_wrap',
 		) );
 
 		$result = '';
@@ -503,7 +582,8 @@ class Cherry_Services_List_Template_Callbacks {
 		$args = wp_parse_args( $args, array(
 			'wrap'  => 'div',
 			'class' => '',
-			'link'  => false
+			'link'  => false,
+			'base'  => 'title_wrap',
 		) );
 
 		$result       = $this->post_title();
@@ -557,6 +637,7 @@ class Cherry_Services_List_Template_Callbacks {
 		$args = wp_parse_args( $args, array(
 			'wrap'  => 'div',
 			'class' => '',
+			'base'  => 'testi_wrap',
 		) );
 
 		if ( ! class_exists( 'TM_Testimonials_Data' ) ) {
@@ -657,6 +738,10 @@ class Cherry_Services_List_Template_Callbacks {
 			$args['class'] .= ' ' . $class;
 		}
 
+		$args = wp_parse_args( $args, array(
+			'base' => $meta . '_wrap',
+		) );
+
 		return ( ! empty( $value ) ) ? $this->meta_wrap( $value, $args ) : '';
 	}
 
@@ -686,6 +771,7 @@ class Cherry_Services_List_Template_Callbacks {
 		$args = wp_parse_args( $args, array(
 			'wrap'  => 'div',
 			'class' => '',
+			'base'  => 'content_wrap',
 		) );
 
 		if ( ! $_content || 0 == $content_length ) {
@@ -753,7 +839,30 @@ class Cherry_Services_List_Template_Callbacks {
 		$tag   = ! empty( $args['wrap'] ) ? esc_attr( $args['wrap'] ) : 'div';
 		$class = ! empty( $args['class'] ) ? esc_attr( $args['class'] ) : 'services-macros';
 
-		return sprintf( '<%1$s class="%2$s">%3$s</%1$s>', $tag, $class, $string );
+		global $post;
+
+		$open_container = $close_container = '';
+
+		$layout = get_post_meta( $post->ID, 'cherry-services-single-layout', true );
+
+		if ( 'boxed' === $layout && is_singular( cherry_services_list()->post_type() ) ) {
+			$open_container  = '<div class="container">';
+			$close_container = '</div>';
+		}
+
+		$open_wrap = $close_wrap = '';
+
+		$base = empty( $args['base'] ) || 'false' !== $args['base'] ? true : false;
+
+		if ( $base ) {
+			$open_wrap  = sprintf( '<div class="%s">', esc_attr( $args['base'] ) );
+			$close_wrap = '</div>';
+		}
+
+		return sprintf(
+			'%6$s%4$s<%1$s class="%2$s">%3$s</%1$s>%5$s%7$s',
+			$tag, $class, $string, $open_container, $close_container, $open_wrap, $close_wrap
+		);
 
 	}
 
