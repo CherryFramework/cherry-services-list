@@ -460,7 +460,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'type'               => 'media',
 						'element'            => 'control',
 						'parent'             => 'styling',
-						'multi_upload'       => true,
+						'multi_upload'       => false,
 						'library_type'       => 'image',
 						'upload_button_text' => esc_html__( 'Add Image', 'cherry-services' ),
 						'label'              => esc_html__( 'Call to action background image', 'cherry-services' ),
