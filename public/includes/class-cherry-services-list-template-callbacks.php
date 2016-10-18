@@ -180,7 +180,7 @@ class Cherry_Services_List_Template_Callbacks {
 
 		$cta_class      = 'cta-' . $post->ID . '_wrap';
 		$args['class'] .= sprintf( ' %s', $cta_class );
-		$args['base']   = $cta_class;
+		$args['base']   = 'cta_wrap ' . $cta_class;
 
 		$this->add_cta_styling( $cta_class );
 
