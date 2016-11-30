@@ -465,7 +465,34 @@ class Cherry_Services_List_Template_Callbacks {
 	 * @return string
 	 */
 	public function get_desc( $args = array() ) {
-		return $this->get_meta_html( 'descr', $args );
+
+		global $post;
+
+		$value = get_post_meta( $post->ID, 'cherry-services-descr', true );
+		$class = 'service-descr';
+
+		if ( empty( $args['class'] ) ) {
+			$args['class'] = $class;
+		} else {
+			$args['class'] .= ' ' . $class;
+		}
+
+		$args = wp_parse_args( $args, array(
+			'base' => $meta . '_wrap',
+			'crop' => 'no',
+			'more' => '&hellip;',
+		) );
+
+		$args['crop'] = filter_var( $args['crop'], FILTER_VALIDATE_BOOLEAN );
+
+		if ( true === $args['crop'] ) {
+			$length = intval( $this->atts['excerpt_length'] );
+			$more   = esc_attr( $args['more'] );
+			$value  = wp_trim_words( $value, $length, $more );
+		}
+
+		return ( ! empty( $value ) ) ? $this->meta_wrap( $value, $args ) : '';
+
 	}
 
 	/**
