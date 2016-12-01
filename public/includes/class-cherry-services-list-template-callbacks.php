@@ -478,7 +478,7 @@ class Cherry_Services_List_Template_Callbacks {
 		}
 
 		$args = wp_parse_args( $args, array(
-			'base' => $meta . '_wrap',
+			'base' => 'descr_wrap',
 			'crop' => 'no',
 			'more' => '&hellip;',
 		) );
