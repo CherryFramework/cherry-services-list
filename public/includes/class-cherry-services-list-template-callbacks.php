@@ -427,7 +427,7 @@ class Cherry_Services_List_Template_Callbacks {
 			'link'  => true,
 		) );
 
-		$photo = $this->post_image();
+		$photo = $this->post_image( $args['size'] );
 
 		if ( ! $photo ) {
 			return;
