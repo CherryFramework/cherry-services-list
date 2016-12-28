@@ -107,7 +107,7 @@ class Cherry_Services_List_Data {
 			'col_xs'         => false,
 			'col_sm'         => false,
 			'col_md'         => false,
-			'col_lg'         => false,
+			'col_xl'         => false,
 			'before_title'   => '<h2>',
 			'after_title'    => '</h2>',
 			'pager'          => false,
@@ -574,7 +574,7 @@ class Cherry_Services_List_Data {
 			$item_classes   = array( $args['item_class'], 'item-' . $count, 'clearfix' );
 			$item_classes[] = ( $count % 2 ) ? 'odd' : 'even';
 
-			foreach ( array( 'col_xs', 'col_sm', 'col_md', 'col_lg' ) as $col ) {
+			foreach ( array( 'col_xs', 'col_sm', 'col_md', 'col_xl' ) as $col ) {
 
 				if ( ! $args[ $col ] || 'none' == $args[ $col ] ) {
 					continue;

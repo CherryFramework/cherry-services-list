@@ -40,7 +40,7 @@ get_header( 'services' );
 			'col_xs'     => $cols['xs'],
 			'col_sm'     => $cols['sm'],
 			'col_md'     => $cols['md'],
-			'col_lg'     => false,
+			'col_xl'     => false,
 			'size'       => cherry_services_list()->get_option( 'listing-image-size', 'thumbnail' ),
 			'pager'      => true,
 			'more'       => false,
