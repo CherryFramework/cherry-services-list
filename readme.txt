@@ -4,7 +4,7 @@ Contributors: TemplateMonster 2002
 Tags: custom post type, services, service, cherry-framework
 Requires at least: 4.5
 Tested up to: 4.6.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -53,3 +53,12 @@ If you have Cherry Testimonials plugin installed on your website, you can also i
 = 1.0.2 =
 
 * UPD: Allow to crop description macros
+
+= 1.0.3 =
+
+* FIX: Minor fixes
+
+= 1.0.4 =
+
+* FIX: Size attribute for image macros
+* ADD: columns_laptop shortcode attribute
