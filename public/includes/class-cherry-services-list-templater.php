@@ -76,6 +76,9 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 		$find = array();
 		$file = '';
 
+		$archive_page = $this->get_option( 'archive-page' );
+		$archive_page = apply_filters( 'wpml_object_id', $archive_page, 'page', true );
+
 		if ( is_single() && $this->post_type() === get_post_type() ) {
 
 			$file   = 'single-services.php';
@@ -104,7 +107,7 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 			$find[] = $file;
 			$find[] = $this->template_path() . $file;
 
-		} elseif ( $this->get_option( 'archive-page' ) && is_page( $this->get_option( 'archive-page' ) ) ) {
+		} elseif ( $archive_page && is_page( $archive_page ) ) {
 			$file   = 'archive-services.php';
 			$find[] = $file;
 			$find[] = $this->template_path() . $file;
