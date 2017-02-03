@@ -542,7 +542,7 @@ class Cherry_Services_List_Template_Callbacks {
 
 		$features = get_post_meta( $post->ID, 'cherry-services-features', true );
 
-		if ( empty( $features ) ) {
+		if ( empty( $features ) || ! is_array( $features ) ) {
 			return;
 		}
 

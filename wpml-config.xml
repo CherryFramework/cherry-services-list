@@ -1,0 +1,33 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">cherry-services</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">cherry-services_category</taxonomy>
+	</taxonomies>
+	<custom-fields>
+		<custom-field action="copy">cherry-services-cta-bg-color</custom-field>
+		<custom-field action="copy">cherry-services-cta-bg-image</custom-field>
+		<custom-field action="copy">cherry-services-cta-bg-size</custom-field>
+		<custom-field action="copy">cherry-services-cta-bg-position</custom-field>
+		<custom-field action="copy">cherry-services-cta-bg-repeat</custom-field>
+		<custom-field action="copy">cherry-services-cta-text-color</custom-field>
+		<custom-field action="copy">cherry-services-cta-title-color</custom-field>
+		<custom-field action="copy">cherry-services-cta-type</custom-field>
+		<custom-field action="copy">cherry-services-icon</custom-field>
+		<custom-field action="copy">cherry-services-show-cta</custom-field>
+		<custom-field action="copy">cherry-services-single-layout</custom-field>
+		<custom-field action="translate">cherry-services-cta-descr</custom-field>
+		<custom-field action="translate">cherry-services-cta-form</custom-field>
+		<custom-field action="translate">cherry-services-cta-link-text</custom-field>
+		<custom-field action="translate">cherry-services-cta-link-url</custom-field>
+		<custom-field action="translate">cherry-services-cta-submit</custom-field>
+		<custom-field action="translate">cherry-services-cta-title</custom-field>
+		<custom-field action="translate">cherry-services-descr</custom-field>
+		<custom-field action="translate">cherry-services-features</custom-field>
+		<custom-field action="translate">cherry-services-features-title</custom-field>
+		<custom-field action="translate">cherry-services-form-message</custom-field>
+		<custom-field action="translate">cherry-services-slogan</custom-field>
+		<custom-field action="translate">cherry-services-testi</custom-field>
+	</custom-fields>
+</wpml-config>

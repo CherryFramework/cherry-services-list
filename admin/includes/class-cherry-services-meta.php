@@ -359,7 +359,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'placeholder' => esc_html__( 'Field Type', 'cherry-services' ),
 								'label'       => esc_html__( 'Type', 'cherry-services' ),
 								'options'     => array(
-									'text'     => __( 'Text', 'cherry-sevices' ),
+									'text'     => __( 'Text', 'cherry-services' ),
 									'email'    => __( 'Email', 'cherry-services' ),
 									'textarea' => __( 'Textarea', 'cherry-services' ),
 								),
@@ -387,7 +387,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'name'        => 'width',
 								'label'       => esc_html__( 'Field Width', 'cherry-services' ),
 								'options'     => array(
-									'1'   => __( 'Fullwidth', 'cherry-sevices' ),
+									'1'   => __( 'Fullwidth', 'cherry-services' ),
 									'1/3' => __( '1/3', 'cherry-services' ),
 									'1/2' => __( '1/2', 'cherry-services' ),
 									'2/3' => __( '2/3', 'cherry-services' ),
@@ -400,7 +400,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 								'name'        => 'required',
 								'label'       => esc_html__( 'Is Required Field?', 'cherry-services' ),
 								'options'     => array(
-									'yes' => __( 'Yes', 'cherry-sevices' ),
+									'yes' => __( 'Yes', 'cherry-services' ),
 									'no'  => __( 'No', 'cherry-services' ),
 								),
 								'sanitize_callback' => 'esc_attr',
@@ -613,7 +613,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-avatar' ),
 						'label'             => esc_html__( 'Show avatar?', 'cherry-services' ),
 						'options'           => array(
-							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'on'  => __( 'Yes', 'cherry-services' ),
 							'off' => __( 'No', 'cherry-services' ),
 						),
 						'sanitize_callback' => 'esc_attr',
@@ -646,7 +646,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-email' ),
 						'label'       => esc_html__( 'Show email?', 'cherry-services' ),
 						'options'     => array(
-							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'on'  => __( 'Yes', 'cherry-services' ),
 							'off' => __( 'No', 'cherry-services' ),
 						),
 						'sanitize_callback' => 'esc_attr',
@@ -657,7 +657,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-position' ),
 						'label'       => esc_html__( 'Show position?', 'cherry-services' ),
 						'options'     => array(
-							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'on'  => __( 'Yes', 'cherry-services' ),
 							'off' => __( 'No', 'cherry-services' ),
 						),
 						'sanitize_callback' => 'esc_attr',
@@ -668,7 +668,7 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 						'name'              => $this->get_field_name( 'cherry-services-testi', 'show-company' ),
 						'label'       => esc_html__( 'Show company?', 'cherry-services' ),
 						'options'     => array(
-							'on'  => __( 'Yes', 'cherry-sevices' ),
+							'on'  => __( 'Yes', 'cherry-services' ),
 							'off' => __( 'No', 'cherry-services' ),
 						),
 						'sanitize_callback' => 'esc_attr',
