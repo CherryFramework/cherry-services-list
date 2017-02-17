@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Services List
  * Plugin URI:  http://www.templatemonster.com/wordpress-themes.php
  * Description: Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
- * Version:     1.0.4
+ * Version:     1.0.5
  * Author:      TemplateMonster
  * Author URI:  http://www.templatemonster.com
  * Text Domain: cherry-services
@@ -83,7 +83,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @access private
 		 * @var    string
 		 */
-		private $version = '1.0.4';
+		private $version = '1.0.5';
 
 		/**
 		 * Plugin CPT name

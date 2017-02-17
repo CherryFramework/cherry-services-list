@@ -35,6 +35,9 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 		add_action( 'init', array( $this, 'register_post' ) );
 		add_action( 'init', array( $this, 'register_tax' ) );
 
+		// Adds Cherry Search compatibility
+		add_filter( 'cherry_search_support_categories', array( $this, 'search_tax' ) );
+
 	}
 
 	/**
@@ -132,6 +135,18 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 
 		register_taxonomy( $this->tax( 'category' ), $this->post_type(), $args );
 
+	}
+
+	/**
+	 * Pass services taxonomy into search plugin
+	 *
+	 * @param  array $taxonomies Supported taxonomies.
+	 * @return array
+	 */
+	public function search_tax( $taxonomies ) {
+
+		$taxonomies[] = $this->tax( 'category' );
+		return $taxonomies;
 	}
 
 	/**
