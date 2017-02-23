@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Services List
  * Plugin URI:  http://www.templatemonster.com/wordpress-themes.php
  * Description: Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
- * Version:     1.0.5
+ * Version:     1.1.0
  * Author:      TemplateMonster
  * Author URI:  http://www.templatemonster.com
  * Text Domain: cherry-services
@@ -59,6 +59,15 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		public $dynamic_css = null;
 
 		/**
+		 * Holder for Cherry Utilities instance
+		 *
+		 * @since  1.1.0
+		 * @access public
+		 * @var    object
+		 */
+		public $utilities = null;
+
+		/**
 		 * Holder for base plugin URL
 		 *
 		 * @since  1.0.0
@@ -83,7 +92,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @access private
 		 * @var    string
 		 */
-		private $version = '1.0.5';
+		private $version = '1.1.0';
 
 		/**
 		 * Plugin CPT name
@@ -219,10 +228,16 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 					'cherry-utility' => array(
 						'autoload' => true,
 					),
+					'cherry-handler' => array(
+						'autoload' => false,
+					),
 					'cherry-post-meta' => array(
 						'autoload' => false,
 					),
 					'cherry-dynamic-css' => array(
+						'autoload' => false,
+					),
+					'cherry5-insert-shortcode' => array(
 						'autoload' => false,
 					),
 				),
@@ -289,6 +304,12 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function init_modules() {
+
+			$this->utilities = $this->get_core()->init_module( 'cherry-utility', array(
+				'meta_key' => array(
+					'term_thumb' => 'cherry_terms_thumbnails',
+				),
+			) );
 
 			$this->dynamic_css = $this->get_core()->init_module(
 				'cherry_dynamic_css',
