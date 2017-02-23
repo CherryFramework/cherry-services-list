@@ -226,7 +226,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 						'autoload' => false,
 					),
 					'cherry-utility' => array(
-						'autoload' => true,
+						'autoload' => false,
 					),
 					'cherry-handler' => array(
 						'autoload' => false,
