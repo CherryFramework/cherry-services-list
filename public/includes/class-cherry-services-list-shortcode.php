@@ -249,16 +249,18 @@ class Cherry_Services_List_Shortcode {
 				),
 			),
 			'image_size'     => array(
-				'type'    => 'select',
-				'title'   => esc_html__( 'Listing item image size (if used in template)', 'cherry-services' ),
-				'value'   => 'thumbnail',
-				'options' => $column_opt,
+				'type'       => 'select',
+				'title'      => esc_html__( 'Listing item image size (if used in template)', 'cherry-services' ),
+				'value'      => 'thumbnail',
+				'options'    => false,
+				'options_cb' => array( cherry_team_members_tools(), 'get_image_sizes' ),
 			),
 			'template'       => array(
-				'type'    => 'select',
-				'title'   => esc_html__( 'Listing item template', 'cherry-services' ),
-				'value'   => 'default',
-				'options' => $column_opt,
+				'type'       => 'select',
+				'title'      => esc_html__( 'Listing item template', 'cherry-services' ),
+				'value'      => 'default',
+				'options'    => false,
+				'options_cb' => array( cherry_team_members_tools(), 'get_templates' ),
 			),
 			'use_space'      => array(
 				'type'        => 'switcher',
@@ -305,13 +307,13 @@ class Cherry_Services_List_Shortcode {
 			array(
 				'title'       => esc_html__( 'Services', 'cherry-services' ),
 				'description' => esc_html__( 'Showcase your services with Cherry Services List plugin', 'cherry-services' ),
-				'icon'        => '<span class="dashicons dashicons-star-filled"></span>',
+				'icon'        => '<span class="dashicons dashicons-lightbulb"></span>',
 				'slug'        => 'cherry-services-plugin',
 				'shortcodes'  => array(
 					array(
 						'title'       => esc_html__( 'Services', 'cherry-projects' ),
 						'description' => esc_html__( 'Shortcode is used to display the services list', 'cherry-services' ),
-						'icon'        => '<span class="dashicons dashicons-star-filled"></span>',
+						'icon'        => '<span class="dashicons dashicons-lightbulb"></span>',
 						'slug'        => $this->tag(),
 						'options'     => $this->shortcode_args(),
 					),
