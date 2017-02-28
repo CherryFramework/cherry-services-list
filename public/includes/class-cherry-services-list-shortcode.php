@@ -253,14 +253,14 @@ class Cherry_Services_List_Shortcode {
 				'title'      => esc_html__( 'Listing item image size (if used in template)', 'cherry-services' ),
 				'value'      => 'thumbnail',
 				'options'    => false,
-				'options_cb' => array( cherry_team_members_tools(), 'get_image_sizes' ),
+				'options_cb' => array( cherry_services_tools(), 'get_image_sizes' ),
 			),
 			'template'       => array(
 				'type'       => 'select',
 				'title'      => esc_html__( 'Listing item template', 'cherry-services' ),
 				'value'      => 'default',
 				'options'    => false,
-				'options_cb' => array( cherry_team_members_tools(), 'get_templates' ),
+				'options_cb' => array( cherry_services_tools(), 'get_templates' ),
 			),
 			'use_space'      => array(
 				'type'        => 'switcher',
