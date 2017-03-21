@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Cherry Services List
- * Plugin URI:  http://www.templatemonster.com/wordpress-themes.php
+ * Plugin URI:  http://www.cherryframework.com/plugins/
  * Description: Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
  * Version:     1.1.0
  * Author:      TemplateMonster
- * Author URI:  http://www.templatemonster.com
+ * Author URI:  http://cherryframework.com/
  * Text Domain: cherry-services
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -153,7 +153,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		public function __construct() {
 
 			// Load the installer core.
-			add_action( 'after_setup_theme', require( trailingslashit( __DIR__ ) . 'cherry-framework/setup.php' ), 0 );
+			add_action( 'after_setup_theme', require( trailingslashit( dirname( __FILE__ ) ) . 'cherry-framework/setup.php' ), 0 );
 			// Load the core functions/classes required by the rest of the plugin.
 			add_action( 'after_setup_theme', array( $this, 'get_core' ), 1 );
 			// Load the modules.

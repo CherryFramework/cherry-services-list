@@ -223,7 +223,7 @@ class Cherry_Services_List_Shortcode {
 			),
 			'show_media'     => array(
 				'type'        => 'switcher',
-				'title'       => esc_html__( 'Show service media', 'cherry-services' ),
+				'title'       => esc_html__( 'Show featured image', 'cherry-services' ),
 				'value'       => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
@@ -378,8 +378,6 @@ class Cherry_Services_List_Shortcode {
 			'show_title',
 			'show_media',
 			'show_content',
-			'show_position',
-			'show_social',
 			'show_filters',
 			'ajax_more',
 			'more',
@@ -390,6 +388,11 @@ class Cherry_Services_List_Shortcode {
 
 		// Fix booleans.
 		foreach ( $bool_to_fix as $v ) {
+
+			if ( ! isset( $atts[ $v ] ) ) {
+				continue;
+			}
+
 			$atts[ $v ] = filter_var( $atts[ $v ], FILTER_VALIDATE_BOOLEAN );
 		}
 
@@ -410,8 +413,6 @@ class Cherry_Services_List_Shortcode {
 			'show_title'     => 'show_title',
 			'show_media'     => 'show_media',
 			'show_content'   => 'show_content',
-			'show_position'  => 'show_position',
-			'show_social'    => 'show_social',
 			'show_filters'   => 'show_filters',
 			'template'       => 'template',
 			'pager'          => 'pagination',
@@ -442,6 +443,10 @@ class Cherry_Services_List_Shortcode {
 		}
 
 		$data_args['item_class'] .= ' services-item';
+
+		if ( ! empty( $data_args['id'] ) ) {
+			$data_args['orderby'] = 'none';
+		}
 
 		$heading = apply_filters(
 			'cherry_services_shortcode_heading_format',
