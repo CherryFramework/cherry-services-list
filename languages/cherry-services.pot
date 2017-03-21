@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: blank\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-02 16:13+0200\n"
-"PO-Revision-Date: 2017-03-02 16:13+0200\n"
+"POT-Creation-Date: 2017-03-21 17:51+0200\n"
+"PO-Revision-Date: 2017-03-21 17:52+0200\n"
 "Last-Translator: Vladimir Anokhin <ano.vladimir@gmail.com>\n"
 "Language-Team: Cherry Team <support@cherryframework.com>\n"
 "Language: su\n"
@@ -541,7 +541,7 @@ msgstr ""
 msgid "Untitled Section"
 msgstr ""
 
-#: cherry-framework/modules/cherry-customizer/cherry-customizer.php:338
+#: cherry-framework/modules/cherry-customizer/cherry-customizer.php:339
 msgid "Untitled Control"
 msgstr ""
 
@@ -583,15 +583,15 @@ msgstr ""
 msgid "Shortcode not found."
 msgstr ""
 
-#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:261
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:285
 msgid "Shortcode content."
 msgstr ""
 
-#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:262
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:286
 msgid "Input shortcode content."
 msgstr ""
 
-#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:277
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:301
 msgid "Shortcode not a have options."
 msgstr ""
 
