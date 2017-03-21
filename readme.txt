@@ -46,6 +46,7 @@ If you have Cherry Testimonials plugin installed on your website, you can also i
 
 * ADD: Insert shortcode button in editor
 * ADD: Add 'link' argument into %%ICON%% macros
+* FIX: prevent errors on PHP < 5.3
 
 = 1.0.5 =
 
