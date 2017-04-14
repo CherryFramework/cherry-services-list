@@ -176,20 +176,14 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	 */
 	public function get_contents( $template ) {
 
-		if ( ! function_exists( 'WP_Filesystem' ) ) {
-			include_once( ABSPATH . '/wp-admin/includes/file.php' );
-		}
-
-		WP_Filesystem();
-		global $wp_filesystem;
-
 		// Check for existence.
-		if ( ! $wp_filesystem->exists( $template ) ) {
+		if ( ! file_exists( $template ) ) {
 			return false;
 		}
 
-		// Read the file.
-		$content = $wp_filesystem->get_contents( $template );
+		ob_start();
+		include $template;
+		$content = ob_get_clean();
 
 		if ( ! $content ) {
 			// Return error object.
