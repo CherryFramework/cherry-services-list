@@ -74,15 +74,37 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 			return;
 		}
 
+		$permalinks_page = sprintf(
+			'<a href="%s" target="_blank">%s</a>',
+			esc_url( admin_url( 'options-permalink.php' ) ),
+			esc_html__( 'the permalink structure', 'cherry-services' )
+		);
+
+		$pemalinks_notice = sprintf(
+			esc_html__( 'Please save %s every time you change this option', 'cherry-services' ),
+			$permalinks_page
+		);
+
 		$this->options = array(
 			'archive-page' => array(
 				'type'             => 'select',
 				'title'            => esc_html__( 'Select Services archive page', 'cherry-services' ),
 				'label'            => '',
-				'description'      => '',
+				'description'      => $pemalinks_notice,
 				'value'            => array(),
 				'options'          => false,
 				'options_callback' => array( cherry_services_tools(), 'get_pages' ),
+			),
+			'archive-page-shows' => array(
+				'type'             => 'select',
+				'title'            => esc_html__( 'Archive page shows', 'cherry-team' ),
+				'label'            => '',
+				'description'      => '',
+				'value'            => $this->default_options['archive-page-shows'],
+				'options'          => array(
+					'posts'   => esc_html__( 'Default posts listing', 'cherry-services' ),
+					'content' => esc_html__( 'Selected archive page content', 'cherry-services' ),
+				),
 			),
 			'posts-per-page' => array(
 				'type'       => 'stepper',

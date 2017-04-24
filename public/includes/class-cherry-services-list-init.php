@@ -51,6 +51,7 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 		$labels = array(
 			'name'               => __( 'Services', 'cherry-services' ),
 			'singular_name'      => __( 'Service', 'cherry-services' ),
+			'archive_title'      => $this->get_archive_title(),
 			'add_new'            => __( 'Add New', 'cherry-services' ),
 			'add_new_item'       => __( 'Add New Service', 'cherry-services' ),
 			'edit_item'          => __( 'Edit Service', 'cherry-services' ),
@@ -76,7 +77,7 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 			'capability_type' => 'post',
 			'hierarchical'    => false, // Hierarchical causes memory issues - WP loads all records!
 			'rewrite'         => array(
-				'slug'       => $this->post_type(),
+				'slug'       => $this->get_rewrite_slug(),
 				'with_front' => false,
 				'feeds'      => true,
 			),
@@ -90,6 +91,79 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 		$args = apply_filters( 'cherry_services_post_type_args', $args );
 
 		register_post_type( $this->post_type(), $args );
+
+	}
+
+	/**
+	 * Returns archive page object if set in options.
+	 *
+	 * @return WP_Post|false
+	 */
+	public static function get_archive_page_object() {
+
+		$archive_page = cherry_services_list()->get_option( 'archive-page' );
+
+		if ( ! $archive_page ) {
+			return false;
+		}
+
+		$page = wp_cache_get( 'cherry-services-archive-page' );
+
+		if ( is_object( $page ) ) {
+			return $page;
+		}
+
+		$page = get_post( $archive_page );
+
+		if ( $page && ! is_wp_error( $page ) ) {
+			wp_cache_add( 'cherry-services-archive-page', $page );
+			return $page;
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
+	 * Returns archive rewrite slug
+	 *
+	 * @return string
+	 */
+	public function get_rewrite_slug() {
+
+		$default = $this->post_type();
+		$page    = self::get_archive_page_object();
+
+		if ( ! $page ) {
+			return $default;
+		}
+
+		if ( isset( $page->post_name ) ) {
+			return $page->post_name;
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Returns archive title
+	 *
+	 * @return string
+	 */
+	public function get_archive_title() {
+
+		$default = esc_html__( 'Services', 'cherry-services' );
+		$page    = self::get_archive_page_object();
+
+		if ( ! $page ) {
+			return $default;
+		}
+
+		if ( isset( $page->post_title ) ) {
+			return $page->post_title;
+		}
+
+		return $default;
 
 	}
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: blank\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-21 17:51+0200\n"
-"PO-Revision-Date: 2017-03-21 17:52+0200\n"
+"POT-Creation-Date: 2017-04-24 18:17+0200\n"
+"PO-Revision-Date: 2017-04-24 18:17+0200\n"
 "Last-Translator: Vladimir Anokhin <ano.vladimir@gmail.com>\n"
 "Language-Team: Cherry Team <support@cherryframework.com>\n"
 "Language: su\n"
@@ -434,66 +434,87 @@ msgid "Select category..."
 msgstr ""
 
 #: admin/includes/class-cherry-services-options-page.php:80
+msgid "the permalink structure"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:84
+#, php-format
+msgid "Please save %s every time you change this option"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:91
 msgid "Select Services archive page"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:89
-msgid "Set posts number per archive page"
-msgstr ""
-
-#: admin/includes/class-cherry-services-options-page.php:97
-msgid "Select archive page columns number"
+#: admin/includes/class-cherry-services-options-page.php:100
+msgid "Archive page shows"
 msgstr ""
 
 #: admin/includes/class-cherry-services-options-page.php:105
+msgid "Default posts listing"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:106
+msgid "Selected archive page content"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:111
+msgid "Set posts number per archive page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:119
+msgid "Select archive page columns number"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:127
 msgid "Select template for single service page"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:114
+#: admin/includes/class-cherry-services-options-page.php:136
 msgid "Select image size for single service page"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:123
+#: admin/includes/class-cherry-services-options-page.php:145
 msgid "Select template for Services listing page"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:132
+#: admin/includes/class-cherry-services-options-page.php:154
 msgid "Select image size for Services listing page"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:205
+#: admin/includes/class-cherry-services-options-page.php:227
 msgid "Cherry Services Options"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:206
+#: admin/includes/class-cherry-services-options-page.php:228
 msgid "Settings"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:246
+#: admin/includes/class-cherry-services-options-page.php:268
 msgid "Save"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:247
+#: admin/includes/class-cherry-services-options-page.php:269
 msgid "Define as default"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:248
+#: admin/includes/class-cherry-services-options-page.php:270
 msgid "Restore"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:366
+#: admin/includes/class-cherry-services-options-page.php:388
 msgid "Options have been saved"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:374
+#: admin/includes/class-cherry-services-options-page.php:396
 msgid "Options have been saved as default"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:384
+#: admin/includes/class-cherry-services-options-page.php:406
 msgid "Options have been restored"
 msgstr ""
 
-#: admin/includes/class-cherry-services-options-page.php:423
+#: admin/includes/class-cherry-services-options-page.php:445
 msgid "Please wait, processing the previous request"
 msgstr ""
 
@@ -611,6 +632,7 @@ msgid "Request on %s"
 msgstr ""
 
 #: public/includes/class-cherry-services-list-init.php:52
+#: public/includes/class-cherry-services-list-init.php:155
 #: public/includes/class-cherry-services-list-shortcode.php:308
 #: public/includes/class-cherry-services-list-shortcode.php:314
 msgid "Services"
@@ -620,88 +642,88 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:54
+#: public/includes/class-cherry-services-list-init.php:55
 msgid "Add New"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:55
+#: public/includes/class-cherry-services-list-init.php:56
 msgid "Add New Service"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:56
+#: public/includes/class-cherry-services-list-init.php:57
 msgid "Edit Service"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:57
+#: public/includes/class-cherry-services-list-init.php:58
 msgid "New Service"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:58
+#: public/includes/class-cherry-services-list-init.php:59
 msgid "View Service"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:59
+#: public/includes/class-cherry-services-list-init.php:60
 msgid "Search Services"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:60
+#: public/includes/class-cherry-services-list-init.php:61
 msgid "No Services found"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:61
+#: public/includes/class-cherry-services-list-init.php:62
 msgid "No Services found in trash"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:106
+#: public/includes/class-cherry-services-list-init.php:180
 msgid "Services Category"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:107
-#: public/includes/class-cherry-services-list-init.php:113
+#: public/includes/class-cherry-services-list-init.php:181
+#: public/includes/class-cherry-services-list-init.php:187
 msgid "Edit Category"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:108
+#: public/includes/class-cherry-services-list-init.php:182
 msgid "Search Categories"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:109
+#: public/includes/class-cherry-services-list-init.php:183
 msgid "Popular Categories"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:110
+#: public/includes/class-cherry-services-list-init.php:184
 msgid "All Categories"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:114
+#: public/includes/class-cherry-services-list-init.php:188
 msgid "Update Category"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:115
+#: public/includes/class-cherry-services-list-init.php:189
 msgid "Add New Category"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:116
+#: public/includes/class-cherry-services-list-init.php:190
 msgid "New Category Name"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:117
+#: public/includes/class-cherry-services-list-init.php:191
 msgid "Separate categories with commas"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:118
+#: public/includes/class-cherry-services-list-init.php:192
 msgid "Add or remove categories"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:119
+#: public/includes/class-cherry-services-list-init.php:193
 msgid "Choose from the most used categories"
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:120
+#: public/includes/class-cherry-services-list-init.php:194
 msgid "No categories found."
 msgstr ""
 
-#: public/includes/class-cherry-services-list-init.php:121
+#: public/includes/class-cherry-services-list-init.php:195
 msgid "Categories"
 msgstr ""
 
