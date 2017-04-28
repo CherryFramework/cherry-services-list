@@ -524,9 +524,18 @@ class Cherry_Services_List_Template_Callbacks {
 			'class'  => '',
 			'base'   => 'icon_wrap',
 			'format' => apply_filters( 'cherry_services_default_icon_format', '<i class="fa %s"></i>' ),
+			'link'   => false,
 		) );
 
-		$result = '<div class="service-icon">' . sprintf( $args['format'], esc_attr( $icon ) ) . '</div>';
+		$args['link'] = filter_var( $args['link'], FILTER_VALIDATE_BOOLEAN );
+
+		$result = sprintf( $args['format'], esc_attr( $icon ) );
+
+		if ( true === $args['link'] ) {
+			$result = sprintf( '<a href="%1$s">%2$s</a>', get_permalink( $post->ID ), $result );
+		}
+
+		$result = '<div class="service-icon">' . $result . '</div>';
 
 		return $this->macros_wrap( $args, $result );
 	}

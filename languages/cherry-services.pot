@@ -1,0 +1,855 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: blank\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-24 18:17+0200\n"
+"PO-Revision-Date: 2017-04-24 18:17+0200\n"
+"Last-Translator: Vladimir Anokhin <ano.vladimir@gmail.com>\n"
+"Language-Team: Cherry Team <support@cherryframework.com>\n"
+"Language: su\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;__;_x;esc_html_e;esc_html__;esc_attr_e;"
+"esc_attr__;_x:1,2c;_n:1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.7.6\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/includes/class-cherry-services-meta.php:75
+msgid "Clone"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:76
+msgid "Clone this post"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:88
+msgid "You don't have permissions to do this"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:92
+msgid "Not allowed function call!"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:96
+msgid "No post to duplicate has been supplied!"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:108
+#, php-format
+msgid "Post creation failed, could not find original post: %s"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:194
+msgid ""
+"Testimonials management are not available. Please, install Cherry Testi "
+"plugin"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:210
+msgid "Service Options"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:224
+msgid "General"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:230
+#: admin/includes/class-cherry-services-meta.php:284
+msgid "Features"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:236
+msgid "Call To Action"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:242
+msgid "Styling"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:248
+msgid "Service Icon"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:262
+#: admin/includes/class-cherry-services-meta.php:263
+#: admin/includes/class-cherry-services-meta.php:544
+msgid "Slogan"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:269
+#: admin/includes/class-cherry-services-meta.php:270
+msgid "Short Description"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:277
+#: admin/includes/class-cherry-services-meta.php:278
+msgid "Features Title"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:285
+msgid "Add New Feature"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:292
+#: admin/includes/class-cherry-services-meta.php:293
+msgid "Feature Label"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:300
+#: admin/includes/class-cherry-services-meta.php:301
+msgid "Feature Value"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:312
+msgid "Enable CTA block"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:319
+#: admin/includes/class-cherry-services-meta.php:320
+#: admin/includes/class-cherry-services-meta.php:574
+#: public/includes/class-cherry-services-list-shortcode.php:109
+msgid "Title"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:326
+#: admin/includes/class-cherry-services-meta.php:327
+msgid "Description"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:333
+msgid "Call to Action Type"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:337
+msgid "Contact Form"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:341
+msgid "Link"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:350
+msgid "Form Fields"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:351
+msgid "Add New Field"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:359
+msgid "Field Type"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:360
+msgid "Type"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:362
+msgid "Text"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:363
+msgid "Email"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:364
+msgid "Textarea"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:372
+msgid "Field Label"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:373
+#: public/includes/class-cherry-services-list-template-callbacks.php:301
+msgid "Label"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:380
+msgid "Field Name"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:381
+msgid "Name(Should be unique)"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:388
+msgid "Field Width"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:390
+#: admin/includes/class-cherry-services-meta.php:453
+msgid "Fullwidth"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:391
+msgid "1/3"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:392
+msgid "1/2"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:393
+msgid "2/3"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:401
+msgid "Is Required Field?"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:403
+#: admin/includes/class-cherry-services-meta.php:616
+#: admin/includes/class-cherry-services-meta.php:649
+#: admin/includes/class-cherry-services-meta.php:660
+#: admin/includes/class-cherry-services-meta.php:671
+#: public/includes/class-cherry-services-list-shortcode.php:177
+#: public/includes/class-cherry-services-list-shortcode.php:200
+#: public/includes/class-cherry-services-list-shortcode.php:211
+#: public/includes/class-cherry-services-list-shortcode.php:220
+#: public/includes/class-cherry-services-list-shortcode.php:229
+#: public/includes/class-cherry-services-list-shortcode.php:238
+#: public/includes/class-cherry-services-list-shortcode.php:247
+#: public/includes/class-cherry-services-list-shortcode.php:270
+#: public/includes/class-cherry-services-list-shortcode.php:279
+msgid "Yes"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:404
+#: admin/includes/class-cherry-services-meta.php:617
+#: admin/includes/class-cherry-services-meta.php:650
+#: admin/includes/class-cherry-services-meta.php:661
+#: admin/includes/class-cherry-services-meta.php:672
+#: public/includes/class-cherry-services-list-shortcode.php:178
+#: public/includes/class-cherry-services-list-shortcode.php:201
+#: public/includes/class-cherry-services-list-shortcode.php:212
+#: public/includes/class-cherry-services-list-shortcode.php:221
+#: public/includes/class-cherry-services-list-shortcode.php:230
+#: public/includes/class-cherry-services-list-shortcode.php:239
+#: public/includes/class-cherry-services-list-shortcode.php:248
+#: public/includes/class-cherry-services-list-shortcode.php:271
+#: public/includes/class-cherry-services-list-shortcode.php:280
+msgid "No"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:416
+#: admin/includes/class-cherry-services-meta.php:417
+msgid "Form Submit Button Text"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:424
+msgid "Thanks for your request"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:426
+msgid "Success Message"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:434
+msgid "Button Text"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:435
+msgid "CTA Button Text"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:443
+msgid "Button URL"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:444
+msgid "CTA Button URL"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:454
+msgid "Boxed"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:456
+msgid "Single page content"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:465
+msgid "Add Image"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:466
+msgid "Call to action background image"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:473
+msgid "Call to action background color"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:482
+msgid "Left Top"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:483
+msgid "Center Top"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:484
+msgid "Right Top"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:485
+msgid "Left Center"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:486
+msgid "Center Center"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:487
+msgid "Right Center"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:488
+msgid "Left Bottom"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:489
+msgid "Center Bottom"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:490
+msgid "Right Bottom"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:492
+msgid "Call to action background position"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:501
+msgid "Repeat"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:502
+msgid "Repeat X"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:503
+msgid "Repeat Y"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:504
+msgid "No Repeat"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:506
+msgid "Call to action background repeat"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:515
+msgid "Auto"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:516
+msgid "Cover"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:517
+msgid "Contain"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:519
+msgid "Call to action background image size"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:526
+msgid "Call to action text color"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:533
+msgid "Call to action title color"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:539
+msgid "Thumbnail"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:555
+msgid "Testimonials"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:566
+msgid "Enable testimonials block"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:573
+msgid "Testimonials block title"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:581
+msgid "Get testimonials from category:"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:590
+msgid "Columns number:"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:607
+msgid "Testimonials limit (set -1 to show all)"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:614
+msgid "Show avatar?"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:629
+msgid "Testimonial avatar size"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:640
+msgid "Content Length (set -1 to show full content)"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:647
+msgid "Show email?"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:658
+msgid "Show position?"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:669
+msgid "Show company?"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:681
+msgid "Template name"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:682
+msgid "Custom template"
+msgstr ""
+
+#: admin/includes/class-cherry-services-meta.php:737
+msgid "Select category..."
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:80
+msgid "the permalink structure"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:84
+#, php-format
+msgid "Please save %s every time you change this option"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:91
+msgid "Select Services archive page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:100
+msgid "Archive page shows"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:105
+msgid "Default posts listing"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:106
+msgid "Selected archive page content"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:111
+msgid "Set posts number per archive page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:119
+msgid "Select archive page columns number"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:127
+msgid "Select template for single service page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:136
+msgid "Select image size for single service page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:145
+msgid "Select template for Services listing page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:154
+msgid "Select image size for Services listing page"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:227
+msgid "Cherry Services Options"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:228
+msgid "Settings"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:268
+msgid "Save"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:269
+msgid "Define as default"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:270
+msgid "Restore"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:388
+msgid "Options have been saved"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:396
+msgid "Options have been saved as default"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:406
+msgid "Options have been restored"
+msgstr ""
+
+#: admin/includes/class-cherry-services-options-page.php:445
+msgid "Please wait, processing the previous request"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:346
+msgid "Home"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:352
+msgid "Browse:"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:354
+msgid "404 Not Found"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:355
+msgid "Archives"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:356
+#, php-format
+msgid "Search results for &#8220;%s&#8221;"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:357
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:358
+#, php-format
+msgid "Minute %s"
+msgstr ""
+
+#: cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:359
+#, php-format
+msgid "Week %s"
+msgstr ""
+
+#: cherry-framework/modules/cherry-customizer/cherry-customizer.php:269
+msgid "Untitled Panel"
+msgstr ""
+
+#: cherry-framework/modules/cherry-customizer/cherry-customizer.php:305
+msgid "Untitled Section"
+msgstr ""
+
+#: cherry-framework/modules/cherry-customizer/cherry-customizer.php:339
+msgid "Untitled Control"
+msgstr ""
+
+#: cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:105
+#, php-format
+msgid ""
+"Module DB Updater init error in %s - version and slug is required arguments"
+msgstr ""
+
+#: cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:106
+msgid "We need to update your database to the latest version."
+msgstr ""
+
+#: cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:107
+msgid "Update complete, thank you for updating to the latest version!"
+msgstr ""
+
+#: cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:331
+msgid "Start Update"
+msgstr ""
+
+#: cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:368
+msgid "Data Update"
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-button.php:63
+msgid "Cherry shortcodes"
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:128
+msgid "insert shortcode"
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:148
+msgid "Shortcode List"
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:206
+msgid "Shortcode not found."
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:285
+msgid "Shortcode content."
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:286
+msgid "Input shortcode content."
+msgstr ""
+
+#: cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:301
+msgid "Shortcode not a have options."
+msgstr ""
+
+#: public/includes/class-cherry-services-list-data.php:93
+#: public/includes/class-cherry-services-list-data.php:449
+#: public/includes/class-cherry-services-list-shortcode.php:185
+msgid "More"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-data.php:644
+msgid "All"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-form.php:84
+#, php-format
+msgid "Request on %s"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:52
+#: public/includes/class-cherry-services-list-init.php:155
+#: public/includes/class-cherry-services-list-shortcode.php:308
+#: public/includes/class-cherry-services-list-shortcode.php:314
+msgid "Services"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:53
+msgid "Service"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:55
+msgid "Add New"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:56
+msgid "Add New Service"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:57
+msgid "Edit Service"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:58
+msgid "New Service"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:59
+msgid "View Service"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:60
+msgid "Search Services"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:61
+msgid "No Services found"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:62
+msgid "No Services found in trash"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:180
+msgid "Services Category"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:181
+#: public/includes/class-cherry-services-list-init.php:187
+msgid "Edit Category"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:182
+msgid "Search Categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:183
+msgid "Popular Categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:184
+msgid "All Categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:188
+msgid "Update Category"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:189
+msgid "Add New Category"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:190
+msgid "New Category Name"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:191
+msgid "Separate categories with commas"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:192
+msgid "Add or remove categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:193
+msgid "Choose from the most used categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:194
+msgid "No categories found."
+msgstr ""
+
+#: public/includes/class-cherry-services-list-init.php:195
+msgid "Categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:104
+msgid "Super title"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:114
+msgid "Subtitle"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:119
+msgid "Desktop columns"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:125
+msgid "Laptop columns"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:131
+msgid "Tablet columns"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:137
+msgid "Phone columns"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:143
+msgid "Posts per page"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:144
+msgid ""
+"Select how many posts per page do you want to display(-1 means that will "
+"show all services)"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:151
+msgid "Show services from categories"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:160
+msgid "Show services by ID"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:165
+msgid "Description length"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:166
+msgid "Select how many words show in desciption"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:173
+msgid "Show more button"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:174
+msgid "Show/hide more button"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:184
+#: public/includes/class-cherry-services-list-shortcode.php:190
+msgid "More button text"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:196
+msgid "AJAX load more"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:197
+msgid "Enable AJAX load more event on more button"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:207
+msgid "Pagination"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:208
+msgid "Enable paging navigation"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:217
+msgid "Show service title"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:226
+msgid "Show featured image"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:235
+msgid "Show service content"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:244
+msgid "Show filter by category before services listing"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:253
+msgid "Listing item image size (if used in template)"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:260
+msgid "Listing item template"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:267
+msgid "Add space between services coumns"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:276
+msgid "Add space between services rows"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:309
+msgid "Showcase your services with Cherry Services List plugin"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-shortcode.php:315
+msgid "Shortcode is used to display the services list"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-template-callbacks.php:646
+msgid "Read more"
+msgstr ""
+
+#: public/includes/class-cherry-services-list-tools.php:130
+msgid "Select page..."
+msgstr ""

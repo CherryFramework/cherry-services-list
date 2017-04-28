@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Cherry Services List
- * Plugin URI:  http://www.templatemonster.com/wordpress-themes.php
+ * Plugin URI:  http://www.cherryframework.com/plugins/
  * Description: Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
- * Version:     1.0.5
+ * Version:     1.2.0
  * Author:      TemplateMonster
- * Author URI:  http://www.templatemonster.com
+ * Author URI:  http://cherryframework.com/
  * Text Domain: cherry-services
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -59,6 +59,15 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		public $dynamic_css = null;
 
 		/**
+		 * Holder for Cherry Utilities instance
+		 *
+		 * @since  1.1.0
+		 * @access public
+		 * @var    object
+		 */
+		public $utilities = null;
+
+		/**
 		 * Holder for base plugin URL
 		 *
 		 * @since  1.0.0
@@ -83,7 +92,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @access private
 		 * @var    string
 		 */
-		private $version = '1.0.5';
+		private $version = '1.2.0';
 
 		/**
 		 * Plugin CPT name
@@ -119,6 +128,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 */
 		public $default_options = array(
 			'archive-page'       => '',
+			'archive-page-shows' => 'posts',
 			'posts-per-page'     => 9,
 			'archive-columns'    => 3,
 			'single-template'    => 'single',
@@ -217,12 +227,18 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 						'autoload' => false,
 					),
 					'cherry-utility' => array(
-						'autoload' => true,
+						'autoload' => false,
+					),
+					'cherry-handler' => array(
+						'autoload' => false,
 					),
 					'cherry-post-meta' => array(
 						'autoload' => false,
 					),
 					'cherry-dynamic-css' => array(
+						'autoload' => false,
+					),
+					'cherry5-insert-shortcode' => array(
 						'autoload' => false,
 					),
 				),
@@ -289,6 +305,12 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @return void
 		 */
 		public function init_modules() {
+
+			$this->utilities = $this->get_core()->init_module( 'cherry-utility', array(
+				'meta_key' => array(
+					'term_thumb' => 'cherry_terms_thumbnails',
+				),
+			) );
 
 			$this->dynamic_css = $this->get_core()->init_module(
 				'cherry_dynamic_css',

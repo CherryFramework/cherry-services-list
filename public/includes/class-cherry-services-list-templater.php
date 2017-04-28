@@ -61,7 +61,36 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 
 		// Add a filter to the template include in order to determine if the page has our template assigned and return it's path.
 		add_filter( 'template_include', array( $this, 'view_template' ) );
+		add_filter( 'request', array( $this, 'maybe_set_archive_page_vars' ) );
 
+	}
+
+	/**
+	 * Maybe change default requested query vars to Archive page if we try to get default post type archive
+	 *
+	 * @param  array $query_vars Default query vars
+	 * @return array
+	 */
+	public function maybe_set_archive_page_vars( $query_vars ) {
+
+		if ( 1 !== count( $query_vars ) ) {
+			return $query_vars;
+		}
+
+		if ( empty( $query_vars['post_type'] ) || $this->post_type() !== $query_vars['post_type'] ) {
+			return $query_vars;
+		}
+
+		$page = Cherry_Services_List_Init::get_archive_page_object();
+
+		if ( ! $page ) {
+			return $query_vars;
+		}
+
+		return array(
+			'page'     => '',
+			'pagename' => $page->post_name,
+		);
 	}
 
 	/**
@@ -78,6 +107,17 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 
 		$archive_page = $this->get_option( 'archive-page' );
 		$archive_page = apply_filters( 'wpml_object_id', $archive_page, 'page', true );
+
+		$archive_template = 'archive-services.php';
+
+		if ( $archive_page ) {
+
+			$archive_shows = $this->get_option( 'archive-page-shows' );
+
+			if ( 'content' === $archive_shows ) {
+				$archive_template = 'page.php';
+			}
+		}
 
 		if ( is_single() && $this->post_type() === get_post_type() ) {
 
@@ -103,12 +143,12 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 
 		} elseif ( is_post_type_archive( $this->post_type() ) ) {
 
-			$file   = 'archive-services.php';
+			$file   = $archive_template;
 			$find[] = $file;
 			$find[] = $this->template_path() . $file;
 
 		} elseif ( $archive_page && is_page( $archive_page ) ) {
-			$file   = 'archive-services.php';
+			$file   = $archive_template;
 			$find[] = $file;
 			$find[] = $this->template_path() . $file;
 		}
@@ -176,20 +216,14 @@ class Cherry_Services_List_Templater extends Cherry_Services_List {
 	 */
 	public function get_contents( $template ) {
 
-		if ( ! function_exists( 'WP_Filesystem' ) ) {
-			include_once( ABSPATH . '/wp-admin/includes/file.php' );
-		}
-
-		WP_Filesystem();
-		global $wp_filesystem;
-
 		// Check for existence.
-		if ( ! $wp_filesystem->exists( $template ) ) {
+		if ( ! file_exists( $template ) ) {
 			return false;
 		}
 
-		// Read the file.
-		$content = $wp_filesystem->get_contents( $template );
+		ob_start();
+		include $template;
+		$content = ob_get_clean();
 
 		if ( ! $content ) {
 			// Return error object.
