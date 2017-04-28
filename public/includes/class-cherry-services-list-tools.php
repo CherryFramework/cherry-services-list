@@ -127,7 +127,7 @@ class Cherry_Services_List_Tools extends Cherry_Services_List {
 	public function get_pages() {
 
 		$pages      = get_pages();
-		$pages_list = array( esc_html__( 'Select page...', 'cherry-team' ) );
+		$pages_list = array( esc_html__( 'Select page...', 'cherry-services' ) );
 
 		foreach ( $pages as $page ) {
 			$pages_list[ $page->ID ] = $page->post_title;

@@ -60,6 +60,23 @@ class Cherry_Services_List_Shortcode {
 
 		add_shortcode( $this->tag(), array( $this, 'do_shortcode' ) );
 
+		$base = cherry_services_list();
+
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+
+			require $base->plugin_path( 'public/includes/ext/class-cherry-services-list-elementor-compat.php' );
+
+			cherry_services_list_elementor_compat( array(
+				$this->tag() => array(
+					'title' => esc_html__( 'Cherry Services', 'cherry-services' ),
+					'file'  => $base->plugin_path( 'public/includes/ext/class-cherry-services-list-elementor-module.php' ),
+					'class' => 'Cherry_Services_Elementor_Widget',
+					'icon'  => 'eicon-favorite',
+					'atts'  => $this->shortcode_args(),
+				),
+			) );
+		}
+
 		if ( is_admin() ) {
 			$this->register_shrtcode_for_builder();
 		}

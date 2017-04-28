@@ -97,7 +97,7 @@ class Cherry_Services_Options_Page extends Cherry_Services_List {
 			),
 			'archive-page-shows' => array(
 				'type'             => 'select',
-				'title'            => esc_html__( 'Archive page shows', 'cherry-team' ),
+				'title'            => esc_html__( 'Archive page shows', 'cherry-services' ),
 				'label'            => '',
 				'description'      => '',
 				'value'            => $this->default_options['archive-page-shows'],
