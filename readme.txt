@@ -14,13 +14,15 @@ Cherry Services is a flexible WordPress plugin that lets you display your compan
 
 Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways: as single pages, galleries, and even as embedded content blocks on the homepage of your website with the help of custom shortcodes.
 
+**Completely integrated with Elementor page builder!**
+
 The plugin adds a custom post type named “Services”, which you can use to display what your company offers – in a professional way.
 
 == Installation ==
 
-1. Upload "Cherry Team Members" folder to the "/wp-content/plugins/" directory
+1. Upload "Cherry Services List" folder to the "/wp-content/plugins/" directory
 2. Activate the plugin through the "Plugins" menu in WordPress
-3. Navigate to the "Cherry Team Members" page available through the left menu
+3. Navigate to the "Cherry Services List" page available through the left menu
 
 == Screenshots ==
 1. Settings page.
