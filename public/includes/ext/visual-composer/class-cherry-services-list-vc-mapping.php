@@ -18,7 +18,7 @@ class Cherry_Services_List_VC_Mapping extends TM_Abstract_VC_Compat {
 	/**
 	 * Shortcode name.
 	 *
-	 * @since 1.1.0
+	 * @since 1.3.1
 	 * @var string
 	 */
 	public $tag = '';
@@ -26,7 +26,7 @@ class Cherry_Services_List_VC_Mapping extends TM_Abstract_VC_Compat {
 	/**
 	 * A reference to an instance of this class.
 	 *
-	 * @since 1.1.0
+	 * @since 1.3.1
 	 * @var object
 	 */
 	private static $instance = null;
@@ -34,20 +34,21 @@ class Cherry_Services_List_VC_Mapping extends TM_Abstract_VC_Compat {
 	/**
 	 * Constructor for the class.
 	 *
-	 * @since 1.1.0
+	 * @since 1.3.1
 	 */
 	public function __construct( $tag, $atts ) {
 		$this->tag  = $tag;
 		$this->atts = $atts;
 
 		add_action( 'vc_before_init', array( $this, 'mapping' ) );
+		add_filter( 'cherry_services_public_scripts_ver', array( $this, 'scripts_ver' ) );
 		parent::__construct();
 	}
 
 	/**
 	 * Added shortcode to the Visual Composer content elements list.
 	 *
-	 * @since 1.1.0
+	 * @since 1.3.1
 	 */
 	public function mapping() {
 		$_params = $this->get_params();
@@ -68,7 +69,7 @@ class Cherry_Services_List_VC_Mapping extends TM_Abstract_VC_Compat {
 	 *
 	 * Cause, e.g. the dropdown(select) control-type is not good for selecting categories.
 	 *
-	 * @since  1.1.0
+	 * @since  1.3.1
 	 * @param  array $params
 	 * @return array
 	 */
@@ -82,7 +83,7 @@ class Cherry_Services_List_VC_Mapping extends TM_Abstract_VC_Compat {
 	/**
 	 * Returns the instance.
 	 *
-	 * @since  1.1.0
+	 * @since  1.3.1
 	 * @return object
 	 */
 	public static function get_instance( $tag, $atts ) {
@@ -94,6 +95,23 @@ class Cherry_Services_List_VC_Mapping extends TM_Abstract_VC_Compat {
 
 		return self::$instance;
 	}
+
+	/**
+	 * Set dynamic script version.
+	 * Don't cache javascript file `cherry-services.js` on fronted-editor mode.
+	 *
+	 * @since  1.3.1
+	 * @param  string $version
+	 * @return string
+	 */
+	public function scripts_ver( $version ) {
+
+		if ( did_action( 'vc_inline_editor_page_view' ) ) {
+			return time();
+		}
+
+		return $version;
+	}
 }
 
 if ( class_exists( 'WPBakeryShortCode' ) ) {
@@ -103,7 +121,7 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
 		 * This methods returns HTML code for frontend representation of your shortcode.
 		 * You can use your own html markup.
 		 *
-		 * @since  1.1.0
+		 * @since  1.3.1
 		 * @param  $atts    Shortcode attributes.
 		 * @param  $content Shortcode content.
 		 * @return string
@@ -119,7 +137,7 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
 /**
  * Returns instance of Cherry_Services_List_VC_Mapping.
  *
- * @since  1.1.0
+ * @since  1.3.1
  * @return object
  */
 function cherry_services_list_vc_mapping( $tag, $atts ) {

@@ -12,7 +12,7 @@ abstract class TM_Abstract_VC_Compat {
 	/**
 	 * List of shortcode attributes.
 	 *
-	 * @since 1.1.0
+	 * @since 1.3.1
 	 * @var array
 	 */
 	public $atts = array();
@@ -20,7 +20,7 @@ abstract class TM_Abstract_VC_Compat {
 	/**
 	 * List of shortcode params.
 	 *
-	 * @since 1.1.0
+	 * @since 1.3.1
 	 * @var array
 	 */
 	public $params = array();
@@ -204,7 +204,7 @@ abstract class TM_Abstract_VC_Compat {
 	/**
 	 * Apply shortcode options callback if required.
 	 *
-	 * @since  1.1.0
+	 * @since  1.3.1
 	 * @param  array $atts
 	 * @return array
 	 */

@@ -540,7 +540,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 				'cherry-services',
 				$this->plugin_url( 'public/assets/js/cherry-services.js' ),
 				array( 'jquery' ),
-				'1.0.0',
+				apply_filters( 'cherry_services_public_scripts_ver', $this->get_version() ),
 				true
 			);
 
