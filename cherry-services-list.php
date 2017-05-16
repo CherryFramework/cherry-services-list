@@ -368,11 +368,11 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 0 );
 
-			require $this->plugin_path( 'admin/includes/class-cherry-services-meta.php' );
-			require $this->plugin_path( 'admin/includes/class-cherry-services-options-page.php' );
+			require_once $this->plugin_path( 'admin/includes/class-cherry-services-meta.php' );
+			require_once $this->plugin_path( 'admin/includes/class-cherry-services-options-page.php' );
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				require $this->plugin_path( 'admin/includes/class-cherry-services-ajax.php' );
+				require_once $this->plugin_path( 'admin/includes/class-cherry-services-ajax.php' );
 			}
 
 		}

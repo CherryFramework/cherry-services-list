@@ -47,8 +47,7 @@ class Cherry_Services_List_Shortcode {
 	public function __construct() {
 
 		// Register shortcode on 'init'.
-		add_action( 'init', array( $this, 'register_shortcode' ) );
-
+		add_action( 'init', array( $this, 'register_shortcode' ), 0 );
 	}
 
 	/**
@@ -75,6 +74,10 @@ class Cherry_Services_List_Shortcode {
 					'atts'  => $this->shortcode_args(),
 				),
 			) );
+		}
+
+		if ( defined( 'WPB_VC_VERSION' ) ) {
+			$this->add_vc_compat();
 		}
 
 		if ( is_admin() ) {
@@ -116,43 +119,47 @@ class Cherry_Services_List_Shortcode {
 		);
 
 		return apply_filters( 'cherry_services_list_shortcode_arguments', array(
-			'super_title'    => array(
+			'super_title' => array(
 				'type'  => 'text',
 				'title' => esc_html__( 'Super title', 'cherry-services' ),
 				'value' => '',
 			),
-			'title'          => array(
+			'title' => array(
 				'type'  => 'text',
 				'title' => esc_html__( 'Title', 'cherry-services' ),
 				'value' => '',
 			),
-			'subtitle'       => array(
+			'subtitle' => array(
 				'type'  => 'text',
 				'title' => esc_html__( 'Subtitle', 'cherry-services' ),
 				'value' => '',
 			),
-			'columns'        => array(
+			'columns' => array(
 				'type'    => 'select',
 				'title'   => esc_html__( 'Desktop columns', 'cherry-services' ),
 				'value'   => 3,
+				'default' => 3,
 				'options' => $column_opt,
 			),
 			'columns_laptop' => array(
 				'type'    => 'select',
 				'title'   => esc_html__( 'Laptop columns', 'cherry-services' ),
 				'value'   => 3,
+				'default' => 3,
 				'options' => $column_opt,
 			),
 			'columns_tablet' => array(
 				'type'    => 'select',
 				'title'   => esc_html__( 'Tablet columns', 'cherry-services' ),
 				'value'   => 1,
+				'default' => 1,
 				'options' => $column_opt,
 			),
-			'columns_phone'  => array(
+			'columns_phone' => array(
 				'type'    => 'select',
 				'title'   => esc_html__( 'Phone columns', 'cherry-services' ),
 				'value'   => 1,
+				'default' => 1,
 				'options' => $column_opt,
 			),
 			'posts_per_page' => array(
@@ -163,7 +170,7 @@ class Cherry_Services_List_Shortcode {
 				'min_value'   => -1,
 				'value'       => 6,
 			),
-			'category'       => array(
+			'category' => array(
 				'type'       => 'select',
 				'title'      => esc_html__( 'Show services from categories', 'cherry-services' ),
 				'multiple'   => true,
@@ -172,7 +179,7 @@ class Cherry_Services_List_Shortcode {
 				'options'    => false,
 				'options_cb' => array( $this, 'get_categories' ),
 			),
-			'id'             => array(
+			'id' => array(
 				'type'  => 'text',
 				'title' => esc_html__( 'Show services by ID', 'cherry-services' ),
 				'value' => '',
@@ -185,104 +192,114 @@ class Cherry_Services_List_Shortcode {
 				'min_value'   => 0,
 				'value'       => 20,
 			),
-			'more'           => array(
+			'more' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Show more button', 'cherry-services' ),
 				'description' => esc_html__( 'Show/hide more button', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 					'true_slave'   => 'services-more-filter-visible-true',
 				),
 			),
-			'more_text'      => array(
+			'more_text' => array(
 				'type'   => 'text',
 				'title'  => esc_html__( 'More button text', 'cherry-services' ),
 				'value'  => esc_html__( 'More', 'cherry-services' ),
 				'master' => 'services-more-filter-visible-true',
 			),
-			'more_url'       => array(
+			'more_url' => array(
 				'type'   => 'text',
 				'title'  => esc_html__( 'More button text', 'cherry-services' ),
 				'value'  => '#',
 				'master' => 'services-more-filter-visible-true',
 			),
-			'ajax_more'      => array(
+			'ajax_more' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'AJAX load more', 'cherry-services' ),
 				'description' => esc_html__( 'Enable AJAX load more event on more button', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 				'master' => 'services-more-filter-visible-true',
 			),
-			'pagination'     => array(
+			'pagination' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Pagination', 'cherry-services' ),
 				'description' => esc_html__( 'Enable paging navigation', 'cherry-services' ),
 				'value'       => 'false',
+				'default'     => 'false',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 			),
-			'show_title'     => array(
+			'show_title' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Show service title', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 			),
-			'show_media'     => array(
+			'show_media' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Show featured image', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 			),
-			'show_content'   => array(
+			'show_content' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Show service content', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 			),
-			'show_filters'   => array(
+			'show_filters' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Show filter by category before services listing', 'cherry-services' ),
 				'value'       => 'false',
+				'default'     => 'false',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 			),
-			'image_size'     => array(
+			'image_size' => array(
 				'type'       => 'select',
 				'title'      => esc_html__( 'Listing item image size (if used in template)', 'cherry-services' ),
 				'value'      => 'thumbnail',
+				'default'    => 'thumbnail',
 				'options'    => false,
 				'options_cb' => array( cherry_services_tools(), 'get_image_sizes' ),
 			),
-			'template'       => array(
+			'template' => array(
 				'type'       => 'select',
 				'title'      => esc_html__( 'Listing item template', 'cherry-services' ),
 				'value'      => 'default',
+				'default'    => 'default',
 				'options'    => false,
 				'options_cb' => array( cherry_services_tools(), 'get_templates' ),
 			),
-			'use_space'      => array(
+			'use_space' => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Add space between services coumns', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
@@ -292,6 +309,7 @@ class Cherry_Services_List_Shortcode {
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Add space between services rows', 'cherry-services' ),
 				'value'       => 'true',
+				'default'     => 'true',
 				'toggle'      => array(
 					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
@@ -309,6 +327,12 @@ class Cherry_Services_List_Shortcode {
 	public function get_categories() {
 		$tax = cherry_services_list()->tax( 'category' );
 		return cherry_services_list()->utilities->utility->satellite->get_terms_array( $tax, 'slug' );
+	}
+
+	public function add_vc_compat() {
+		require_once( cherry_services_list()->plugin_path( 'public/includes/ext/visual-composer/class-cherry-services-list-vc-mapping.php' ) );
+
+		cherry_services_list_vc_mapping( $this->tag(), $this->shortcode_args() );
 	}
 
 	/**
