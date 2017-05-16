@@ -4,11 +4,11 @@ Contributors: TemplateMonster 2002
 Tags: custom post type, services, service, cherry-framework, elementor, elementor builder
 Requires at least: 4.5
 Tested up to: 4.7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
+Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways. Integrated with Elementor page builder.
 
 == Description ==
 
@@ -43,6 +43,10 @@ The plugin is highly customizable, so you can apply it to any WordPress theme. I
 If you have Cherry Testimonials plugin installed on your website, you can also incorporate them into your services posts.
 
 == Changelog ==
+
+= 1.3.1 =
+
+* FIX: Prevent PHP notices in Elementor module
 
 = 1.3.0 =
 
