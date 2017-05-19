@@ -182,6 +182,11 @@ class Cherry_Services_Elementor_Widget extends Elementor\Widget_Base {
 		foreach ( $args as $name => $arg ) {
 
 			if ( empty( $settings[ $name ] ) ) {
+
+				if ( 'switcher' === $arg['type'] ) {
+					$shortcode_atts .= sprintf( ' %1$s="%2$s"', $name, 'false' );
+				}
+
 				continue;
 			}
 
