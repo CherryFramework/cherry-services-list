@@ -307,8 +307,15 @@ class Cherry_Services_List_Shortcode {
 	 * @return array
 	 */
 	public function get_categories() {
-		$tax = cherry_services_list()->tax( 'category' );
-		return cherry_services_list()->utilities->utility->satellite->get_terms_array( $tax, 'slug' );
+
+		$tax        = cherry_services_list()->tax( 'category' );
+		$categories = cherry_services_list()->utilities->utility->satellite->get_terms_array( $tax, 'slug' );
+
+		if ( empty( $categories ) ) {
+			$categories = array();
+		}
+
+		return $categories;
 	}
 
 	/**
