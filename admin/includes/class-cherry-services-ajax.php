@@ -68,6 +68,7 @@ if ( ! class_exists( 'Cherry_Services_Ajax' ) ) {
 				'show_position',
 				'show_social',
 				'show_filters',
+				'show_item_more',
 				'ajax_more',
 				'more',
 				'pager',

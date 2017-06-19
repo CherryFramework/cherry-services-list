@@ -641,17 +641,29 @@ class Cherry_Services_List_Template_Callbacks {
 	 */
 	public function get_button( $args = array() ) {
 
+		if ( ! isset( $this->atts['show_item_more'] ) ) {
+			$this->atts['show_item_more'] = true;
+		}
+
+		$this->atts['show_item_more'] = filter_var( $this->atts['show_item_more'], FILTER_VALIDATE_BOOLEAN );
+
+		if ( ! $this->atts['show_item_more'] ) {
+			return;
+		}
+
 		$args = wp_parse_args( $args, array(
 			'class' => 'btn btn-primary',
 			'label' => __( 'Read more', 'cherry-services' ),
 		) );
+
+		$label = ! empty( $this->atts['item_more_text'] ) ? $this->atts['item_more_text'] : $args['label'];
 
 		$format = apply_filters(
 			'cherry_services_button_format',
 			'<a href="%1$s" class="%2$s">%3$s</a>'
 		);
 
-		return sprintf( $format, get_permalink(), $args['class'], $args['label'] );
+		return sprintf( $format, get_permalink(), $args['class'], wp_kses_post( $label ) );
 	}
 
 	/**

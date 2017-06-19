@@ -96,6 +96,8 @@ class Cherry_Services_List_Data {
 			'show_title'     => true,
 			'show_media'     => true,
 			'show_content'   => true,
+			'show_item_more' => true,
+			'item_more_text' => '',
 			'show_filters'   => false,
 			'use_space'      => true,
 			'use_rows_space' => true,

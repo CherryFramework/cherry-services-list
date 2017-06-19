@@ -47,7 +47,7 @@ class Cherry_Services_List_Shortcode {
 	public function __construct() {
 
 		// Register shortcode on 'init'.
-		add_action( 'init', array( $this, 'register_shortcode' ) );
+		add_action( 'init', array( $this, 'register_shortcode' ), -1 );
 
 	}
 
@@ -256,6 +256,20 @@ class Cherry_Services_List_Shortcode {
 					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
 				),
 			),
+			'show_item_more'   => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Show service item Read More button (if allowed in template)', 'cherry-services' ),
+				'value'       => 'true',
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'Yes', 'cherry-services' ),
+					'false_toggle' => esc_html__( 'No', 'cherry-services' ),
+				),
+			),
+			'item_more_text' => array(
+				'type'   => 'text',
+				'title'  => esc_html__( 'Item Read More button text (if empty - used default value from template)', 'cherry-services' ),
+				'value'  => '',
+			),
 			'show_filters'   => array(
 				'type'        => 'switcher',
 				'title'       => esc_html__( 'Show filter by category before services listing', 'cherry-services' ),
@@ -402,6 +416,7 @@ class Cherry_Services_List_Shortcode {
 			'show_title',
 			'show_media',
 			'show_content',
+			'show_item_more',
 			'show_filters',
 			'ajax_more',
 			'more',
@@ -437,6 +452,8 @@ class Cherry_Services_List_Shortcode {
 			'show_title'     => 'show_title',
 			'show_media'     => 'show_media',
 			'show_content'   => 'show_content',
+			'show_item_more' => 'show_item_more',
+			'item_more_text' => 'item_more_text',
 			'show_filters'   => 'show_filters',
 			'template'       => 'template',
 			'pager'          => 'pagination',
