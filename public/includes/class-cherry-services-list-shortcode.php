@@ -329,6 +329,8 @@ class Cherry_Services_List_Shortcode {
 			$categories = array();
 		}
 
+		$categories = array_merge( array( 0 => esc_html__( 'Get From All', 'cherry-services' ) ), $categories );
+
 		return $categories;
 	}
 
