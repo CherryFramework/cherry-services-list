@@ -204,7 +204,7 @@ class Cherry_Services_List_Shortcode {
 			),
 			'more_url'       => array(
 				'type'   => 'text',
-				'title'  => esc_html__( 'More button text', 'cherry-services' ),
+				'title'  => esc_html__( 'More button URL', 'cherry-services' ),
 				'value'  => '#',
 				'master' => 'services-more-filter-visible-true',
 			),
