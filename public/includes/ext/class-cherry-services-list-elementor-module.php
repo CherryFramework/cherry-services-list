@@ -179,6 +179,11 @@ class Cherry_Services_Elementor_Widget extends Elementor\Widget_Base {
 		$shortcode_atts = '';
 		$args           = $this->get_shortcode( 'atts' );
 
+		// fix rewritten
+		foreach ( $this->rewrite as $before => $after ) {
+			$settings[ $before ] = isset( $settings[ $after ] ) ? $settings[ $after ] : false;
+		}
+
 		foreach ( $args as $name => $arg ) {
 
 			if ( empty( $settings[ $name ] ) ) {
