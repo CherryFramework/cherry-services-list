@@ -210,7 +210,11 @@ class Cherry_Services_Elementor_Widget extends Elementor\Widget_Base {
 
 		?>
 		<div class="elementor-<?php $this->tag; ?>"><?php
-			echo do_shortcode( sprintf( $shortcode, $this->tag, $shortcode_atts ) );
+			if ( cherry_services_list()->elementor_compat->in_elementor() ) {
+				echo do_shortcode( sprintf( $shortcode, $this->tag, $shortcode_atts ) );
+			} else {
+				echo sprintf( $shortcode, $this->tag, $shortcode_atts );
+			}
 		?></div>
 		<?php
 	}

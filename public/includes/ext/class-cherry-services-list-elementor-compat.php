@@ -35,6 +35,13 @@ if ( ! class_exists( 'Cherry_Services_List_Elementor_Compat' ) ) {
 		public $shortcodes = array();
 
 		/**
+		 * Check if processing elementor widget
+		 *
+		 * @var boolean
+		 */
+		private $is_elementor_ajax = false;
+
+		/**
 		 * Constructor for the class
 		 */
 		function __construct( $shortcodes = array() ) {
@@ -44,6 +51,36 @@ if ( ! class_exists( 'Cherry_Services_List_Elementor_Compat' ) ) {
 			add_action( 'elementor/init', array( $this, 'register_category' ) );
 			add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widgets' ) );
 
+			add_action( 'wp_ajax_elementor_render_widget', array( $this, 'set_elementor_ajax' ), 10, -1 );
+
+		}
+
+		/**
+		 * Set $this->is_elementor_ajax to true on Elementor AJAX processing
+		 *
+		 * @return  void
+		 */
+		public function set_elementor_ajax() {
+			$this->is_elementor_ajax = true;
+		}
+
+		/**
+		 * Check if we currently in Elementor mode
+		 *
+		 * @return void
+		 */
+		public function in_elementor() {
+
+			$result = false;
+
+			if ( wp_doing_ajax() ) {
+				$result = $this->is_elementor_ajax;
+			} elseif ( Elementor\Plugin::instance()->editor->is_edit_mode()
+				|| Elementor\Plugin::instance()->preview->is_preview_mode() ) {
+				$result = true;
+			}
+
+			return $result;
 		}
 
 		/**

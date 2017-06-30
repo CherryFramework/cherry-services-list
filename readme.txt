@@ -4,7 +4,7 @@ Contributors: TemplateMonster 2002
 Tags: custom post type, services, service, cherry-framework, elementor, elementor builder
 Requires at least: 4.5
 Tested up to: 4.7.5
-Stable tag: 1.3.2
+Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -41,54 +41,3 @@ The plugin is highly customizable, so you can apply it to any WordPress theme. I
 * Select a page that will be used as an archive for services posts.
 
 If you have Cherry Testimonials plugin installed on your website, you can also incorporate them into your services posts.
-
-== Changelog ==
-
-= 1.3.2 =
-
-* FIX: Minor fixes
-
-= 1.3.1 =
-
-* FIX: Prevent PHP notices in Elementor module
-
-= 1.3.0 =
-
-* ADD: Integrate with Elementor page builder
-
-= 1.2.0 =
-
-* ADD: New option - 'Archive page shows'
-* UPD: Rewrite URLs logic
-
-= 1.1.0 =
-
-* ADD: Insert shortcode button in editor
-* ADD: Add 'link' argument into %%ICON%% macros
-* FIX: prevent errors on PHP < 5.3
-
-= 1.0.5 =
-
-* FIX: Rename serialize script to prevent conflicts with other plugins
-* ADD: compatibility with Cherry Search
-
-= 1.0.4 =
-
-* FIX: Size attribute for image macros
-* ADD: columns_laptop shortcode attribute
-
-= 1.0.3 =
-
-* FIX: Minor fixes
-
-= 1.0.2 =
-
-* UPD: Allow to crop description macros
-
-= 1.0.1 =
-
-* SYS: Added cherry-framework tag
-
-= 1.0.0 =
-
-* Initial release

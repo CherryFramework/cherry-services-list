@@ -145,6 +145,13 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		private $options_val = null;
 
 		/**
+		 * Elemntor compat instance
+		 *
+		 * @var object
+		 */
+		public $elementor_compat = null;
+
+		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
 		 *
 		 * @since 1.0.0

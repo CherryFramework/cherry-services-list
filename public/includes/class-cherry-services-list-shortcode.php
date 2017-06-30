@@ -66,7 +66,7 @@ class Cherry_Services_List_Shortcode {
 
 			require $base->plugin_path( 'public/includes/ext/class-cherry-services-list-elementor-compat.php' );
 
-			cherry_services_list_elementor_compat( array(
+			cherry_services_list()->elementor_compat = cherry_services_list_elementor_compat( array(
 				$this->tag() => array(
 					'title' => esc_html__( 'Cherry Services', 'cherry-services' ),
 					'file'  => $base->plugin_path( 'public/includes/ext/class-cherry-services-list-elementor-module.php' ),
