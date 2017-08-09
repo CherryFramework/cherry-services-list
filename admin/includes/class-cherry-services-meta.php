@@ -57,6 +57,10 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 			return $actions;
 		}
 
+		if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+			return $actions;
+		}
+
 		if ( $this->post_type() !== $post->post_type ) {
 			return $actions;
 		}
@@ -94,6 +98,10 @@ class Cherry_Services_List_Meta extends Cherry_Services_List {
 
 		if ( empty( $_REQUEST['post'] ) ) {
 			wp_die( __( 'No post to duplicate has been supplied!', 'cherry-services' ) );
+		}
+
+		if ( ! current_user_can( 'edit_post', $_REQUEST['post'] ) ) {
+			wp_die( 'You don\'t have permissions to do this!', 'cherry-services' );
 		}
 
 		global $wpdb;
