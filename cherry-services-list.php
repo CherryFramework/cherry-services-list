@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Services List
  * Plugin URI:
  * Description: Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
- * Version:     1.4.2
+ * Version:     1.4.3
  * Author:      JetImpex
  * Author URI:  https://jetimpex.com/wordpress/
  * Text Domain: cherry-services
@@ -92,7 +92,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @access private
 		 * @var    string
 		 */
-		private $version = '1.4.2';
+		private $version = '1.4.3';
 
 		/**
 		 * Plugin CPT name

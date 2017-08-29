@@ -2,8 +2,7 @@
 
 	"use strict";
 
-	CherryJsCore.utilites.namespace( 'servicesListPublic' );
-	CherryJsCore.servicesListPublic = {
+	var servicesListPublic = {
 
 		settings: {
 			selectors: {
@@ -24,7 +23,13 @@
 			templates: {
 				loaderLarge: '<div class="services-loader loader-large">' + window.cherryServices.loader + '</div>',
 				loaderSmall: '<div class="services-loader loader-small">' + window.cherryServices.loader + '</div>',
+			},
+			state: {
+				filters: false,
+				more: false,
+				pager: false
 			}
+
 		},
 
 		init: function () {
@@ -42,13 +47,40 @@
 
 		render: function ( self ) {
 
-			var self = self;
-
 			$( self.settings.selectors.main ).each( function() {
-				self.initFilters( $( this ), self );
-				self.initLoadMore( $( this ), self );
-				self.initPager( $( this ), self );
+				self.initFilters( $( this ) );
+				self.initLoadMore( $( this ) );
+				self.initPager( $( this ) );
 			} );
+
+			$( window ).on( 'elementor/frontend/init', self.initElementorWidget );
+
+		},
+
+		initElementorWidget: function() {
+
+			window.elementorFrontend.hooks.addAction(
+				'frontend/element_ready/cherry_services.default',
+				function( $scope ) {
+
+					var $container = $scope.find( servicesListPublic.settings.selectors.main );
+
+					if ( $container.length ) {
+
+						if ( window.elementorFrontend.isEditMode() ) {
+							servicesListPublic.settings.state.filters = false;
+							servicesListPublic.settings.state.more    = false;
+							servicesListPublic.settings.state.pager   = false;
+						}
+
+						servicesListPublic.initFilters( $container );
+						servicesListPublic.initLoadMore( $container );
+						servicesListPublic.initPager( $container );
+
+					}
+
+				}
+			);
 
 		},
 
@@ -73,14 +105,20 @@
 			$container.find( this.settings.selectors.loader ).remove();
 		},
 
-		initFilters: function( $item, self ) {
+		initFilters: function( $item ) {
 
-			var $filter    = $item.find( self.settings.selectors.filter ),
-				$result    = $item.find( self.settings.selectors.result ),
-				$container = $item.find( self.settings.selectors.container ),
+			if ( false !== servicesListPublic.settings.state.filters ) {
+				return;
+			}
+
+			servicesListPublic.settings.state.filters = true;
+
+			var $filter    = $item.find( servicesListPublic.settings.selectors.filter ),
+				$result    = $item.find( servicesListPublic.settings.selectors.result ),
+				$container = $item.find( servicesListPublic.settings.selectors.container ),
 				data       = new Object();
 
-			$filter.on( 'click', self.settings.selectors.filterLink, function( event ) {
+			$filter.on( 'click', servicesListPublic.settings.selectors.filterLink, function( event ) {
 
 				var $this   = $( this ),
 					$parent = $this.parent();
@@ -94,10 +132,10 @@
 				data.cat    = $this.data( 'term' );
 				data.atts   = $container.data( 'atts' );
 				data.cats   = $container.data( 'cat' );
-				data.action = self.settings.actions.filter;
+				data.action = servicesListPublic.settings.actions.filter;
 
 				$parent.addClass( 'active' ).siblings().removeClass( 'active' );
-				self.addLoader( $container, false );
+				servicesListPublic.addLoader( $container, false );
 
 				$.ajax({
 					url: window.cherryServices.ajaxurl,
@@ -105,25 +143,25 @@
 					dataType: 'json',
 					data: data,
 					error: function() {
-						self.removeLoader( $container, false );
+						servicesListPublic.removeLoader( $container, false );
 					}
 				}).done( function( response ) {
-					self.removeLoader( $container, false );
+					servicesListPublic.removeLoader( $container, false );
 					$result.html( response.data.result );
 					$container.data( 'atts', response.data.atts );
 					$container.data( 'page', 1 );
 					$container.data( 'pages', response.data.pages );
 
-					if ( 1 < response.data.pages && $( self.settings.selectors.loadMore, $item ).length ) {
-						$( self.settings.selectors.loadMore, $item ).removeClass( 'btn-hidden' );
+					if ( 1 < response.data.pages && $( servicesListPublic.settings.selectors.loadMore, $item ).length ) {
+						$( servicesListPublic.settings.selectors.loadMore, $item ).removeClass( 'btn-hidden' );
 					}
 
-					if ( 1 == response.data.pages && $( self.settings.selectors.loadMore, $item ).length ) {
-						$( self.settings.selectors.loadMore, $item ).addClass( 'btn-hidden' );
+					if ( 1 == response.data.pages && $( servicesListPublic.settings.selectors.loadMore, $item ).length ) {
+						$( servicesListPublic.settings.selectors.loadMore, $item ).addClass( 'btn-hidden' );
 					}
 
-					if ( $( self.settings.selectors.pager, $item ).length ) {
-						$( self.settings.selectors.pager, $item ).remove();
+					if ( $( servicesListPublic.settings.selectors.pager, $item ).length ) {
+						$( servicesListPublic.settings.selectors.pager, $item ).remove();
 					}
 
 					$container.append( response.data.pager );
@@ -132,13 +170,19 @@
 			});
 		},
 
-		initLoadMore: function( $item, self ) {
+		initLoadMore: function( $item ) {
 
-			$item.on( 'click', self.settings.selectors.loadMore, function( event ) {
+			if ( false !== servicesListPublic.settings.state.more ) {
+				return;
+			}
+
+			servicesListPublic.settings.state.more = true;
+
+			$item.on( 'click', servicesListPublic.settings.selectors.loadMore, function( event ) {
 
 				var $this      = $( this ),
-					$result    = $item.find( self.settings.selectors.result ),
-					$container = $item.find( self.settings.selectors.container ),
+					$result    = $item.find( servicesListPublic.settings.selectors.result ),
+					$container = $item.find( servicesListPublic.settings.selectors.container ),
 					pages      = $container.data( 'pages' ),
 					data       = new Object();
 
@@ -146,9 +190,9 @@
 
 				data.page   = $container.data( 'page' );
 				data.atts   = $container.data( 'atts' );
-				data.action = self.settings.actions.more;
+				data.action = servicesListPublic.settings.actions.more;
 
-				self.addLoader( $container, true );
+				servicesListPublic.addLoader( $container, true );
 
 				$.ajax({
 					url: window.cherryServices.ajaxurl,
@@ -156,10 +200,10 @@
 					dataType: 'json',
 					data: data,
 					error: function() {
-						self.removeLoader( $container, true );
+						servicesListPublic.removeLoader( $container, true );
 					}
 				}).done( function( response ) {
-					self.removeLoader( $container, true );
+					servicesListPublic.removeLoader( $container, true );
 					$result.append( response.data.result );
 					$container.data( 'page', response.data.page );
 
@@ -173,13 +217,19 @@
 
 		},
 
-		initPager: function( $item, self ) {
+		initPager: function( $item ) {
 
-			$item.on( 'click', self.settings.selectors.pager + ' a.page-numbers', function( event ) {
+			if ( false !== servicesListPublic.settings.state.pager ) {
+				return;
+			}
+
+			servicesListPublic.settings.state.pager = true;
+
+			$item.on( 'click', servicesListPublic.settings.selectors.pager + ' a.page-numbers', function( event ) {
 
 				var $this      = $( this ),
-					$result    = $item.find( self.settings.selectors.result ),
-					$container = $item.find( self.settings.selectors.container ),
+					$result    = $item.find( servicesListPublic.settings.selectors.result ),
+					$container = $item.find( servicesListPublic.settings.selectors.container ),
 					pages      = $container.data( 'pages' ),
 					data       = new Object();
 
@@ -187,9 +237,9 @@
 
 				data.page   = $this.data( 'page' );
 				data.atts   = $container.data( 'atts' );
-				data.action = self.settings.actions.pager;
+				data.action = servicesListPublic.settings.actions.pager;
 
-				self.addLoader( $container, false );
+				servicesListPublic.addLoader( $container, false );
 
 				$this.addClass( 'current' ).siblings().removeClass( 'current' );
 
@@ -199,11 +249,11 @@
 					dataType: 'json',
 					data: data,
 					error: function() {
-						self.removeLoader( $container, false );
+						servicesListPublic.removeLoader( $container, false );
 					}
 				}).done( function( response ) {
 
-					self.removeLoader( $container, false );
+					servicesListPublic.removeLoader( $container, false );
 					$result.html( response.data.result );
 					$container.data( 'page', response.data.page );
 
@@ -215,6 +265,6 @@
 
 	}
 
-	CherryJsCore.servicesListPublic.init();
+	servicesListPublic.init();
 
 }( jQuery ) );
