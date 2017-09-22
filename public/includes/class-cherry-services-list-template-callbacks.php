@@ -823,7 +823,7 @@ class Cherry_Services_List_Template_Callbacks {
 		) );
 
 		if ( ! $_content || 0 == $content_length ) {
-			return;
+			return apply_filters( 'the_content', '' );
 		}
 
 		if ( -1 == $content_length || post_password_required() ) {
