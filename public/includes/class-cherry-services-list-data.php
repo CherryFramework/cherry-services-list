@@ -153,11 +153,9 @@ class Cherry_Services_List_Data {
 		// The Query.
 		$query = $this->get_services( $args );
 
-		global $wp_query;
-
-		$this->temp_query = $wp_query;
-		$wp_query = null;
-		$wp_query = $query;
+		if ( ! $query || is_wp_error( $query ) ) {
+			return;
+		}
 
 		// Fix boolean.
 		if ( isset( $args['pager'] ) && ( ( 'true' == $args['pager'] ) || true === $args['pager'] ) ) {
@@ -167,13 +165,6 @@ class Cherry_Services_List_Data {
 		}
 
 		$args['more'] = filter_var( $args['more'], FILTER_VALIDATE_BOOLEAN );
-
-		// The Display.
-		if ( ! $query || is_wp_error( $query ) ) {
-			$wp_query = null;
-			$wp_query = $this->temp_query;
-			return;
-		}
 
 		$css_classes = array( 'cherry-services' );
 
@@ -229,13 +220,10 @@ class Cherry_Services_List_Data {
 		$output .= '</div>';
 
 		if ( true == $args['more'] ) {
-			$output .= $this->get_more_button( $args );
+			$output .= $this->get_more_button( $args, $query );
 		} elseif ( true === $args['pager'] ) {
-			$output .= $this->get_pagination();
+			$output .= $this->get_pagination( $query );
 		}
-
-		$wp_query = null;
-		$wp_query = $this->temp_query;
 
 		/**
 		 * Filters HTML-formatted services before display or return.
@@ -246,9 +234,6 @@ class Cherry_Services_List_Data {
 		 * @param array  $args   The array of arguments.
 		 */
 		$output = apply_filters( 'cherry_services_html', $output, $query, $args );
-
-		wp_reset_query();
-		wp_reset_postdata();
 
 		if ( true != $args['echo'] ) {
 			return $output;
@@ -536,7 +521,7 @@ class Cherry_Services_List_Data {
 	 */
 	public function get_services_loop( $query, $args ) {
 
-		global $post, $more;
+		global $post, $wp_query;
 
 		// Item template.
 		$template = cherry_services_templater()->get_template_by_name( $args['template'] );
@@ -570,7 +555,7 @@ class Cherry_Services_List_Data {
 
 			$this->replace_args['link'] = $link;
 
-			cherry_services_templater()->set_parent_query( $this->temp_query );
+			cherry_services_templater()->set_parent_query( $wp_query );
 			$tpl = cherry_services_templater()->parse_template( $tpl );
 
 			$item_classes   = array( $args['item_class'], 'item-' . $count, 'clearfix' );

@@ -47,13 +47,15 @@
 
 		render: function ( self ) {
 
-			$( self.settings.selectors.main ).each( function() {
-				self.initFilters( $( this ) );
-				self.initLoadMore( $( this ) );
-				self.initPager( $( this ) );
-			} );
-
-			$( window ).on( 'elementor/frontend/init', self.initElementorWidget );
+			if ( window.elementorFrontend ) {
+				$( self.settings.selectors.main ).each( function() {
+					self.initFilters( $( this ) );
+					self.initLoadMore( $( this ) );
+					self.initPager( $( this ) );
+				} );
+			} else {
+				$( window ).on( 'elementor/frontend/init', self.initElementorWidget );
+			}
 
 		},
 
