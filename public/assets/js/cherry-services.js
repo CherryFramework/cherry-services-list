@@ -47,7 +47,7 @@
 
 		render: function ( self ) {
 
-			if ( window.elementorFrontend ) {
+			if ( ! window.elementorFrontend ) {
 				$( self.settings.selectors.main ).each( function() {
 					self.initFilters( $( this ) );
 					self.initLoadMore( $( this ) );
