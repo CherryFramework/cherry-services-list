@@ -3,8 +3,8 @@
 Contributors: TemplateMonster 2002
 Tags: custom post type, services, service, cherry-framework, elementor, elementor builder
 Requires at least: 4.7
-Tested up to: 4.8.3
-Stable tag: 1.4.5.2
+Tested up to: 4.9.1
+Stable tag: 1.4.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 

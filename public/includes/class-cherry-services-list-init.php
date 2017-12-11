@@ -159,6 +159,14 @@ class Cherry_Services_List_Init extends Cherry_Services_List {
 			return $default;
 		}
 
+		// WPML compatibility
+		if ( function_exists( 'icl_object_id' ) && defined( 'ICL_LANGUAGE_CODE' ) ) {
+			$translated_id = icl_object_id( $page->ID, 'page', false, ICL_LANGUAGE_CODE );
+			if ( $translated_id ) {
+				return get_the_title( $translated_id );
+			}
+		}
+
 		if ( isset( $page->post_title ) ) {
 			return $page->post_title;
 		}
