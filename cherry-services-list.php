@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Services List
  * Plugin URI:
  * Description: Cherry Services is a flexible WordPress plugin that lets you display your company’s services in a variety of ways.
- * Version:     1.4.6
+ * Version:     1.4.7
  * Author:      Zemez
  * Author URI:  https://zemez.io/wordpress/
  * Text Domain: cherry-services
@@ -92,7 +92,7 @@ if ( ! class_exists( 'Cherry_Services_List' ) ) {
 		 * @access private
 		 * @var    string
 		 */
-		private $version = '1.4.6';
+		private $version = '1.4.7';
 
 		/**
 		 * Plugin CPT name
